@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfa8e3bcba88b014daae1a14d06ef1e2, type: 3}
+  m_Name: New Control_C_Cinemachine Free Look_Config
+  m_EditorClassIdentifier: 
+  m_Lens: {fileID: 0}
+  m_Transitions: {fileID: 0}
+  m_YAxis: {fileID: 0}
+  m_YAxisRecentering: {fileID: 0}
+  m_XAxis: {fileID: 0}
+  m_Heading: {fileID: 0}
+  m_RecenterToTargetHeading: {fileID: 0}
+  m_Orbits: []
+  m_ExcludedPropertiesInInspector: []
+  m_LockStageInInspector: []
