@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfa8e3bcba88b014daae1a14d06ef1e2, type: 3}
   m_Name: New Control_C_Cinemachine Free Look_Config
   m_EditorClassIdentifier: 
+  m_CommonLens:
+    IsUse: 0
+    Value: 0
+    CalculatorExpression: []
   m_Lens: {fileID: 0}
   m_Transitions: {fileID: 0}
   m_YAxis: {fileID: 0}
@@ -19,6 +23,23 @@ MonoBehaviour:
   m_XAxis: {fileID: 0}
   m_Heading: {fileID: 0}
   m_RecenterToTargetHeading: {fileID: 0}
-  m_Orbits: []
+  m_BindingMode:
+    IsUse: 0
+    Value: 0
+    CalculatorExpression: []
+  m_SplineCurvature:
+    IsUse: 0
+    Value: 0
+    CalculatorExpression: []
+  m_Orbits:
+  - {fileID: 11400000, guid: 08bf121c9176aca4e8bb99ed2ddaaaf9, type: 2}
   m_ExcludedPropertiesInInspector: []
   m_LockStageInInspector: []
+  m_Priority:
+    IsUse: 0
+    Value: 0
+    CalculatorExpression: []
+  m_StandbyUpdate:
+    IsUse: 0
+    Value: 0
+    CalculatorExpression: []

@@ -15,20 +15,24 @@ namespace CameraMovement{
         {
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_C_CinemachineSameAsFollowTarget_Config source = (CameraMovement.Control_C_CinemachineSameAsFollowTarget_Config)sourceConfig;
-            if(source.m_Damping.IsUse) m_Damping.Add(new MixItem<System.Single>(id, priority, source.m_Damping.Value));
+            if(source.m_Damping.IsUse) m_Damping.Add(new MixItem<System.Single>(id, priority, source.m_Damping.CalculatorExpression, source.m_Damping.Value));
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_C_CinemachineSameAsFollowTarget_Config source = (CameraMovement.Control_C_CinemachineSameAsFollowTarget_Config)sourceConfig;
-            if(source.m_Damping.IsUse) m_Damping.Remove(new MixItem<System.Single>(id, priority, source.m_Damping.Value));
+            if(source.m_Damping.IsUse) m_Damping.Remove(new MixItem<System.Single>(id, priority, source.m_Damping.CalculatorExpression, source.m_Damping.Value));
+        }
+        public void RemoveAll()
+        {
+            m_Damping.RemoveAll();
         }
         public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
         {
             var target = (Cinemachine.CinemachineSameAsFollowTarget)targetObj;
             if (templateDict.ContainsKey(m_Damping.Id))
-                target.m_Damping = templateDict[m_Damping.Id].Config.alertCurve.Evaluate(templateDict[m_Damping.Id].CostTime / templateDict[m_Damping.Id].Config.duration);
-            target.m_Damping = m_Damping.Value;
+                target.m_Damping = templateDict[m_Damping.Id].Config.alertCurve.Evaluate(templateDict[m_Damping.Id].CostTime / templateDict[m_Damping.Id].Config.duration) * m_Damping.Value;
+            target.m_Damping = (System.Single)m_Damping.Value;
         }
     }
 }

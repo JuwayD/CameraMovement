@@ -158,6 +158,7 @@ namespace CameraMovement
                     {
                         code.Append(generateUpdateMethodCode(sourceType, fields));
                         code.Append(generateUpdateMethodCode(sourceType, fields, true));
+                        code.Append(generateRemoveAllMethodCode(sourceType, fields));
                     }
                 }
                 
@@ -173,6 +174,64 @@ namespace CameraMovement
                 string filePath = Path.Combine(outputDirectory, prefix + "_" + name + "_" + (implementInterface.Contains("Field") ? "Field" : "Config") + ".cs");
                 File.WriteAllText(filePath, code.ToString());
             }
+        }
+
+        private static string generateRemoveAllMethodCode(Type sourceType, FieldInfo[] targetFields)
+        {
+            // 获取源类型和目标类型的所有字段
+            FieldInfo[] sourceFields = sourceType.GetFields();
+
+            StringBuilder codeBuilder = new StringBuilder();
+
+            // 生成函数签名
+            codeBuilder.AppendLine($"        public void RemoveAll()");
+            codeBuilder.AppendLine("        {");
+
+            foreach (var targetField in targetFields)
+            {
+                // 查找具有相同名称的源字段
+                var sourceField = sourceFields.FirstOrDefault(f => f.Name == targetField.Name);
+
+                if (sourceField != null)
+                {
+                    // 判断字段是否为基元类型
+                    if (mapTypeCheck(targetField.FieldType))
+                    {
+                        // 生成基元类型字段赋值语句
+                        if (targetField.FieldType.IsArray)
+                        {
+                            codeBuilder.AppendLine($"            for(int i = 0;i < {targetField.Name}.Length;i++)\n" +
+                                                   $"            {{\n" +
+                                                   $"                {targetField.Name}.RemoveAll();" +
+                                                   $"            }}\n");
+                        }
+                        else
+                        {
+                            codeBuilder.AppendLine($"            {targetField.Name}.RemoveAll();");
+                        }
+                    }
+                    else
+                    {
+                        // 生成递归调用的语句
+                        // 数组的话遍历元素每个元素递归调用
+                        if (targetField.FieldType.IsArray)
+                        {
+                            codeBuilder.AppendLine($"            for(int i = 0;i < {targetField.Name}.Length;i++)\n" +
+                                                   $"            {{\n" +
+                                                   $"                {targetField.Name}[i].RemoveAll();" +
+                                                   $"            }}\n");
+                        }
+                        else
+                        {
+                            codeBuilder.AppendLine($"            {targetField.Name}.RemoveAll();");
+                        }
+                    }
+                }
+            }
+
+            codeBuilder.AppendLine("        }");
+
+            return codeBuilder.ToString();
         }
 
         /// <summary>
@@ -269,12 +328,12 @@ namespace CameraMovement
                         {
                             codeBuilder.AppendLine($"            for(int i = 0;i < {targetField.Name}.Length;i++)\n" +
                                                    $"            {{\n" +
-                                                   $"                if(source.{sourceField.Name}.IsUse) {targetField.Name}.{prefix}(new MixItem<{getFullName(targetField.FieldType)}>(id, priority, source.{sourceField.Name}.Value));;" +
+                                                   $"                if(source.{sourceField.Name}.IsUse) {targetField.Name}.{prefix}(new MixItem<{getFullName(targetField.FieldType)}>(id, priority, source.{sourceField.Name}.CalculatorExpression, source.{sourceField.Name}.Value));" +
                                                    $"            }}\n");
                         }
                         else
                         {
-                            codeBuilder.AppendLine($"            if(source.{sourceField.Name}.IsUse) {targetField.Name}.{prefix}(new MixItem<{getFullName(targetField.FieldType)}>(id, priority, source.{sourceField.Name}.Value));");
+                            codeBuilder.AppendLine($"            if(source.{sourceField.Name}.IsUse) {targetField.Name}.{prefix}(new MixItem<{getFullName(targetField.FieldType)}>(id, priority, source.{sourceField.Name}.CalculatorExpression, source.{sourceField.Name}.Value));");
                         }
                     }
                     else
@@ -333,9 +392,21 @@ namespace CameraMovement
                             if (field2.FieldType == typeof(float) || field2.FieldType == typeof(double))
                             {
                                 code.AppendLine($"            if (templateDict.ContainsKey({correspondingField.Name}.Id))");
-                                code.AppendLine($"                target.{field2.Name} = templateDict[{correspondingField.Name}.Id].Config.alertCurve.Evaluate(templateDict[{correspondingField.Name}.Id].CostTime / templateDict[{correspondingField.Name}.Id].Config.duration);");
+                                code.AppendLine($"                target.{field2.Name} = templateDict[{correspondingField.Name}.Id].Config.alertCurve.Evaluate(templateDict[{correspondingField.Name}.Id].CostTime / templateDict[{correspondingField.Name}.Id].Config.duration) * {correspondingField.Name}.Value;");
                             }
-                            code.AppendLine($"            target.{field2.Name} = {correspondingField.Name}.Value;");
+
+                            if (field2.FieldType == typeof(string))
+                            {
+                                code.AppendLine($"            target.{field2.Name} = ({field2.FieldType.Name}){correspondingField.Name}.PrimitiveValue;");
+                            }
+                            else if (field2.FieldType == typeof(bool))
+                            {
+                                code.AppendLine($"            target.{field2.Name} = !Mathf.Approximately({correspondingField.Name}.Value, 0);");
+                            }
+                            else
+                            {
+                                code.AppendLine($"            target.{field2.Name} = ({getFullName(field2.FieldType)}){correspondingField.Name}.Value;");
+                            }
                         }
                         else if (field2.FieldType is { IsSerializable: true, IsArray: true } && correspondingField.FieldType.IsArray)
                         {

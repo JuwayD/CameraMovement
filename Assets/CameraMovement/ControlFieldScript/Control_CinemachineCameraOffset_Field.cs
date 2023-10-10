@@ -19,23 +19,29 @@ namespace CameraMovement{
         {
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_CinemachineCameraOffset_Config source = (CameraMovement.Control_CinemachineCameraOffset_Config)sourceConfig;
-            if(source.m_Offset.IsUse) m_Offset.Add(new MixItem<UnityEngine.Vector3>(id, priority, source.m_Offset.Value));
-            if(source.m_ApplyAfter.IsUse) m_ApplyAfter.Add(new MixItem<Cinemachine.CinemachineCore.Stage>(id, priority, source.m_ApplyAfter.Value));
-            if(source.m_PreserveComposition.IsUse) m_PreserveComposition.Add(new MixItem<System.Boolean>(id, priority, source.m_PreserveComposition.Value));
+            if(source.m_Offset.IsUse) m_Offset.Add(new MixItem<UnityEngine.Vector3>(id, priority, source.m_Offset.CalculatorExpression, source.m_Offset.Value));
+            if(source.m_ApplyAfter.IsUse) m_ApplyAfter.Add(new MixItem<Cinemachine.CinemachineCore.Stage>(id, priority, source.m_ApplyAfter.CalculatorExpression, source.m_ApplyAfter.Value));
+            if(source.m_PreserveComposition.IsUse) m_PreserveComposition.Add(new MixItem<System.Boolean>(id, priority, source.m_PreserveComposition.CalculatorExpression, source.m_PreserveComposition.Value));
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_CinemachineCameraOffset_Config source = (CameraMovement.Control_CinemachineCameraOffset_Config)sourceConfig;
-            if(source.m_Offset.IsUse) m_Offset.Remove(new MixItem<UnityEngine.Vector3>(id, priority, source.m_Offset.Value));
-            if(source.m_ApplyAfter.IsUse) m_ApplyAfter.Remove(new MixItem<Cinemachine.CinemachineCore.Stage>(id, priority, source.m_ApplyAfter.Value));
-            if(source.m_PreserveComposition.IsUse) m_PreserveComposition.Remove(new MixItem<System.Boolean>(id, priority, source.m_PreserveComposition.Value));
+            if(source.m_Offset.IsUse) m_Offset.Remove(new MixItem<UnityEngine.Vector3>(id, priority, source.m_Offset.CalculatorExpression, source.m_Offset.Value));
+            if(source.m_ApplyAfter.IsUse) m_ApplyAfter.Remove(new MixItem<Cinemachine.CinemachineCore.Stage>(id, priority, source.m_ApplyAfter.CalculatorExpression, source.m_ApplyAfter.Value));
+            if(source.m_PreserveComposition.IsUse) m_PreserveComposition.Remove(new MixItem<System.Boolean>(id, priority, source.m_PreserveComposition.CalculatorExpression, source.m_PreserveComposition.Value));
+        }
+        public void RemoveAll()
+        {
+            m_Offset.RemoveAll();
+            m_ApplyAfter.RemoveAll();
+            m_PreserveComposition.RemoveAll();
         }
         public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
         {
             var target = (CinemachineCameraOffset)targetObj;
-            target.m_ApplyAfter = m_ApplyAfter.Value;
-            target.m_PreserveComposition = m_PreserveComposition.Value;
+            target.m_ApplyAfter = (Cinemachine.CinemachineCore.Stage)m_ApplyAfter.Value;
+            target.m_PreserveComposition = !Mathf.Approximately(m_PreserveComposition.Value, 0);
         }
     }
 }

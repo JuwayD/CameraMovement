@@ -29,6 +29,13 @@ namespace CameraMovement{
                 m_CustomBlends[i].RemoveByConfig(source.m_CustomBlends[i], id, priority);            }
 
         }
+        public void RemoveAll()
+        {
+            for(int i = 0;i < m_CustomBlends.Length;i++)
+            {
+                m_CustomBlends[i].RemoveAll();            }
+
+        }
         public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
         {
             var target = (Cinemachine.CinemachineBlenderSettings)targetObj;

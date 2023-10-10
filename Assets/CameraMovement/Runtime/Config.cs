@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -15,6 +14,18 @@ namespace CameraMovement
     {
         public bool IsUse;
         public T Value;
+        public CalculatorItem[] CalculatorExpression;
+    }
+
+    /// <summary>
+    /// 计算项 operator不为None时值为operator，否则为contextMember 都为None则是Value表示立即数
+    /// </summary>
+    [Serializable]
+    public struct CalculatorItem
+    {
+        public ECalculatorOperator Operator;
+        public EContextMember ContextMember;
+        public float Value;
     }
     
     /// <summary>

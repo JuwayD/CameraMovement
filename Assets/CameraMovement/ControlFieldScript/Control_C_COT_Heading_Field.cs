@@ -19,26 +19,32 @@ namespace CameraMovement{
         {
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_C_COT_Heading_Config source = (CameraMovement.Control_C_COT_Heading_Config)sourceConfig;
-            if(source.m_Definition.IsUse) m_Definition.Add(new MixItem<Cinemachine.CinemachineOrbitalTransposer.Heading.HeadingDefinition>(id, priority, source.m_Definition.Value));
-            if(source.m_VelocityFilterStrength.IsUse) m_VelocityFilterStrength.Add(new MixItem<System.Int32>(id, priority, source.m_VelocityFilterStrength.Value));
-            if(source.m_Bias.IsUse) m_Bias.Add(new MixItem<System.Single>(id, priority, source.m_Bias.Value));
+            if(source.m_Definition.IsUse) m_Definition.Add(new MixItem<Cinemachine.CinemachineOrbitalTransposer.Heading.HeadingDefinition>(id, priority, source.m_Definition.CalculatorExpression, source.m_Definition.Value));
+            if(source.m_VelocityFilterStrength.IsUse) m_VelocityFilterStrength.Add(new MixItem<System.Int32>(id, priority, source.m_VelocityFilterStrength.CalculatorExpression, source.m_VelocityFilterStrength.Value));
+            if(source.m_Bias.IsUse) m_Bias.Add(new MixItem<System.Single>(id, priority, source.m_Bias.CalculatorExpression, source.m_Bias.Value));
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_C_COT_Heading_Config source = (CameraMovement.Control_C_COT_Heading_Config)sourceConfig;
-            if(source.m_Definition.IsUse) m_Definition.Remove(new MixItem<Cinemachine.CinemachineOrbitalTransposer.Heading.HeadingDefinition>(id, priority, source.m_Definition.Value));
-            if(source.m_VelocityFilterStrength.IsUse) m_VelocityFilterStrength.Remove(new MixItem<System.Int32>(id, priority, source.m_VelocityFilterStrength.Value));
-            if(source.m_Bias.IsUse) m_Bias.Remove(new MixItem<System.Single>(id, priority, source.m_Bias.Value));
+            if(source.m_Definition.IsUse) m_Definition.Remove(new MixItem<Cinemachine.CinemachineOrbitalTransposer.Heading.HeadingDefinition>(id, priority, source.m_Definition.CalculatorExpression, source.m_Definition.Value));
+            if(source.m_VelocityFilterStrength.IsUse) m_VelocityFilterStrength.Remove(new MixItem<System.Int32>(id, priority, source.m_VelocityFilterStrength.CalculatorExpression, source.m_VelocityFilterStrength.Value));
+            if(source.m_Bias.IsUse) m_Bias.Remove(new MixItem<System.Single>(id, priority, source.m_Bias.CalculatorExpression, source.m_Bias.Value));
+        }
+        public void RemoveAll()
+        {
+            m_Definition.RemoveAll();
+            m_VelocityFilterStrength.RemoveAll();
+            m_Bias.RemoveAll();
         }
         public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
         {
             var target = (Cinemachine.CinemachineOrbitalTransposer.Heading)targetObj;
-            target.m_Definition = m_Definition.Value;
-            target.m_VelocityFilterStrength = m_VelocityFilterStrength.Value;
+            target.m_Definition = (Cinemachine.CinemachineOrbitalTransposer.Heading.HeadingDefinition)m_Definition.Value;
+            target.m_VelocityFilterStrength = (System.Int32)m_VelocityFilterStrength.Value;
             if (templateDict.ContainsKey(m_Bias.Id))
-                target.m_Bias = templateDict[m_Bias.Id].Config.alertCurve.Evaluate(templateDict[m_Bias.Id].CostTime / templateDict[m_Bias.Id].Config.duration);
-            target.m_Bias = m_Bias.Value;
+                target.m_Bias = templateDict[m_Bias.Id].Config.alertCurve.Evaluate(templateDict[m_Bias.Id].CostTime / templateDict[m_Bias.Id].Config.duration) * m_Bias.Value;
+            target.m_Bias = (System.Single)m_Bias.Value;
         }
     }
 }

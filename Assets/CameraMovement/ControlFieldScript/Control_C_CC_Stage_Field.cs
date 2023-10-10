@@ -14,13 +14,17 @@ namespace CameraMovement{
         {
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_C_CC_Stage_Config source = (CameraMovement.Control_C_CC_Stage_Config)sourceConfig;
-            if(source.value__.IsUse) value__.Add(new MixItem<System.Int32>(id, priority, source.value__.Value));
+            if(source.value__.IsUse) value__.Add(new MixItem<System.Int32>(id, priority, source.value__.CalculatorExpression, source.value__.Value));
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_C_CC_Stage_Config source = (CameraMovement.Control_C_CC_Stage_Config)sourceConfig;
-            if(source.value__.IsUse) value__.Remove(new MixItem<System.Int32>(id, priority, source.value__.Value));
+            if(source.value__.IsUse) value__.Remove(new MixItem<System.Int32>(id, priority, source.value__.CalculatorExpression, source.value__.Value));
+        }
+        public void RemoveAll()
+        {
+            value__.RemoveAll();
         }
         public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
         {

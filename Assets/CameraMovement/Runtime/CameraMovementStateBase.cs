@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
@@ -21,6 +22,12 @@ namespace CameraMovement
     {
         #region 字段
 
+        protected readonly Type virtualCameraType_;
+        protected readonly Type bodyCompType_;
+        protected readonly Type aimCompType_;
+        protected readonly Type noiseCompType_;
+        protected readonly Type finalizeCompType_;
+        protected readonly List<Type> extensionTypeList_;
         protected CinemachineVirtualCameraBase virtualCamera_;
         protected CinemachineComponentBase bodyComp_;
         protected CinemachineComponentBase aimComp_;
@@ -33,7 +40,6 @@ namespace CameraMovement
         protected ICameraMovementControlField controlNoiseComp_;
         protected ICameraMovementControlField controlFinalizeComp_;
         protected List<ICameraMovementControlField> controlExtensionList_;
-        protected ICameraMovementDataField dataField_;
         protected CameraMovementStateMachine machine_;
         protected CameraMovementConfigState config_;
         protected Dictionary<int, RuntimeTemplate> runtimeTemplateDict_;
@@ -41,6 +47,21 @@ namespace CameraMovement
         #endregion
 
         #region 生命周期函数
+
+        public void Init(GameObject go,CameraMovementConfigState configState, CameraMovementStateMachine machine)
+        {
+            config_ = configState;
+            machine_ = machine;
+            OnInit(go, configState, machine);
+        }
+
+        /// <summary>
+        /// 子类需要在这个里面设置好操控的组件，及部分初始化操作
+        /// </summary>
+        /// <param name="go"></param>
+        /// <param name="configState"></param>
+        /// <param name="machine"></param>
+        protected abstract void OnInit(GameObject go, CameraMovementConfigState configState, CameraMovementStateMachine machine);
 
         public void Tick()
         {
@@ -144,6 +165,7 @@ namespace CameraMovement
         /// <param name="toState"></param>
         public void Exit(CameraMovementStateBase toState)
         {
+            controlAimComp_.RemoveAll();
             OnExit(toState);
         }
 

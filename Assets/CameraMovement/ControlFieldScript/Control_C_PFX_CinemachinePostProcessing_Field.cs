@@ -19,6 +19,9 @@ namespace CameraMovement{
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_C_PFX_CinemachinePostProcessing_Config source = (CameraMovement.Control_C_PFX_CinemachinePostProcessing_Config)sourceConfig;
         }
+        public void RemoveAll()
+        {
+        }
         public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
         {
             var target = (Cinemachine.PostFX.CinemachinePostProcessing)targetObj;

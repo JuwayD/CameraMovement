@@ -31,8 +31,8 @@ namespace CameraMovement{
         {
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_C_CinemachineBlendListCamera_Config source = (CameraMovement.Control_C_CinemachineBlendListCamera_Config)sourceConfig;
-            if(source.m_ShowDebugText.IsUse) m_ShowDebugText.Add(new MixItem<System.Boolean>(id, priority, source.m_ShowDebugText.Value));
-            if(source.m_Loop.IsUse) m_Loop.Add(new MixItem<System.Boolean>(id, priority, source.m_Loop.Value));
+            if(source.m_ShowDebugText.IsUse) m_ShowDebugText.Add(new MixItem<System.Boolean>(id, priority, source.m_ShowDebugText.CalculatorExpression, source.m_ShowDebugText.Value));
+            if(source.m_Loop.IsUse) m_Loop.Add(new MixItem<System.Boolean>(id, priority, source.m_Loop.CalculatorExpression, source.m_Loop.Value));
             for(int i = 0;i < m_Instructions.Length;i++)
             {
                 m_Instructions[i].AddByConfig(source.m_Instructions[i], id, priority);            }
@@ -45,17 +45,17 @@ namespace CameraMovement{
             {
                 m_LockStageInInspector[i].AddByConfig(source.m_LockStageInInspector[i], id, priority);            }
 
-            if(source.m_Priority.IsUse) m_Priority.Add(new MixItem<System.Int32>(id, priority, source.m_Priority.Value));
-            if(source.FollowTargetAttachment.IsUse) FollowTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.Value));
-            if(source.LookAtTargetAttachment.IsUse) LookAtTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.Value));
-            if(source.m_StandbyUpdate.IsUse) m_StandbyUpdate.Add(new MixItem<Cinemachine.CinemachineVirtualCameraBase.StandbyUpdateMode>(id, priority, source.m_StandbyUpdate.Value));
+            if(source.m_Priority.IsUse) m_Priority.Add(new MixItem<System.Int32>(id, priority, source.m_Priority.CalculatorExpression, source.m_Priority.Value));
+            if(source.FollowTargetAttachment.IsUse) FollowTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.CalculatorExpression, source.FollowTargetAttachment.Value));
+            if(source.LookAtTargetAttachment.IsUse) LookAtTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.CalculatorExpression, source.LookAtTargetAttachment.Value));
+            if(source.m_StandbyUpdate.IsUse) m_StandbyUpdate.Add(new MixItem<Cinemachine.CinemachineVirtualCameraBase.StandbyUpdateMode>(id, priority, source.m_StandbyUpdate.CalculatorExpression, source.m_StandbyUpdate.Value));
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_C_CinemachineBlendListCamera_Config source = (CameraMovement.Control_C_CinemachineBlendListCamera_Config)sourceConfig;
-            if(source.m_ShowDebugText.IsUse) m_ShowDebugText.Remove(new MixItem<System.Boolean>(id, priority, source.m_ShowDebugText.Value));
-            if(source.m_Loop.IsUse) m_Loop.Remove(new MixItem<System.Boolean>(id, priority, source.m_Loop.Value));
+            if(source.m_ShowDebugText.IsUse) m_ShowDebugText.Remove(new MixItem<System.Boolean>(id, priority, source.m_ShowDebugText.CalculatorExpression, source.m_ShowDebugText.Value));
+            if(source.m_Loop.IsUse) m_Loop.Remove(new MixItem<System.Boolean>(id, priority, source.m_Loop.CalculatorExpression, source.m_Loop.Value));
             for(int i = 0;i < m_Instructions.Length;i++)
             {
                 m_Instructions[i].RemoveByConfig(source.m_Instructions[i], id, priority);            }
@@ -68,16 +68,37 @@ namespace CameraMovement{
             {
                 m_LockStageInInspector[i].RemoveByConfig(source.m_LockStageInInspector[i], id, priority);            }
 
-            if(source.m_Priority.IsUse) m_Priority.Remove(new MixItem<System.Int32>(id, priority, source.m_Priority.Value));
-            if(source.FollowTargetAttachment.IsUse) FollowTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.Value));
-            if(source.LookAtTargetAttachment.IsUse) LookAtTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.Value));
-            if(source.m_StandbyUpdate.IsUse) m_StandbyUpdate.Remove(new MixItem<Cinemachine.CinemachineVirtualCameraBase.StandbyUpdateMode>(id, priority, source.m_StandbyUpdate.Value));
+            if(source.m_Priority.IsUse) m_Priority.Remove(new MixItem<System.Int32>(id, priority, source.m_Priority.CalculatorExpression, source.m_Priority.Value));
+            if(source.FollowTargetAttachment.IsUse) FollowTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.CalculatorExpression, source.FollowTargetAttachment.Value));
+            if(source.LookAtTargetAttachment.IsUse) LookAtTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.CalculatorExpression, source.LookAtTargetAttachment.Value));
+            if(source.m_StandbyUpdate.IsUse) m_StandbyUpdate.Remove(new MixItem<Cinemachine.CinemachineVirtualCameraBase.StandbyUpdateMode>(id, priority, source.m_StandbyUpdate.CalculatorExpression, source.m_StandbyUpdate.Value));
+        }
+        public void RemoveAll()
+        {
+            m_ShowDebugText.RemoveAll();
+            m_Loop.RemoveAll();
+            for(int i = 0;i < m_Instructions.Length;i++)
+            {
+                m_Instructions[i].RemoveAll();            }
+
+            for(int i = 0;i < m_ExcludedPropertiesInInspector.Length;i++)
+            {
+                m_ExcludedPropertiesInInspector[i].RemoveAll();            }
+
+            for(int i = 0;i < m_LockStageInInspector.Length;i++)
+            {
+                m_LockStageInInspector[i].RemoveAll();            }
+
+            m_Priority.RemoveAll();
+            FollowTargetAttachment.RemoveAll();
+            LookAtTargetAttachment.RemoveAll();
+            m_StandbyUpdate.RemoveAll();
         }
         public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
         {
             var target = (Cinemachine.CinemachineBlendListCamera)targetObj;
-            target.m_ShowDebugText = m_ShowDebugText.Value;
-            target.m_Loop = m_Loop.Value;
+            target.m_ShowDebugText = !Mathf.Approximately(m_ShowDebugText.Value, 0);
+            target.m_Loop = !Mathf.Approximately(m_Loop.Value, 0);
             // 处理数组字段 m_Instructions
             for (int i = 0; i < m_Instructions.Length; i++)
             {
@@ -96,8 +117,8 @@ namespace CameraMovement{
                 // 生成递归代码
                 m_LockStageInInspector[i].ControlCinemachine(target.m_LockStageInInspector[i], templateDict);
             }
-            target.m_Priority = m_Priority.Value;
-            target.m_StandbyUpdate = m_StandbyUpdate.Value;
+            target.m_Priority = (System.Int32)m_Priority.Value;
+            target.m_StandbyUpdate = (Cinemachine.CinemachineVirtualCameraBase.StandbyUpdateMode)m_StandbyUpdate.Value;
         }
     }
 }

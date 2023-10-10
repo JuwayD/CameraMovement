@@ -27,27 +27,38 @@ namespace CameraMovement{
         {
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_C_LensSettings_Config source = (CameraMovement.Control_C_LensSettings_Config)sourceConfig;
-            if(source.FieldOfView.IsUse) FieldOfView.Add(new MixItem<System.Single>(id, priority, source.FieldOfView.Value));
-            if(source.OrthographicSize.IsUse) OrthographicSize.Add(new MixItem<System.Single>(id, priority, source.OrthographicSize.Value));
-            if(source.NearClipPlane.IsUse) NearClipPlane.Add(new MixItem<System.Single>(id, priority, source.NearClipPlane.Value));
-            if(source.FarClipPlane.IsUse) FarClipPlane.Add(new MixItem<System.Single>(id, priority, source.FarClipPlane.Value));
-            if(source.Dutch.IsUse) Dutch.Add(new MixItem<System.Single>(id, priority, source.Dutch.Value));
-            if(source.ModeOverride.IsUse) ModeOverride.Add(new MixItem<Cinemachine.LensSettings.OverrideModes>(id, priority, source.ModeOverride.Value));
-            if(source.GateFit.IsUse) GateFit.Add(new MixItem<UnityEngine.Camera.GateFitMode>(id, priority, source.GateFit.Value));
-            if(source.FocusDistance.IsUse) FocusDistance.Add(new MixItem<System.Single>(id, priority, source.FocusDistance.Value));
+            if(source.FieldOfView.IsUse) FieldOfView.Add(new MixItem<System.Single>(id, priority, source.FieldOfView.CalculatorExpression, source.FieldOfView.Value));
+            if(source.OrthographicSize.IsUse) OrthographicSize.Add(new MixItem<System.Single>(id, priority, source.OrthographicSize.CalculatorExpression, source.OrthographicSize.Value));
+            if(source.NearClipPlane.IsUse) NearClipPlane.Add(new MixItem<System.Single>(id, priority, source.NearClipPlane.CalculatorExpression, source.NearClipPlane.Value));
+            if(source.FarClipPlane.IsUse) FarClipPlane.Add(new MixItem<System.Single>(id, priority, source.FarClipPlane.CalculatorExpression, source.FarClipPlane.Value));
+            if(source.Dutch.IsUse) Dutch.Add(new MixItem<System.Single>(id, priority, source.Dutch.CalculatorExpression, source.Dutch.Value));
+            if(source.ModeOverride.IsUse) ModeOverride.Add(new MixItem<Cinemachine.LensSettings.OverrideModes>(id, priority, source.ModeOverride.CalculatorExpression, source.ModeOverride.Value));
+            if(source.GateFit.IsUse) GateFit.Add(new MixItem<UnityEngine.Camera.GateFitMode>(id, priority, source.GateFit.CalculatorExpression, source.GateFit.Value));
+            if(source.FocusDistance.IsUse) FocusDistance.Add(new MixItem<System.Single>(id, priority, source.FocusDistance.CalculatorExpression, source.FocusDistance.Value));
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_C_LensSettings_Config source = (CameraMovement.Control_C_LensSettings_Config)sourceConfig;
-            if(source.FieldOfView.IsUse) FieldOfView.Remove(new MixItem<System.Single>(id, priority, source.FieldOfView.Value));
-            if(source.OrthographicSize.IsUse) OrthographicSize.Remove(new MixItem<System.Single>(id, priority, source.OrthographicSize.Value));
-            if(source.NearClipPlane.IsUse) NearClipPlane.Remove(new MixItem<System.Single>(id, priority, source.NearClipPlane.Value));
-            if(source.FarClipPlane.IsUse) FarClipPlane.Remove(new MixItem<System.Single>(id, priority, source.FarClipPlane.Value));
-            if(source.Dutch.IsUse) Dutch.Remove(new MixItem<System.Single>(id, priority, source.Dutch.Value));
-            if(source.ModeOverride.IsUse) ModeOverride.Remove(new MixItem<Cinemachine.LensSettings.OverrideModes>(id, priority, source.ModeOverride.Value));
-            if(source.GateFit.IsUse) GateFit.Remove(new MixItem<UnityEngine.Camera.GateFitMode>(id, priority, source.GateFit.Value));
-            if(source.FocusDistance.IsUse) FocusDistance.Remove(new MixItem<System.Single>(id, priority, source.FocusDistance.Value));
+            if(source.FieldOfView.IsUse) FieldOfView.Remove(new MixItem<System.Single>(id, priority, source.FieldOfView.CalculatorExpression, source.FieldOfView.Value));
+            if(source.OrthographicSize.IsUse) OrthographicSize.Remove(new MixItem<System.Single>(id, priority, source.OrthographicSize.CalculatorExpression, source.OrthographicSize.Value));
+            if(source.NearClipPlane.IsUse) NearClipPlane.Remove(new MixItem<System.Single>(id, priority, source.NearClipPlane.CalculatorExpression, source.NearClipPlane.Value));
+            if(source.FarClipPlane.IsUse) FarClipPlane.Remove(new MixItem<System.Single>(id, priority, source.FarClipPlane.CalculatorExpression, source.FarClipPlane.Value));
+            if(source.Dutch.IsUse) Dutch.Remove(new MixItem<System.Single>(id, priority, source.Dutch.CalculatorExpression, source.Dutch.Value));
+            if(source.ModeOverride.IsUse) ModeOverride.Remove(new MixItem<Cinemachine.LensSettings.OverrideModes>(id, priority, source.ModeOverride.CalculatorExpression, source.ModeOverride.Value));
+            if(source.GateFit.IsUse) GateFit.Remove(new MixItem<UnityEngine.Camera.GateFitMode>(id, priority, source.GateFit.CalculatorExpression, source.GateFit.Value));
+            if(source.FocusDistance.IsUse) FocusDistance.Remove(new MixItem<System.Single>(id, priority, source.FocusDistance.CalculatorExpression, source.FocusDistance.Value));
+        }
+        public void RemoveAll()
+        {
+            FieldOfView.RemoveAll();
+            OrthographicSize.RemoveAll();
+            NearClipPlane.RemoveAll();
+            FarClipPlane.RemoveAll();
+            Dutch.RemoveAll();
+            ModeOverride.RemoveAll();
+            GateFit.RemoveAll();
+            FocusDistance.RemoveAll();
         }
         public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
         {

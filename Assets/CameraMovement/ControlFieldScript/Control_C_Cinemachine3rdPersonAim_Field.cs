@@ -17,15 +17,20 @@ namespace CameraMovement{
         {
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_C_Cinemachine3rdPersonAim_Config source = (CameraMovement.Control_C_Cinemachine3rdPersonAim_Config)sourceConfig;
-            if(source.IgnoreTag.IsUse) IgnoreTag.Add(new MixItem<System.String>(id, priority, source.IgnoreTag.Value));
-            if(source.AimDistance.IsUse) AimDistance.Add(new MixItem<System.Single>(id, priority, source.AimDistance.Value));
+            if(source.IgnoreTag.IsUse) IgnoreTag.Add(new MixItem<System.String>(id, priority, source.IgnoreTag.CalculatorExpression, source.IgnoreTag.Value));
+            if(source.AimDistance.IsUse) AimDistance.Add(new MixItem<System.Single>(id, priority, source.AimDistance.CalculatorExpression, source.AimDistance.Value));
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_C_Cinemachine3rdPersonAim_Config source = (CameraMovement.Control_C_Cinemachine3rdPersonAim_Config)sourceConfig;
-            if(source.IgnoreTag.IsUse) IgnoreTag.Remove(new MixItem<System.String>(id, priority, source.IgnoreTag.Value));
-            if(source.AimDistance.IsUse) AimDistance.Remove(new MixItem<System.Single>(id, priority, source.AimDistance.Value));
+            if(source.IgnoreTag.IsUse) IgnoreTag.Remove(new MixItem<System.String>(id, priority, source.IgnoreTag.CalculatorExpression, source.IgnoreTag.Value));
+            if(source.AimDistance.IsUse) AimDistance.Remove(new MixItem<System.Single>(id, priority, source.AimDistance.CalculatorExpression, source.AimDistance.Value));
+        }
+        public void RemoveAll()
+        {
+            IgnoreTag.RemoveAll();
+            AimDistance.RemoveAll();
         }
         public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
         {

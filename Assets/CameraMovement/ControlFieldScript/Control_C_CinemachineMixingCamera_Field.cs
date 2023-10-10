@@ -41,14 +41,14 @@ namespace CameraMovement{
         {
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_C_CinemachineMixingCamera_Config source = (CameraMovement.Control_C_CinemachineMixingCamera_Config)sourceConfig;
-            if(source.m_Weight0.IsUse) m_Weight0.Add(new MixItem<System.Single>(id, priority, source.m_Weight0.Value));
-            if(source.m_Weight1.IsUse) m_Weight1.Add(new MixItem<System.Single>(id, priority, source.m_Weight1.Value));
-            if(source.m_Weight2.IsUse) m_Weight2.Add(new MixItem<System.Single>(id, priority, source.m_Weight2.Value));
-            if(source.m_Weight3.IsUse) m_Weight3.Add(new MixItem<System.Single>(id, priority, source.m_Weight3.Value));
-            if(source.m_Weight4.IsUse) m_Weight4.Add(new MixItem<System.Single>(id, priority, source.m_Weight4.Value));
-            if(source.m_Weight5.IsUse) m_Weight5.Add(new MixItem<System.Single>(id, priority, source.m_Weight5.Value));
-            if(source.m_Weight6.IsUse) m_Weight6.Add(new MixItem<System.Single>(id, priority, source.m_Weight6.Value));
-            if(source.m_Weight7.IsUse) m_Weight7.Add(new MixItem<System.Single>(id, priority, source.m_Weight7.Value));
+            if(source.m_Weight0.IsUse) m_Weight0.Add(new MixItem<System.Single>(id, priority, source.m_Weight0.CalculatorExpression, source.m_Weight0.Value));
+            if(source.m_Weight1.IsUse) m_Weight1.Add(new MixItem<System.Single>(id, priority, source.m_Weight1.CalculatorExpression, source.m_Weight1.Value));
+            if(source.m_Weight2.IsUse) m_Weight2.Add(new MixItem<System.Single>(id, priority, source.m_Weight2.CalculatorExpression, source.m_Weight2.Value));
+            if(source.m_Weight3.IsUse) m_Weight3.Add(new MixItem<System.Single>(id, priority, source.m_Weight3.CalculatorExpression, source.m_Weight3.Value));
+            if(source.m_Weight4.IsUse) m_Weight4.Add(new MixItem<System.Single>(id, priority, source.m_Weight4.CalculatorExpression, source.m_Weight4.Value));
+            if(source.m_Weight5.IsUse) m_Weight5.Add(new MixItem<System.Single>(id, priority, source.m_Weight5.CalculatorExpression, source.m_Weight5.Value));
+            if(source.m_Weight6.IsUse) m_Weight6.Add(new MixItem<System.Single>(id, priority, source.m_Weight6.CalculatorExpression, source.m_Weight6.Value));
+            if(source.m_Weight7.IsUse) m_Weight7.Add(new MixItem<System.Single>(id, priority, source.m_Weight7.CalculatorExpression, source.m_Weight7.Value));
             for(int i = 0;i < m_ExcludedPropertiesInInspector.Length;i++)
             {
                 m_ExcludedPropertiesInInspector[i].AddByConfig(source.m_ExcludedPropertiesInInspector[i], id, priority);            }
@@ -57,23 +57,23 @@ namespace CameraMovement{
             {
                 m_LockStageInInspector[i].AddByConfig(source.m_LockStageInInspector[i], id, priority);            }
 
-            if(source.m_Priority.IsUse) m_Priority.Add(new MixItem<System.Int32>(id, priority, source.m_Priority.Value));
-            if(source.FollowTargetAttachment.IsUse) FollowTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.Value));
-            if(source.LookAtTargetAttachment.IsUse) LookAtTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.Value));
-            if(source.m_StandbyUpdate.IsUse) m_StandbyUpdate.Add(new MixItem<Cinemachine.CinemachineVirtualCameraBase.StandbyUpdateMode>(id, priority, source.m_StandbyUpdate.Value));
+            if(source.m_Priority.IsUse) m_Priority.Add(new MixItem<System.Int32>(id, priority, source.m_Priority.CalculatorExpression, source.m_Priority.Value));
+            if(source.FollowTargetAttachment.IsUse) FollowTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.CalculatorExpression, source.FollowTargetAttachment.Value));
+            if(source.LookAtTargetAttachment.IsUse) LookAtTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.CalculatorExpression, source.LookAtTargetAttachment.Value));
+            if(source.m_StandbyUpdate.IsUse) m_StandbyUpdate.Add(new MixItem<Cinemachine.CinemachineVirtualCameraBase.StandbyUpdateMode>(id, priority, source.m_StandbyUpdate.CalculatorExpression, source.m_StandbyUpdate.Value));
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_C_CinemachineMixingCamera_Config source = (CameraMovement.Control_C_CinemachineMixingCamera_Config)sourceConfig;
-            if(source.m_Weight0.IsUse) m_Weight0.Remove(new MixItem<System.Single>(id, priority, source.m_Weight0.Value));
-            if(source.m_Weight1.IsUse) m_Weight1.Remove(new MixItem<System.Single>(id, priority, source.m_Weight1.Value));
-            if(source.m_Weight2.IsUse) m_Weight2.Remove(new MixItem<System.Single>(id, priority, source.m_Weight2.Value));
-            if(source.m_Weight3.IsUse) m_Weight3.Remove(new MixItem<System.Single>(id, priority, source.m_Weight3.Value));
-            if(source.m_Weight4.IsUse) m_Weight4.Remove(new MixItem<System.Single>(id, priority, source.m_Weight4.Value));
-            if(source.m_Weight5.IsUse) m_Weight5.Remove(new MixItem<System.Single>(id, priority, source.m_Weight5.Value));
-            if(source.m_Weight6.IsUse) m_Weight6.Remove(new MixItem<System.Single>(id, priority, source.m_Weight6.Value));
-            if(source.m_Weight7.IsUse) m_Weight7.Remove(new MixItem<System.Single>(id, priority, source.m_Weight7.Value));
+            if(source.m_Weight0.IsUse) m_Weight0.Remove(new MixItem<System.Single>(id, priority, source.m_Weight0.CalculatorExpression, source.m_Weight0.Value));
+            if(source.m_Weight1.IsUse) m_Weight1.Remove(new MixItem<System.Single>(id, priority, source.m_Weight1.CalculatorExpression, source.m_Weight1.Value));
+            if(source.m_Weight2.IsUse) m_Weight2.Remove(new MixItem<System.Single>(id, priority, source.m_Weight2.CalculatorExpression, source.m_Weight2.Value));
+            if(source.m_Weight3.IsUse) m_Weight3.Remove(new MixItem<System.Single>(id, priority, source.m_Weight3.CalculatorExpression, source.m_Weight3.Value));
+            if(source.m_Weight4.IsUse) m_Weight4.Remove(new MixItem<System.Single>(id, priority, source.m_Weight4.CalculatorExpression, source.m_Weight4.Value));
+            if(source.m_Weight5.IsUse) m_Weight5.Remove(new MixItem<System.Single>(id, priority, source.m_Weight5.CalculatorExpression, source.m_Weight5.Value));
+            if(source.m_Weight6.IsUse) m_Weight6.Remove(new MixItem<System.Single>(id, priority, source.m_Weight6.CalculatorExpression, source.m_Weight6.Value));
+            if(source.m_Weight7.IsUse) m_Weight7.Remove(new MixItem<System.Single>(id, priority, source.m_Weight7.CalculatorExpression, source.m_Weight7.Value));
             for(int i = 0;i < m_ExcludedPropertiesInInspector.Length;i++)
             {
                 m_ExcludedPropertiesInInspector[i].RemoveByConfig(source.m_ExcludedPropertiesInInspector[i], id, priority);            }
@@ -82,38 +82,61 @@ namespace CameraMovement{
             {
                 m_LockStageInInspector[i].RemoveByConfig(source.m_LockStageInInspector[i], id, priority);            }
 
-            if(source.m_Priority.IsUse) m_Priority.Remove(new MixItem<System.Int32>(id, priority, source.m_Priority.Value));
-            if(source.FollowTargetAttachment.IsUse) FollowTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.Value));
-            if(source.LookAtTargetAttachment.IsUse) LookAtTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.Value));
-            if(source.m_StandbyUpdate.IsUse) m_StandbyUpdate.Remove(new MixItem<Cinemachine.CinemachineVirtualCameraBase.StandbyUpdateMode>(id, priority, source.m_StandbyUpdate.Value));
+            if(source.m_Priority.IsUse) m_Priority.Remove(new MixItem<System.Int32>(id, priority, source.m_Priority.CalculatorExpression, source.m_Priority.Value));
+            if(source.FollowTargetAttachment.IsUse) FollowTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.CalculatorExpression, source.FollowTargetAttachment.Value));
+            if(source.LookAtTargetAttachment.IsUse) LookAtTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.CalculatorExpression, source.LookAtTargetAttachment.Value));
+            if(source.m_StandbyUpdate.IsUse) m_StandbyUpdate.Remove(new MixItem<Cinemachine.CinemachineVirtualCameraBase.StandbyUpdateMode>(id, priority, source.m_StandbyUpdate.CalculatorExpression, source.m_StandbyUpdate.Value));
+        }
+        public void RemoveAll()
+        {
+            m_Weight0.RemoveAll();
+            m_Weight1.RemoveAll();
+            m_Weight2.RemoveAll();
+            m_Weight3.RemoveAll();
+            m_Weight4.RemoveAll();
+            m_Weight5.RemoveAll();
+            m_Weight6.RemoveAll();
+            m_Weight7.RemoveAll();
+            for(int i = 0;i < m_ExcludedPropertiesInInspector.Length;i++)
+            {
+                m_ExcludedPropertiesInInspector[i].RemoveAll();            }
+
+            for(int i = 0;i < m_LockStageInInspector.Length;i++)
+            {
+                m_LockStageInInspector[i].RemoveAll();            }
+
+            m_Priority.RemoveAll();
+            FollowTargetAttachment.RemoveAll();
+            LookAtTargetAttachment.RemoveAll();
+            m_StandbyUpdate.RemoveAll();
         }
         public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
         {
             var target = (Cinemachine.CinemachineMixingCamera)targetObj;
             if (templateDict.ContainsKey(m_Weight0.Id))
-                target.m_Weight0 = templateDict[m_Weight0.Id].Config.alertCurve.Evaluate(templateDict[m_Weight0.Id].CostTime / templateDict[m_Weight0.Id].Config.duration);
-            target.m_Weight0 = m_Weight0.Value;
+                target.m_Weight0 = templateDict[m_Weight0.Id].Config.alertCurve.Evaluate(templateDict[m_Weight0.Id].CostTime / templateDict[m_Weight0.Id].Config.duration) * m_Weight0.Value;
+            target.m_Weight0 = (System.Single)m_Weight0.Value;
             if (templateDict.ContainsKey(m_Weight1.Id))
-                target.m_Weight1 = templateDict[m_Weight1.Id].Config.alertCurve.Evaluate(templateDict[m_Weight1.Id].CostTime / templateDict[m_Weight1.Id].Config.duration);
-            target.m_Weight1 = m_Weight1.Value;
+                target.m_Weight1 = templateDict[m_Weight1.Id].Config.alertCurve.Evaluate(templateDict[m_Weight1.Id].CostTime / templateDict[m_Weight1.Id].Config.duration) * m_Weight1.Value;
+            target.m_Weight1 = (System.Single)m_Weight1.Value;
             if (templateDict.ContainsKey(m_Weight2.Id))
-                target.m_Weight2 = templateDict[m_Weight2.Id].Config.alertCurve.Evaluate(templateDict[m_Weight2.Id].CostTime / templateDict[m_Weight2.Id].Config.duration);
-            target.m_Weight2 = m_Weight2.Value;
+                target.m_Weight2 = templateDict[m_Weight2.Id].Config.alertCurve.Evaluate(templateDict[m_Weight2.Id].CostTime / templateDict[m_Weight2.Id].Config.duration) * m_Weight2.Value;
+            target.m_Weight2 = (System.Single)m_Weight2.Value;
             if (templateDict.ContainsKey(m_Weight3.Id))
-                target.m_Weight3 = templateDict[m_Weight3.Id].Config.alertCurve.Evaluate(templateDict[m_Weight3.Id].CostTime / templateDict[m_Weight3.Id].Config.duration);
-            target.m_Weight3 = m_Weight3.Value;
+                target.m_Weight3 = templateDict[m_Weight3.Id].Config.alertCurve.Evaluate(templateDict[m_Weight3.Id].CostTime / templateDict[m_Weight3.Id].Config.duration) * m_Weight3.Value;
+            target.m_Weight3 = (System.Single)m_Weight3.Value;
             if (templateDict.ContainsKey(m_Weight4.Id))
-                target.m_Weight4 = templateDict[m_Weight4.Id].Config.alertCurve.Evaluate(templateDict[m_Weight4.Id].CostTime / templateDict[m_Weight4.Id].Config.duration);
-            target.m_Weight4 = m_Weight4.Value;
+                target.m_Weight4 = templateDict[m_Weight4.Id].Config.alertCurve.Evaluate(templateDict[m_Weight4.Id].CostTime / templateDict[m_Weight4.Id].Config.duration) * m_Weight4.Value;
+            target.m_Weight4 = (System.Single)m_Weight4.Value;
             if (templateDict.ContainsKey(m_Weight5.Id))
-                target.m_Weight5 = templateDict[m_Weight5.Id].Config.alertCurve.Evaluate(templateDict[m_Weight5.Id].CostTime / templateDict[m_Weight5.Id].Config.duration);
-            target.m_Weight5 = m_Weight5.Value;
+                target.m_Weight5 = templateDict[m_Weight5.Id].Config.alertCurve.Evaluate(templateDict[m_Weight5.Id].CostTime / templateDict[m_Weight5.Id].Config.duration) * m_Weight5.Value;
+            target.m_Weight5 = (System.Single)m_Weight5.Value;
             if (templateDict.ContainsKey(m_Weight6.Id))
-                target.m_Weight6 = templateDict[m_Weight6.Id].Config.alertCurve.Evaluate(templateDict[m_Weight6.Id].CostTime / templateDict[m_Weight6.Id].Config.duration);
-            target.m_Weight6 = m_Weight6.Value;
+                target.m_Weight6 = templateDict[m_Weight6.Id].Config.alertCurve.Evaluate(templateDict[m_Weight6.Id].CostTime / templateDict[m_Weight6.Id].Config.duration) * m_Weight6.Value;
+            target.m_Weight6 = (System.Single)m_Weight6.Value;
             if (templateDict.ContainsKey(m_Weight7.Id))
-                target.m_Weight7 = templateDict[m_Weight7.Id].Config.alertCurve.Evaluate(templateDict[m_Weight7.Id].CostTime / templateDict[m_Weight7.Id].Config.duration);
-            target.m_Weight7 = m_Weight7.Value;
+                target.m_Weight7 = templateDict[m_Weight7.Id].Config.alertCurve.Evaluate(templateDict[m_Weight7.Id].CostTime / templateDict[m_Weight7.Id].Config.duration) * m_Weight7.Value;
+            target.m_Weight7 = (System.Single)m_Weight7.Value;
             // 处理数组字段 m_ExcludedPropertiesInInspector
             for (int i = 0; i < m_ExcludedPropertiesInInspector.Length; i++)
             {
@@ -126,8 +149,8 @@ namespace CameraMovement{
                 // 生成递归代码
                 m_LockStageInInspector[i].ControlCinemachine(target.m_LockStageInInspector[i], templateDict);
             }
-            target.m_Priority = m_Priority.Value;
-            target.m_StandbyUpdate = m_StandbyUpdate.Value;
+            target.m_Priority = (System.Int32)m_Priority.Value;
+            target.m_StandbyUpdate = (Cinemachine.CinemachineVirtualCameraBase.StandbyUpdateMode)m_StandbyUpdate.Value;
         }
     }
 }

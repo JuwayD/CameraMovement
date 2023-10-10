@@ -5,8 +5,25 @@ namespace CameraMovement
 {
     public class CameraMovementStateMachine
     {
+        
+        
         #region 字段
 
+        public static CameraMovementStateMachine Instance
+        {
+            get
+            {
+                if (instance_ == null)
+                {
+                    instance_ = new CameraMovementStateMachine();
+                    return instance_;
+                }
+
+                return instance_;
+            }
+        }
+
+        private static CameraMovementStateMachine instance_;
         public CameraMovementContext Context => context_;
         protected CameraMovementContext context_;
         protected CameraMovementStateBase currentState_;

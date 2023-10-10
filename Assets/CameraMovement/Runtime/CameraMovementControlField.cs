@@ -31,6 +31,11 @@ namespace CameraMovement
         public void RemoveByConfig(CameraMovementControlConfigBase source,int id,int priority);
 
         /// <summary>
+        /// 移除所有控制数据
+        /// </summary>
+        public void RemoveAll();
+
+        /// <summary>
         /// 控制cinemachine的数据
         /// </summary>
         /// <param name="target"></param>

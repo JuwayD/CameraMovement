@@ -19,27 +19,33 @@ namespace CameraMovement{
         {
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_C_CinemachineBasicMultiChannelPerlin_Config source = (CameraMovement.Control_C_CinemachineBasicMultiChannelPerlin_Config)sourceConfig;
-            if(source.m_PivotOffset.IsUse) m_PivotOffset.Add(new MixItem<UnityEngine.Vector3>(id, priority, source.m_PivotOffset.Value));
-            if(source.m_AmplitudeGain.IsUse) m_AmplitudeGain.Add(new MixItem<System.Single>(id, priority, source.m_AmplitudeGain.Value));
-            if(source.m_FrequencyGain.IsUse) m_FrequencyGain.Add(new MixItem<System.Single>(id, priority, source.m_FrequencyGain.Value));
+            if(source.m_PivotOffset.IsUse) m_PivotOffset.Add(new MixItem<UnityEngine.Vector3>(id, priority, source.m_PivotOffset.CalculatorExpression, source.m_PivotOffset.Value));
+            if(source.m_AmplitudeGain.IsUse) m_AmplitudeGain.Add(new MixItem<System.Single>(id, priority, source.m_AmplitudeGain.CalculatorExpression, source.m_AmplitudeGain.Value));
+            if(source.m_FrequencyGain.IsUse) m_FrequencyGain.Add(new MixItem<System.Single>(id, priority, source.m_FrequencyGain.CalculatorExpression, source.m_FrequencyGain.Value));
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_C_CinemachineBasicMultiChannelPerlin_Config source = (CameraMovement.Control_C_CinemachineBasicMultiChannelPerlin_Config)sourceConfig;
-            if(source.m_PivotOffset.IsUse) m_PivotOffset.Remove(new MixItem<UnityEngine.Vector3>(id, priority, source.m_PivotOffset.Value));
-            if(source.m_AmplitudeGain.IsUse) m_AmplitudeGain.Remove(new MixItem<System.Single>(id, priority, source.m_AmplitudeGain.Value));
-            if(source.m_FrequencyGain.IsUse) m_FrequencyGain.Remove(new MixItem<System.Single>(id, priority, source.m_FrequencyGain.Value));
+            if(source.m_PivotOffset.IsUse) m_PivotOffset.Remove(new MixItem<UnityEngine.Vector3>(id, priority, source.m_PivotOffset.CalculatorExpression, source.m_PivotOffset.Value));
+            if(source.m_AmplitudeGain.IsUse) m_AmplitudeGain.Remove(new MixItem<System.Single>(id, priority, source.m_AmplitudeGain.CalculatorExpression, source.m_AmplitudeGain.Value));
+            if(source.m_FrequencyGain.IsUse) m_FrequencyGain.Remove(new MixItem<System.Single>(id, priority, source.m_FrequencyGain.CalculatorExpression, source.m_FrequencyGain.Value));
+        }
+        public void RemoveAll()
+        {
+            m_PivotOffset.RemoveAll();
+            m_AmplitudeGain.RemoveAll();
+            m_FrequencyGain.RemoveAll();
         }
         public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
         {
             var target = (Cinemachine.CinemachineBasicMultiChannelPerlin)targetObj;
             if (templateDict.ContainsKey(m_AmplitudeGain.Id))
-                target.m_AmplitudeGain = templateDict[m_AmplitudeGain.Id].Config.alertCurve.Evaluate(templateDict[m_AmplitudeGain.Id].CostTime / templateDict[m_AmplitudeGain.Id].Config.duration);
-            target.m_AmplitudeGain = m_AmplitudeGain.Value;
+                target.m_AmplitudeGain = templateDict[m_AmplitudeGain.Id].Config.alertCurve.Evaluate(templateDict[m_AmplitudeGain.Id].CostTime / templateDict[m_AmplitudeGain.Id].Config.duration) * m_AmplitudeGain.Value;
+            target.m_AmplitudeGain = (System.Single)m_AmplitudeGain.Value;
             if (templateDict.ContainsKey(m_FrequencyGain.Id))
-                target.m_FrequencyGain = templateDict[m_FrequencyGain.Id].Config.alertCurve.Evaluate(templateDict[m_FrequencyGain.Id].CostTime / templateDict[m_FrequencyGain.Id].Config.duration);
-            target.m_FrequencyGain = m_FrequencyGain.Value;
+                target.m_FrequencyGain = templateDict[m_FrequencyGain.Id].Config.alertCurve.Evaluate(templateDict[m_FrequencyGain.Id].CostTime / templateDict[m_FrequencyGain.Id].Config.duration) * m_FrequencyGain.Value;
+            target.m_FrequencyGain = (System.Single)m_FrequencyGain.Value;
         }
     }
 }

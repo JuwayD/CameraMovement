@@ -45,6 +45,19 @@ namespace CameraMovement
         {
         }
 
+        /// <summary>
+        /// 获取上下文成员
+        /// </summary>
+        /// <param name="member"></param>
+        public float GetContextMember(EContextMember member)
+        {
+            switch (member)
+            {
+            }
+
+            return 0;
+        }
+        
         #endregion
         
     }

@@ -14,20 +14,23 @@ namespace CameraMovement
     {
         public int Id;
         public int Priority;
-        public T Value;
+        public T PrimitiveValue;
+        public CalculatorItem[] Value;
 
         public MixItem(MixItem<T> other)
         {
             Id = other.Id;
             Priority = other.Priority;
             Value = other.Value;
+            PrimitiveValue = other.PrimitiveValue;
         }
 
-        public MixItem(int id, int priority, T value)
+        public MixItem(int id, int priority, CalculatorItem[] value, T primitiveValue)
         {
             Id = id;
             Priority = priority;
             Value = value;
+            PrimitiveValue = default;
         }
         
         // 实现IComparable<T>接口
@@ -60,7 +63,12 @@ namespace CameraMovement
         /// <summary>
         /// 当前容器的表示的值
         /// </summary>
-        public T Value => value_.Value;
+        public float Value => Calculator.CalculatePoland(value_.Value);
+
+        /// <summary>
+        /// 当前容器的表示的值
+        /// </summary>
+        public T PrimitiveValue => value_.PrimitiveValue;
 
         /// <summary>
         /// 当前容器的表示的值
@@ -96,7 +104,7 @@ namespace CameraMovement
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public T Add(MixItem<T> item)
+        public void Add(MixItem<T> item)
         {
             var index = dataList_.IndexOf(item);
             if (index != -1)
@@ -105,19 +113,27 @@ namespace CameraMovement
             }
             dataList_.Add(item);
             Refresh();
-            return value_.Value;
         }
         
         /// <summary>
-        /// 添加一个新的混合项，返回添加完后的当前值
+        /// 移除一个混合项
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public T Remove(MixItem<T> item)
+        public void Remove(MixItem<T> item)
         {
             dataList_.Remove(item);
             Refresh();
-            return value_.Value;
+        }
+        
+        /// <summary>
+        /// 移除所有混合项
+        /// </summary>
+        /// <returns></returns>
+        public void RemoveAll()
+        {
+            dataList_.Clear();
+            value_ = default;
         }
     }
 

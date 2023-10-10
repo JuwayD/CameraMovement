@@ -19,6 +19,9 @@ namespace CameraMovement{
             if(sourceConfig.GetType() != AttachControlField) return;
             CameraMovement.Control_C_CB_VcamActivatedEvent_Config source = (CameraMovement.Control_C_CB_VcamActivatedEvent_Config)sourceConfig;
         }
+        public void RemoveAll()
+        {
+        }
         public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
         {
             var target = (Cinemachine.CinemachineBrain.VcamActivatedEvent)targetObj;
