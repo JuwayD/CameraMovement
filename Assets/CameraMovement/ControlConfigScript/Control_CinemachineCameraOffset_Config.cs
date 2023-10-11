@@ -5,7 +5,6 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-    [CreateAssetMenu(menuName = "创建CinemachineCameraOffset")]
     public class Control_CinemachineCameraOffset_Config :CameraMovementControlConfigBase
     {
        public override Type AttachControlField => typeof(CinemachineCameraOffset);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace CameraMovement
@@ -45,7 +46,7 @@ namespace CameraMovement
     /// <summary>
     /// 相机运镜控制区配置信息
     /// </summary>
-    public abstract class CameraMovementControlConfigBase:ScriptableObject
+    public abstract class CameraMovementControlConfigBase
     {
         /// <summary>
         /// 作用于哪中控制区

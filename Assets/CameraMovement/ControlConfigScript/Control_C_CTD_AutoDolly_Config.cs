@@ -5,7 +5,6 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-    [CreateAssetMenu(menuName = "创建C_CTD_AutoDolly")]
     public class Control_C_CTD_AutoDolly_Config :CameraMovementControlConfigBase
     {
        public override Type AttachControlField => typeof(Cinemachine.CinemachineTrackedDolly.AutoDolly);

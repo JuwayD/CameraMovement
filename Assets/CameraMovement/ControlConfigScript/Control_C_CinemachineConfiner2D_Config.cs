@@ -5,7 +5,6 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-    [CreateAssetMenu(menuName = "创建C_CinemachineConfiner2D")]
     public class Control_C_CinemachineConfiner2D_Config :CameraMovementControlConfigBase
     {
        public override Type AttachControlField => typeof(Cinemachine.CinemachineConfiner2D);

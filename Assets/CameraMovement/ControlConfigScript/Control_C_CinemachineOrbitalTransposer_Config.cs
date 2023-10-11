@@ -5,7 +5,6 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-    [CreateAssetMenu(menuName = "创建C_CinemachineOrbitalTransposer")]
     public class Control_C_CinemachineOrbitalTransposer_Config :CameraMovementControlConfigBase
     {
        public override Type AttachControlField => typeof(Cinemachine.CinemachineOrbitalTransposer);

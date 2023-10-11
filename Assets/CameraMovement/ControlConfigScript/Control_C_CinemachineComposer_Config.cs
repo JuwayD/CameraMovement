@@ -5,7 +5,6 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-    [CreateAssetMenu(menuName = "创建C_CinemachineComposer")]
     public class Control_C_CinemachineComposer_Config :CameraMovementControlConfigBase
     {
        public override Type AttachControlField => typeof(Cinemachine.CinemachineComposer);

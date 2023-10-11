@@ -8,7 +8,7 @@ namespace CameraMovement
         
         #region 生命周期
 
-        public CameraMovementStateTransition(CameraMovementStateBase from, CameraMovementStateBase toState)
+        public CameraMovementStateTransition(Type from, Type toState)
         {
             FromState = from;
             ToState = toState;
@@ -46,8 +46,8 @@ namespace CameraMovement
         #endregion
 
         #region 检测部分
-        public readonly CameraMovementStateBase FromState;
-        public readonly CameraMovementStateBase ToState;
+        public readonly Type FromState;
+        public readonly Type ToState;
 
         public event Action<CameraMovementContext> OnTransition;
 

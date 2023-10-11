@@ -106,8 +106,7 @@ namespace CameraMovement
                 //构造前缀，如果实现的是field接口那么久继承field接口，
                 StringBuilder code = new StringBuilder(
                     $"using System;\nusing System.Collections.Generic;\nusing UnityEngine;\nusing UnityEditor;\nusing CameraMovement;\n\nnamespace CameraMovement{{\n" +
-                    $"    {(implementInterface.Contains("Field") ? "" : $"[CreateAssetMenu(menuName = \"创建{name}\")]\n")}" +
-                    $"    public {(needClass ? "class" : "struct")} {prefix}_{name}_{(implementInterface.Contains("Field") ? "Field" : "Config")} :{implementInterface}<{autoGetArrayElementTypeFullName(type)}>\n    {{\n" +
+                    $"    public {(needClass ? "class" : "struct")} {prefix}_{name}_{(implementInterface.Contains("Field") ? "Field" : "Config")} :{implementInterface}{(implementInterface.Contains("Field") ? $"<{autoGetArrayElementTypeFullName(type)}>" : "")}\n    {{\n" +
                     $"       public {(implementInterface.Contains("Field") ? "" : "override")} Type Attach{prefix}Field => typeof({getFullName(type)});\n\n");
                 // 如果类型不可序列化，继续检查它的字段和属性
                 FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);

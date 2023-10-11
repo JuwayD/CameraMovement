@@ -5,7 +5,6 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-    [CreateAssetMenu(menuName = "创建C_Cinemachine3rdPersonAim")]
     public class Control_C_Cinemachine3rdPersonAim_Config :CameraMovementControlConfigBase
     {
        public override Type AttachControlField => typeof(Cinemachine.Cinemachine3rdPersonAim);

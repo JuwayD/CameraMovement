@@ -1,4 +1,5 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace CameraMovement
@@ -89,7 +90,8 @@ namespace CameraMovement
     /// <summary>
     /// 相机运镜数据区配置接口
     /// </summary>
-    public abstract class CameraMovementDataConfigBase:ScriptableObject
+    [Serializable]
+    public abstract class CameraMovementDataConfigBase
     {
         /// <summary>
         /// 作用于哪种上下文

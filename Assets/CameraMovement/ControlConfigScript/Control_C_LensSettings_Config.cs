@@ -5,7 +5,6 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-    [CreateAssetMenu(menuName = "创建C_LensSettings")]
     public class Control_C_LensSettings_Config :CameraMovementControlConfigBase
     {
        public override Type AttachControlField => typeof(Cinemachine.LensSettings);

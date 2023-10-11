@@ -874,9 +874,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1d57d7f2791c00438aec15f5d7ffa79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  max: 0
+  min: 0
   StateConfigList:
-  - {fileID: 11400000, guid: 3066947017f4ac542b9e1c6d56297e9f, type: 2}
-  - {fileID: 11400000, guid: 8d3f316c884267c4082d9ecda6f3bc75, type: 2}
+  - {fileID: 11400000, guid: 99c6df30dc54248449f159051cd6279c, type: 2}
+  - {fileID: 11400000, guid: 051d2a6f7882b6848bca79fae4b54378, type: 2}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

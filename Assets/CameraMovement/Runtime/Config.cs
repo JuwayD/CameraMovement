@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -31,8 +32,7 @@ namespace CameraMovement
     /// <summary>
     /// 运镜配置模板
     /// </summary>
-    [CreateAssetMenu(menuName = "创配置脚本")]
-    public class CameraMovementConfig : ScriptableObject
+    public class CameraMovementConfig
     {
         public EContextEvent contextEvent;
         [FormerlySerializedAs("Duration")] public float duration;
@@ -40,11 +40,11 @@ namespace CameraMovement
         public int id;
         public AnimationCurve alertCurve;
         public CameraMovementDataConfigBase DataConfigBaseTemplate;
-        [FormerlySerializedAs("ControlConfigTemplate")] public CameraMovementControlConfigBase controlConfigBaseTemplate;
+        public CameraMovementControlConfigBase controlConfigBaseTemplate;
     }
 
-    [CreateAssetMenu(menuName = "创建配置脚本")]
-    public class CameraMovementConfigState : ScriptableObject
+    [CreateAssetMenu(menuName = "创建相机配置状态")]
+    public class CameraMovementConfigState : SerializedScriptableObject
     {
         public string TypeName;
         public List<CameraMovementConfig> ConfigList;

@@ -5,7 +5,6 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-    [CreateAssetMenu(menuName = "创建C_AS_Recentering")]
     public class Control_C_AS_Recentering_Config :CameraMovementControlConfigBase
     {
        public override Type AttachControlField => typeof(Cinemachine.AxisState.Recentering);
