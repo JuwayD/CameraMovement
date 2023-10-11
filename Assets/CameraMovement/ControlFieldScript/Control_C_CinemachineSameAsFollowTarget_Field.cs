@@ -5,7 +5,7 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-        public class Control_C_CinemachineSameAsFollowTarget_Field :ICameraMovementControlField
+        public class Control_C_CinemachineSameAsFollowTarget_Field :ICameraMovementControlField<Cinemachine.CinemachineSameAsFollowTarget>
     {
        public  Type AttachControlField => typeof(Cinemachine.CinemachineSameAsFollowTarget);
 
@@ -13,26 +13,26 @@ namespace CameraMovement{
             public DataMixer <System.Single> m_Damping;
         public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
-            if(sourceConfig.GetType() != AttachControlField) return;
+            if(sourceConfig == null) return;
+            if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachineSameAsFollowTarget_Config source = (CameraMovement.Control_C_CinemachineSameAsFollowTarget_Config)sourceConfig;
-            if(source.m_Damping.IsUse) m_Damping.Add(new MixItem<System.Single>(id, priority, source.m_Damping.CalculatorExpression, source.m_Damping.Value));
+            if(source.m_Damping.IsUse) m_Damping.Add(new MixItem<System.Single>(id, priority, source.m_Damping.CalculatorExpression, source.m_Damping.Value, source.m_Damping.IsUse));
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
-            if(sourceConfig.GetType() != AttachControlField) return;
+            if(sourceConfig == null) return;
+            if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachineSameAsFollowTarget_Config source = (CameraMovement.Control_C_CinemachineSameAsFollowTarget_Config)sourceConfig;
-            if(source.m_Damping.IsUse) m_Damping.Remove(new MixItem<System.Single>(id, priority, source.m_Damping.CalculatorExpression, source.m_Damping.Value));
+            if(source.m_Damping.IsUse) m_Damping.Remove(new MixItem<System.Single>(id, priority, source.m_Damping.CalculatorExpression, source.m_Damping.Value, source.m_Damping.IsUse));
         }
         public void RemoveAll()
         {
             m_Damping.RemoveAll();
         }
-        public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
+        public void ControlCinemachine(ref Cinemachine.CinemachineSameAsFollowTarget target, Dictionary<int, RuntimeTemplate> templateDict)
         {
-            var target = (Cinemachine.CinemachineSameAsFollowTarget)targetObj;
-            if (templateDict.ContainsKey(m_Damping.Id))
-                target.m_Damping = templateDict[m_Damping.Id].Config.alertCurve.Evaluate(templateDict[m_Damping.Id].CostTime / templateDict[m_Damping.Id].Config.duration) * m_Damping.Value;
-            target.m_Damping = (System.Single)m_Damping.Value;
+            if (m_Damping.IsUse && templateDict.ContainsKey(m_Damping.Id))
+                target.m_Damping = Mathf.Approximately(0, templateDict[m_Damping.Id].Config.duration) ? (m_Damping.IsExpression ? m_Damping.Value : m_Damping.PrimitiveValue) : templateDict[m_Damping.Id].Config.alertCurve.Evaluate(templateDict[m_Damping.Id].CostTime / templateDict[m_Damping.Id].Config.duration) * (m_Damping.IsExpression ? m_Damping.Value : m_Damping.PrimitiveValue);
         }
     }
 }

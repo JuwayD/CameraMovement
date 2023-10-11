@@ -9,37 +9,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfa8e3bcba88b014daae1a14d06ef1e2, type: 3}
-  m_Name: New Control_C_Cinemachine Free Look_Config
+  m_Script: {fileID: 11500000, guid: 6acd485d2def3eb40be086980f87f5a1, type: 3}
+  m_Name: ThreeConfig
   m_EditorClassIdentifier: 
-  m_CommonLens:
+  Damping:
+    IsUse: 0
+    Value: {x: 0, y: 0, z: 0}
+    CalculatorExpression: []
+  ShoulderOffset:
+    IsUse: 0
+    Value: {x: 0, y: 0, z: 0}
+    CalculatorExpression: []
+  VerticalArmLength:
     IsUse: 0
     Value: 0
     CalculatorExpression: []
-  m_Lens: {fileID: 0}
-  m_Transitions: {fileID: 0}
-  m_YAxis: {fileID: 0}
-  m_YAxisRecentering: {fileID: 0}
-  m_XAxis: {fileID: 0}
-  m_Heading: {fileID: 0}
-  m_RecenterToTargetHeading: {fileID: 0}
-  m_BindingMode:
+  CameraSide:
     IsUse: 0
     Value: 0
     CalculatorExpression: []
-  m_SplineCurvature:
+  CameraDistance:
     IsUse: 0
     Value: 0
     CalculatorExpression: []
-  m_Orbits:
-  - {fileID: 11400000, guid: 08bf121c9176aca4e8bb99ed2ddaaaf9, type: 2}
-  m_ExcludedPropertiesInInspector: []
-  m_LockStageInInspector: []
-  m_Priority:
+  IgnoreTag:
+    IsUse: 0
+    Value: 
+    CalculatorExpression: []
+  CameraRadius:
     IsUse: 0
     Value: 0
     CalculatorExpression: []
-  m_StandbyUpdate:
+  DampingIntoCollision:
+    IsUse: 0
+    Value: 0
+    CalculatorExpression: []
+  DampingFromCollision:
     IsUse: 0
     Value: 0
     CalculatorExpression: []

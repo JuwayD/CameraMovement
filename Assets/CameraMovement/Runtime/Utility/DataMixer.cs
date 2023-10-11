@@ -16,6 +16,7 @@ namespace CameraMovement
         public int Priority;
         public T PrimitiveValue;
         public CalculatorItem[] Value;
+        public bool IsUse;
 
         public MixItem(MixItem<T> other)
         {
@@ -23,14 +24,16 @@ namespace CameraMovement
             Priority = other.Priority;
             Value = other.Value;
             PrimitiveValue = other.PrimitiveValue;
+            IsUse = other.IsUse;
         }
 
-        public MixItem(int id, int priority, CalculatorItem[] value, T primitiveValue)
+        public MixItem(int id, int priority, CalculatorItem[] value, T primitiveValue,bool isUse)
         {
             Id = id;
             Priority = priority;
             Value = value;
-            PrimitiveValue = default;
+            PrimitiveValue = primitiveValue;
+            IsUse = isUse;
         }
         
         // 实现IComparable<T>接口
@@ -63,8 +66,18 @@ namespace CameraMovement
         /// <summary>
         /// 当前容器的表示的值
         /// </summary>
-        public float Value => Calculator.CalculatePoland(value_.Value);
+        public float Value => Calculator.Calculate(value_.Value);
 
+        /// <summary>
+        /// 是否是个表达式
+        /// </summary>
+        public bool IsExpression => value_.Value != null && value_.Value.Length != 0;
+
+        /// <summary>
+        /// 是否需要使用
+        /// </summary>
+        public bool IsUse => value_.IsUse;
+        
         /// <summary>
         /// 当前容器的表示的值
         /// </summary>
@@ -75,15 +88,28 @@ namespace CameraMovement
         /// </summary>
         public int Id => value_.Id;
 
+        private List<MixItem<T>> DataList
+        {
+            get
+            {
+                if (dataList_ == null)
+                {
+                    dataList_ = new List<MixItem<T>>();
+                }
+
+                return dataList_;
+            }
+        }
+
         private MixItem<T> getMax()
         {
             MixItem<T> max = default;
-            for (int i = 0; i < dataList_.Count; i++)
+            for (int i = 0; i < DataList.Count; i++)
             {
                 //等于也换保证始终拿到的是最后进的
-                if (max.Priority <= dataList_[i].Priority)
+                if (max.Priority <= DataList[i].Priority)
                 {
-                    max = dataList_[i];
+                    max = DataList[i];
                 }
             }
 
@@ -92,7 +118,7 @@ namespace CameraMovement
         
         private void Refresh()
         {
-            if (dataList_.Count == 0)
+            if (DataList.Count == 0)
             {
                 return;
             }
@@ -106,12 +132,12 @@ namespace CameraMovement
         /// <returns></returns>
         public void Add(MixItem<T> item)
         {
-            var index = dataList_.IndexOf(item);
+            var index = DataList.IndexOf(item);
             if (index != -1)
             {
-                dataList_.RemoveAt(index);
+                DataList.RemoveAt(index);
             }
-            dataList_.Add(item);
+            DataList.Add(item);
             Refresh();
         }
         
@@ -122,7 +148,7 @@ namespace CameraMovement
         /// <returns></returns>
         public void Remove(MixItem<T> item)
         {
-            dataList_.Remove(item);
+            DataList.Remove(item);
             Refresh();
         }
         
@@ -132,7 +158,7 @@ namespace CameraMovement
         /// <returns></returns>
         public void RemoveAll()
         {
-            dataList_.Clear();
+            DataList.Clear();
             value_ = default;
         }
     }

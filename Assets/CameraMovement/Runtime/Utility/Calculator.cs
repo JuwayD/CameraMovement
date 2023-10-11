@@ -134,9 +134,15 @@ namespace CameraMovement
             //循环遍历
             suffixExpression.ForEach(item =>
             {
-                if (item.Operator == ECalculatorOperator.None && item.ContextMember == EContextMember.None) //"\\d+"
+                //如果是上下文则获取上下文
+                if (item.Operator == ECalculatorOperator.None && item.ContextMember != EContextMember.None) //"\\d+"
                 {
-                    //如果是数字直接入栈
+                    item.Value = CameraMovementStateMachine.Instance.Context.GetContextMember(item.ContextMember);
+                    stack.Push(item);
+                }
+                else if (item.Operator == ECalculatorOperator.None && item.ContextMember == EContextMember.None)
+                {
+                    //如果是立即数直接入栈
                     stack.Push(item);
                 }
                 //如果是操作符

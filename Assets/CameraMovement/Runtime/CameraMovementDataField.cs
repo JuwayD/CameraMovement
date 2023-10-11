@@ -29,6 +29,10 @@ namespace CameraMovement
         /// 每帧触发的上下文事件
         /// </summary>
         Tick,
+        /// <summary>
+        /// 最大个数
+        /// </summary>
+        Max,
     }
 
     /// <summary>

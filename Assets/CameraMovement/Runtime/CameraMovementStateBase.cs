@@ -22,27 +22,19 @@ namespace CameraMovement
     {
         #region 字段
 
+        protected abstract CinemachineVirtualCameraBase VirtualCamera { get;}
+
         protected readonly Type virtualCameraType_;
         protected readonly Type bodyCompType_;
         protected readonly Type aimCompType_;
         protected readonly Type noiseCompType_;
         protected readonly Type finalizeCompType_;
         protected readonly List<Type> extensionTypeList_;
-        protected CinemachineVirtualCameraBase virtualCamera_;
-        protected CinemachineComponentBase bodyComp_;
-        protected CinemachineComponentBase aimComp_;
-        protected CinemachineComponentBase noiseComp_;
-        protected CinemachineComponentBase finalizeComp_;
-        protected List<CinemachineExtension> extensionList_;
-        protected ICameraMovementControlField controlVirtualCamera_;
-        protected ICameraMovementControlField controlBodyComp_;
-        protected ICameraMovementControlField controlAimComp_;
-        protected ICameraMovementControlField controlNoiseComp_;
-        protected ICameraMovementControlField controlFinalizeComp_;
-        protected List<ICameraMovementControlField> controlExtensionList_;
+        protected List<CinemachineExtension> extensionList_ = new List<CinemachineExtension>();
+        protected List<ICameraMovementControlField<CinemachineExtension>> controlExtensionList_ = new List<ICameraMovementControlField<CinemachineExtension>>();
         protected CameraMovementStateMachine machine_;
         protected CameraMovementConfigState config_;
-        protected Dictionary<int, RuntimeTemplate> runtimeTemplateDict_;
+        protected Dictionary<int, RuntimeTemplate> runtimeTemplateDict_ = new Dictionary<int, RuntimeTemplate>();
 
         #endregion
 
@@ -66,19 +58,32 @@ namespace CameraMovement
         public void Tick()
         {
             //处理所有事件及其触发的补正
-            for (int i = (int)EContextEvent.None + 1; i < machine_.Context.CameraEventBit.Count; i++)
+            for (int i = (int)EContextEvent.None + 1; i < machine_.Context.ContextEventBit.Count; i++)
             {
-                if (machine_.Context.CameraEventBit.Get(i))
+                if (machine_.Context.ContextEventBit.Get(i))
                 {
                     processTriggerRecenter((EContextEvent)i, machine_.Context.CameraEventParamDict[(EContextEvent)i]);
                 }
             }
 
+            ControlCinemachine();
+            //更新所有拓展
+            controlCinemachineExtension();
+            
+            List<int> deleteList = new List<int>();
             foreach (var runtimeTemplate in runtimeTemplateDict_.Values)
             {
+                if (runtimeTemplate.CostTime > runtimeTemplate.Config.duration)
+                {
+                    deleteList.Add(runtimeTemplate.Config.id);
+                }
                 runtimeTemplate.CostTime += Time.deltaTime;
             }
-            controlCinemachine();
+
+            foreach (var id in deleteList)
+            {
+                runtimeTemplateDict_.Remove(id);
+            }
         }
 
         /// <summary>
@@ -88,17 +93,14 @@ namespace CameraMovement
         /// <param name="paramDict"></param>
         private void processTriggerRecenter(EContextEvent contextEvent, Dictionary<EEventParamType, float> paramDict)
         {
-            for (int i = 0; i < config_.configList.Count; i++)
+            for (int i = 0; i < config_.ConfigList.Count; i++)
             {
-                var config = config_.configList[i];
+                var config = config_.ConfigList[i];
                 if (config.contextEvent == contextEvent)
                 {
                     machine_.Context.UpdateDataField(config.DataConfigBaseTemplate); 
-                    controlVirtualCamera_.AddByConfig(config.controlConfigBaseTemplate, config.id, config.priority);
-                    controlBodyComp_.AddByConfig(config.controlConfigBaseTemplate, config.id, config.priority);
-                    controlAimComp_.AddByConfig(config.controlConfigBaseTemplate, config.id, config.priority);
-                    controlNoiseComp_.AddByConfig(config.controlConfigBaseTemplate, config.id, config.priority);
-                    controlFinalizeComp_.AddByConfig(config.controlConfigBaseTemplate, config.id, config.priority);
+                    runtimeTemplateDict_.TryAdd(config.id, new RuntimeTemplate(){CostTime = Time.time, Config = config});
+                    AddConfig(config);
                     for (int j = 0; j < controlExtensionList_.Count; j++)
                     {
                         controlExtensionList_[i].AddByConfig(config.controlConfigBaseTemplate, config.id, config.priority);
@@ -107,53 +109,27 @@ namespace CameraMovement
             }
         }
 
+        protected abstract void AddConfig(CameraMovementConfig config);
+
         /// <summary>
         /// 控制cinemachine的数据
         /// </summary>
-        private void controlCinemachine()
-        {
-            //更新Cinemachine相机
-            if (controlVirtualCamera_.GetType() == virtualCamera_.GetType())
-            {
-                controlVirtualCamera_.ControlCinemachine(virtualCamera_, runtimeTemplateDict_);
-            }
-            //更新Cinemachine body组件
-            if (controlBodyComp_.GetType() == bodyComp_.GetType())
-            {
-                controlBodyComp_.ControlCinemachine(bodyComp_, runtimeTemplateDict_);
-            }
-            //更新Cinemachine anim组件
-            if (controlAimComp_.GetType() == aimComp_.GetType())
-            {
-                controlAimComp_.ControlCinemachine(aimComp_, runtimeTemplateDict_);
-            }
-            //更新Cinemachine noise组件
-            if (controlNoiseComp_.GetType() == noiseComp_.GetType())
-            {
-                controlNoiseComp_.ControlCinemachine(noiseComp_, runtimeTemplateDict_);
-            }
-            //更新Cinemachine finalize组件
-            if (controlFinalizeComp_.GetType() == finalizeComp_.GetType())
-            {
-                controlFinalizeComp_.ControlCinemachine(finalizeComp_, runtimeTemplateDict_);
-            }
-            
-            //更新所有拓展
-            controlCinemachineExtension();
-        }
+        protected abstract void ControlCinemachine();
         
         /// <summary>
         /// 更新cinemachine拓展
         /// </summary>
         private void controlCinemachineExtension()
         {
-            foreach (var controlField in controlExtensionList_)
+            for (int i = 0; i < controlExtensionList_.Count; i++)
             {
-                foreach (var extension in extensionList_)
+                for (int j = 0; j < extensionList_.Count; j++)
                 {
+                    var controlField = controlExtensionList_[i];
+                    var extension = extensionList_[j];
                     if (controlField.AttachControlField == extension.GetType())
                     {
-                        controlField.ControlCinemachine(extension, runtimeTemplateDict_);
+                        controlField.ControlCinemachine(ref extension, runtimeTemplateDict_);
                     }
                 }
             }
@@ -162,26 +138,37 @@ namespace CameraMovement
         /// <summary>
         /// 退出当前状态
         /// </summary>
-        /// <param name="toState"></param>
-        public void Exit(CameraMovementStateBase toState)
-        {
-            controlAimComp_.RemoveAll();
-            OnExit(toState);
-        }
-
-        public abstract void OnExit(CameraMovementStateBase toState);
-
-        /// <summary>
-        /// 退出当前状态
-        /// </summary>
         /// <param name="fromState"></param>
         public void Enter(CameraMovementStateBase fromState)
         {
+            VirtualCamera.Priority = 10;
             OnEnter(fromState);
         }
 
         public abstract void OnEnter(CameraMovementStateBase fromState);
 
+        /// <summary>
+        /// 退出当前状态
+        /// </summary>
+        /// <param name="toState"></param>
+        public void Exit(CameraMovementStateBase toState)
+        {
+            VirtualCamera.Priority = 0;
+            OnExit(toState);
+        }
+
+        public abstract void OnExit(CameraMovementStateBase toState);
+
+        public void UnInit()
+        {
+            OnUnInit();
+            config_ = null;
+            machine_ = null;
+            extensionList_.Clear();
+        }
+        
+        public abstract void OnUnInit();
+        
         #endregion
 
     }

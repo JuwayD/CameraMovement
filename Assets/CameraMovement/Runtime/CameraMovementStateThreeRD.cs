@@ -3,19 +3,17 @@ using UnityEngine;
 
 namespace CameraMovement
 {
-    /// <summary>
-    /// 最基础的三环相机
-    /// </summary>
-    public class CameraMovementStateFreeLook: CameraMovementStateBase
+    public class CameraMovementStateThreeRD:CameraMovementStateBase
     {
         #region 字段
+
         
-        protected CinemachineFreeLook virtualCamera_;
+        protected CinemachineVirtualCamera virtualCamera_;
         protected CinemachineComponentBase bodyComp_;
         protected CinemachineComponentBase aimComp_;
         protected CinemachineComponentBase noiseComp_;
         protected CinemachineComponentBase finalizeComp_;
-        protected Control_C_CinemachineFreeLook_Field controlVirtualCamera_;
+        protected Control_C_CinemachineVirtualCamera_Field controlVirtualCamera_;
         protected ICameraMovementControlField<CinemachineComponentBase> controlBodyComp_;
         protected ICameraMovementControlField<CinemachineComponentBase> controlAimComp_;
         protected ICameraMovementControlField<CinemachineComponentBase> controlNoiseComp_;
@@ -27,8 +25,8 @@ namespace CameraMovement
 
         protected override void OnInit(GameObject go, CameraMovementConfigState configState, CameraMovementStateMachine machine)
         {
-            virtualCamera_ = go.GetComponent<CinemachineFreeLook>();
-            controlVirtualCamera_ = new Control_C_CinemachineFreeLook_Field();
+            virtualCamera_ = go.GetComponent<CinemachineVirtualCamera>();
+            controlVirtualCamera_ = new Control_C_CinemachineVirtualCamera_Field();
             extensionList_.Add(virtualCamera_.GetComponent<CinemachineCollider>());
         }
 
@@ -67,18 +65,17 @@ namespace CameraMovement
 
         }
 
-        public override void OnEnter(CameraMovementStateBase fromState)
-        {
-        }
-        
         public override void OnExit(CameraMovementStateBase toState)
         {
         }
 
+        public override void OnEnter(CameraMovementStateBase fromState)
+        {
+        }
+        
         public override void OnUnInit()
         {
             extensionList_.Clear();
-            virtualCamera_ = null;
         }
 
     }

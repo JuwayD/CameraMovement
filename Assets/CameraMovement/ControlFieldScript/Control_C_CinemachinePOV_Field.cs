@@ -5,7 +5,7 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-        public class Control_C_CinemachinePOV_Field :ICameraMovementControlField
+        public class Control_C_CinemachinePOV_Field :ICameraMovementControlField<Cinemachine.CinemachinePOV>
     {
        public  Type AttachControlField => typeof(Cinemachine.CinemachinePOV);
 
@@ -23,52 +23,57 @@ namespace CameraMovement{
             public DataMixer <System.Boolean> m_ApplyBeforeBody;
         public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
-            if(sourceConfig.GetType() != AttachControlField) return;
+            if(sourceConfig == null) return;
+            if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachinePOV_Config source = (CameraMovement.Control_C_CinemachinePOV_Config)sourceConfig;
-            if(source.m_RecenterTarget.IsUse) m_RecenterTarget.Add(new MixItem<Cinemachine.CinemachinePOV.RecenterTargetMode>(id, priority, source.m_RecenterTarget.CalculatorExpression, source.m_RecenterTarget.Value));
-            m_VerticalAxis.AddByConfig(source.m_VerticalAxis, id, priority);
-            m_VerticalRecentering.AddByConfig(source.m_VerticalRecentering, id, priority);
-            m_HorizontalAxis.AddByConfig(source.m_HorizontalAxis, id, priority);
-            m_HorizontalRecentering.AddByConfig(source.m_HorizontalRecentering, id, priority);
-            if(source.m_ApplyBeforeBody.IsUse) m_ApplyBeforeBody.Add(new MixItem<System.Boolean>(id, priority, source.m_ApplyBeforeBody.CalculatorExpression, source.m_ApplyBeforeBody.Value));
+            if(source.m_RecenterTarget.IsUse) m_RecenterTarget.Add(new MixItem<Cinemachine.CinemachinePOV.RecenterTargetMode>(id, priority, source.m_RecenterTarget.CalculatorExpression, source.m_RecenterTarget.Value, source.m_RecenterTarget.IsUse));
+                if(source.m_VerticalAxis != null && m_VerticalAxis == null) m_VerticalAxis = new Control_C_AxisState_Field();
+            m_VerticalAxis?.AddByConfig(source.m_VerticalAxis, id, priority);
+                if(source.m_VerticalRecentering != null && m_VerticalRecentering == null) m_VerticalRecentering = new Control_C_AS_Recentering_Field();
+            m_VerticalRecentering?.AddByConfig(source.m_VerticalRecentering, id, priority);
+                if(source.m_HorizontalAxis != null && m_HorizontalAxis == null) m_HorizontalAxis = new Control_C_AxisState_Field();
+            m_HorizontalAxis?.AddByConfig(source.m_HorizontalAxis, id, priority);
+                if(source.m_HorizontalRecentering != null && m_HorizontalRecentering == null) m_HorizontalRecentering = new Control_C_AS_Recentering_Field();
+            m_HorizontalRecentering?.AddByConfig(source.m_HorizontalRecentering, id, priority);
+            if(source.m_ApplyBeforeBody.IsUse) m_ApplyBeforeBody.Add(new MixItem<System.Boolean>(id, priority, source.m_ApplyBeforeBody.CalculatorExpression, source.m_ApplyBeforeBody.Value, source.m_ApplyBeforeBody.IsUse));
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
-            if(sourceConfig.GetType() != AttachControlField) return;
+            if(sourceConfig == null) return;
+            if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachinePOV_Config source = (CameraMovement.Control_C_CinemachinePOV_Config)sourceConfig;
-            if(source.m_RecenterTarget.IsUse) m_RecenterTarget.Remove(new MixItem<Cinemachine.CinemachinePOV.RecenterTargetMode>(id, priority, source.m_RecenterTarget.CalculatorExpression, source.m_RecenterTarget.Value));
-            m_VerticalAxis.RemoveByConfig(source.m_VerticalAxis, id, priority);
-            m_VerticalRecentering.RemoveByConfig(source.m_VerticalRecentering, id, priority);
-            m_HorizontalAxis.RemoveByConfig(source.m_HorizontalAxis, id, priority);
-            m_HorizontalRecentering.RemoveByConfig(source.m_HorizontalRecentering, id, priority);
-            if(source.m_ApplyBeforeBody.IsUse) m_ApplyBeforeBody.Remove(new MixItem<System.Boolean>(id, priority, source.m_ApplyBeforeBody.CalculatorExpression, source.m_ApplyBeforeBody.Value));
+            if(source.m_RecenterTarget.IsUse) m_RecenterTarget.Remove(new MixItem<Cinemachine.CinemachinePOV.RecenterTargetMode>(id, priority, source.m_RecenterTarget.CalculatorExpression, source.m_RecenterTarget.Value, source.m_RecenterTarget.IsUse));
+            m_VerticalAxis?.RemoveByConfig(source.m_VerticalAxis, id, priority);
+            m_VerticalRecentering?.RemoveByConfig(source.m_VerticalRecentering, id, priority);
+            m_HorizontalAxis?.RemoveByConfig(source.m_HorizontalAxis, id, priority);
+            m_HorizontalRecentering?.RemoveByConfig(source.m_HorizontalRecentering, id, priority);
+            if(source.m_ApplyBeforeBody.IsUse) m_ApplyBeforeBody.Remove(new MixItem<System.Boolean>(id, priority, source.m_ApplyBeforeBody.CalculatorExpression, source.m_ApplyBeforeBody.Value, source.m_ApplyBeforeBody.IsUse));
         }
         public void RemoveAll()
         {
             m_RecenterTarget.RemoveAll();
-            m_VerticalAxis.RemoveAll();
-            m_VerticalRecentering.RemoveAll();
-            m_HorizontalAxis.RemoveAll();
-            m_HorizontalRecentering.RemoveAll();
+            m_VerticalAxis?.RemoveAll();
+            m_VerticalRecentering?.RemoveAll();
+            m_HorizontalAxis?.RemoveAll();
+            m_HorizontalRecentering?.RemoveAll();
             m_ApplyBeforeBody.RemoveAll();
         }
-        public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
+        public void ControlCinemachine(ref Cinemachine.CinemachinePOV target, Dictionary<int, RuntimeTemplate> templateDict)
         {
-            var target = (Cinemachine.CinemachinePOV)targetObj;
-            target.m_RecenterTarget = (Cinemachine.CinemachinePOV.RecenterTargetMode)m_RecenterTarget.Value;
+            if (m_RecenterTarget.IsUse) target.m_RecenterTarget = m_RecenterTarget.IsExpression ? (Cinemachine.CinemachinePOV.RecenterTargetMode)m_RecenterTarget.Value :m_RecenterTarget.PrimitiveValue;
             // 处理字段 m_VerticalAxis
             // 生成递归代码
-            m_VerticalAxis.ControlCinemachine(target.m_VerticalAxis, templateDict);
+            m_VerticalAxis?.ControlCinemachine(ref target.m_VerticalAxis, templateDict);
             // 处理字段 m_VerticalRecentering
             // 生成递归代码
-            m_VerticalRecentering.ControlCinemachine(target.m_VerticalRecentering, templateDict);
+            m_VerticalRecentering?.ControlCinemachine(ref target.m_VerticalRecentering, templateDict);
             // 处理字段 m_HorizontalAxis
             // 生成递归代码
-            m_HorizontalAxis.ControlCinemachine(target.m_HorizontalAxis, templateDict);
+            m_HorizontalAxis?.ControlCinemachine(ref target.m_HorizontalAxis, templateDict);
             // 处理字段 m_HorizontalRecentering
             // 生成递归代码
-            m_HorizontalRecentering.ControlCinemachine(target.m_HorizontalRecentering, templateDict);
-            target.m_ApplyBeforeBody = !Mathf.Approximately(m_ApplyBeforeBody.Value, 0);
+            m_HorizontalRecentering?.ControlCinemachine(ref target.m_HorizontalRecentering, templateDict);
+            if (m_ApplyBeforeBody.IsUse) target.m_ApplyBeforeBody = m_ApplyBeforeBody.IsExpression ? !Mathf.Approximately(m_ApplyBeforeBody.Value, 0) : m_ApplyBeforeBody.PrimitiveValue;
         }
     }
 }

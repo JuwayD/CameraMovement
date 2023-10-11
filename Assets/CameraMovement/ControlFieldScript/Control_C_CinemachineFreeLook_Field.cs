@@ -5,7 +5,7 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-        public class Control_C_CinemachineFreeLook_Field :ICameraMovementControlField
+        public class Control_C_CinemachineFreeLook_Field :ICameraMovementControlField<Cinemachine.CinemachineFreeLook>
     {
        public  Type AttachControlField => typeof(Cinemachine.CinemachineFreeLook);
 
@@ -46,144 +46,158 @@ namespace CameraMovement{
             public DataMixer <Cinemachine.CinemachineVirtualCameraBase.StandbyUpdateMode> m_StandbyUpdate;
         public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
-            if(sourceConfig.GetType() != AttachControlField) return;
+            if(sourceConfig == null) return;
+            if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachineFreeLook_Config source = (CameraMovement.Control_C_CinemachineFreeLook_Config)sourceConfig;
-            if(source.m_CommonLens.IsUse) m_CommonLens.Add(new MixItem<System.Boolean>(id, priority, source.m_CommonLens.CalculatorExpression, source.m_CommonLens.Value));
-            m_Lens.AddByConfig(source.m_Lens, id, priority);
-            m_Transitions.AddByConfig(source.m_Transitions, id, priority);
-            m_YAxis.AddByConfig(source.m_YAxis, id, priority);
-            m_YAxisRecentering.AddByConfig(source.m_YAxisRecentering, id, priority);
-            m_XAxis.AddByConfig(source.m_XAxis, id, priority);
-            m_Heading.AddByConfig(source.m_Heading, id, priority);
-            m_RecenterToTargetHeading.AddByConfig(source.m_RecenterToTargetHeading, id, priority);
-            if(source.m_BindingMode.IsUse) m_BindingMode.Add(new MixItem<Cinemachine.CinemachineTransposer.BindingMode>(id, priority, source.m_BindingMode.CalculatorExpression, source.m_BindingMode.Value));
-            if(source.m_SplineCurvature.IsUse) m_SplineCurvature.Add(new MixItem<System.Single>(id, priority, source.m_SplineCurvature.CalculatorExpression, source.m_SplineCurvature.Value));
-            for(int i = 0;i < m_Orbits.Length;i++)
+            if(source.m_CommonLens.IsUse) m_CommonLens.Add(new MixItem<System.Boolean>(id, priority, source.m_CommonLens.CalculatorExpression, source.m_CommonLens.Value, source.m_CommonLens.IsUse));
+                if(source.m_Lens != null && m_Lens == null) m_Lens = new Control_C_LensSettings_Field();
+            m_Lens?.AddByConfig(source.m_Lens, id, priority);
+                if(source.m_Transitions != null && m_Transitions == null) m_Transitions = new Control_C_CVCB_TransitionParams_Field();
+            m_Transitions?.AddByConfig(source.m_Transitions, id, priority);
+                if(source.m_YAxis != null && m_YAxis == null) m_YAxis = new Control_C_AxisState_Field();
+            m_YAxis?.AddByConfig(source.m_YAxis, id, priority);
+                if(source.m_YAxisRecentering != null && m_YAxisRecentering == null) m_YAxisRecentering = new Control_C_AS_Recentering_Field();
+            m_YAxisRecentering?.AddByConfig(source.m_YAxisRecentering, id, priority);
+                if(source.m_XAxis != null && m_XAxis == null) m_XAxis = new Control_C_AxisState_Field();
+            m_XAxis?.AddByConfig(source.m_XAxis, id, priority);
+                if(source.m_Heading != null && m_Heading == null) m_Heading = new Control_C_COT_Heading_Field();
+            m_Heading?.AddByConfig(source.m_Heading, id, priority);
+                if(source.m_RecenterToTargetHeading != null && m_RecenterToTargetHeading == null) m_RecenterToTargetHeading = new Control_C_AS_Recentering_Field();
+            m_RecenterToTargetHeading?.AddByConfig(source.m_RecenterToTargetHeading, id, priority);
+            if(source.m_BindingMode.IsUse) m_BindingMode.Add(new MixItem<Cinemachine.CinemachineTransposer.BindingMode>(id, priority, source.m_BindingMode.CalculatorExpression, source.m_BindingMode.Value, source.m_BindingMode.IsUse));
+            if(source.m_SplineCurvature.IsUse) m_SplineCurvature.Add(new MixItem<System.Single>(id, priority, source.m_SplineCurvature.CalculatorExpression, source.m_SplineCurvature.Value, source.m_SplineCurvature.IsUse));
+            for(int i = 0;i < (source.m_Orbits?.Length ?? 0);i++)
             {
-                m_Orbits[i].AddByConfig(source.m_Orbits[i], id, priority);            }
+                if(source.m_Orbits != null && m_Orbits == null) m_Orbits = new Control_C_CFL_Orbit_Field[source.m_Orbits.Length];
+                m_Orbits?[i].AddByConfig(source.m_Orbits[i], id, priority);            }
 
-            for(int i = 0;i < m_ExcludedPropertiesInInspector.Length;i++)
+            for(int i = 0;i < (source.m_ExcludedPropertiesInInspector?.Length ?? 0);i++)
             {
-                m_ExcludedPropertiesInInspector[i].AddByConfig(source.m_ExcludedPropertiesInInspector[i], id, priority);            }
+                if(source.m_ExcludedPropertiesInInspector != null && m_ExcludedPropertiesInInspector == null) m_ExcludedPropertiesInInspector = new Control_S_String_Field[source.m_ExcludedPropertiesInInspector.Length];
+                m_ExcludedPropertiesInInspector?[i].AddByConfig(source.m_ExcludedPropertiesInInspector[i], id, priority);            }
 
-            for(int i = 0;i < m_LockStageInInspector.Length;i++)
+            for(int i = 0;i < (source.m_LockStageInInspector?.Length ?? 0);i++)
             {
-                m_LockStageInInspector[i].AddByConfig(source.m_LockStageInInspector[i], id, priority);            }
+                if(source.m_LockStageInInspector != null && m_LockStageInInspector == null) m_LockStageInInspector = new Control_C_CC_Stage_Field[source.m_LockStageInInspector.Length];
+                m_LockStageInInspector?[i].AddByConfig(source.m_LockStageInInspector[i], id, priority);            }
 
-            if(source.m_Priority.IsUse) m_Priority.Add(new MixItem<System.Int32>(id, priority, source.m_Priority.CalculatorExpression, source.m_Priority.Value));
-            if(source.FollowTargetAttachment.IsUse) FollowTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.CalculatorExpression, source.FollowTargetAttachment.Value));
-            if(source.LookAtTargetAttachment.IsUse) LookAtTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.CalculatorExpression, source.LookAtTargetAttachment.Value));
-            if(source.m_StandbyUpdate.IsUse) m_StandbyUpdate.Add(new MixItem<Cinemachine.CinemachineVirtualCameraBase.StandbyUpdateMode>(id, priority, source.m_StandbyUpdate.CalculatorExpression, source.m_StandbyUpdate.Value));
+            if(source.m_Priority.IsUse) m_Priority.Add(new MixItem<System.Int32>(id, priority, source.m_Priority.CalculatorExpression, source.m_Priority.Value, source.m_Priority.IsUse));
+            if(source.FollowTargetAttachment.IsUse) FollowTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.CalculatorExpression, source.FollowTargetAttachment.Value, source.FollowTargetAttachment.IsUse));
+            if(source.LookAtTargetAttachment.IsUse) LookAtTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.CalculatorExpression, source.LookAtTargetAttachment.Value, source.LookAtTargetAttachment.IsUse));
+            if(source.m_StandbyUpdate.IsUse) m_StandbyUpdate.Add(new MixItem<Cinemachine.CinemachineVirtualCameraBase.StandbyUpdateMode>(id, priority, source.m_StandbyUpdate.CalculatorExpression, source.m_StandbyUpdate.Value, source.m_StandbyUpdate.IsUse));
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
-            if(sourceConfig.GetType() != AttachControlField) return;
+            if(sourceConfig == null) return;
+            if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachineFreeLook_Config source = (CameraMovement.Control_C_CinemachineFreeLook_Config)sourceConfig;
-            if(source.m_CommonLens.IsUse) m_CommonLens.Remove(new MixItem<System.Boolean>(id, priority, source.m_CommonLens.CalculatorExpression, source.m_CommonLens.Value));
-            m_Lens.RemoveByConfig(source.m_Lens, id, priority);
-            m_Transitions.RemoveByConfig(source.m_Transitions, id, priority);
-            m_YAxis.RemoveByConfig(source.m_YAxis, id, priority);
-            m_YAxisRecentering.RemoveByConfig(source.m_YAxisRecentering, id, priority);
-            m_XAxis.RemoveByConfig(source.m_XAxis, id, priority);
-            m_Heading.RemoveByConfig(source.m_Heading, id, priority);
-            m_RecenterToTargetHeading.RemoveByConfig(source.m_RecenterToTargetHeading, id, priority);
-            if(source.m_BindingMode.IsUse) m_BindingMode.Remove(new MixItem<Cinemachine.CinemachineTransposer.BindingMode>(id, priority, source.m_BindingMode.CalculatorExpression, source.m_BindingMode.Value));
-            if(source.m_SplineCurvature.IsUse) m_SplineCurvature.Remove(new MixItem<System.Single>(id, priority, source.m_SplineCurvature.CalculatorExpression, source.m_SplineCurvature.Value));
-            for(int i = 0;i < m_Orbits.Length;i++)
+            if(source.m_CommonLens.IsUse) m_CommonLens.Remove(new MixItem<System.Boolean>(id, priority, source.m_CommonLens.CalculatorExpression, source.m_CommonLens.Value, source.m_CommonLens.IsUse));
+            m_Lens?.RemoveByConfig(source.m_Lens, id, priority);
+            m_Transitions?.RemoveByConfig(source.m_Transitions, id, priority);
+            m_YAxis?.RemoveByConfig(source.m_YAxis, id, priority);
+            m_YAxisRecentering?.RemoveByConfig(source.m_YAxisRecentering, id, priority);
+            m_XAxis?.RemoveByConfig(source.m_XAxis, id, priority);
+            m_Heading?.RemoveByConfig(source.m_Heading, id, priority);
+            m_RecenterToTargetHeading?.RemoveByConfig(source.m_RecenterToTargetHeading, id, priority);
+            if(source.m_BindingMode.IsUse) m_BindingMode.Remove(new MixItem<Cinemachine.CinemachineTransposer.BindingMode>(id, priority, source.m_BindingMode.CalculatorExpression, source.m_BindingMode.Value, source.m_BindingMode.IsUse));
+            if(source.m_SplineCurvature.IsUse) m_SplineCurvature.Remove(new MixItem<System.Single>(id, priority, source.m_SplineCurvature.CalculatorExpression, source.m_SplineCurvature.Value, source.m_SplineCurvature.IsUse));
+            for(int i = 0;i < (source.m_Orbits?.Length ?? 0);i++)
             {
-                m_Orbits[i].RemoveByConfig(source.m_Orbits[i], id, priority);            }
+                m_Orbits?[i].RemoveByConfig(source.m_Orbits[i], id, priority);            }
 
-            for(int i = 0;i < m_ExcludedPropertiesInInspector.Length;i++)
+            for(int i = 0;i < (source.m_ExcludedPropertiesInInspector?.Length ?? 0);i++)
             {
-                m_ExcludedPropertiesInInspector[i].RemoveByConfig(source.m_ExcludedPropertiesInInspector[i], id, priority);            }
+                m_ExcludedPropertiesInInspector?[i].RemoveByConfig(source.m_ExcludedPropertiesInInspector[i], id, priority);            }
 
-            for(int i = 0;i < m_LockStageInInspector.Length;i++)
+            for(int i = 0;i < (source.m_LockStageInInspector?.Length ?? 0);i++)
             {
-                m_LockStageInInspector[i].RemoveByConfig(source.m_LockStageInInspector[i], id, priority);            }
+                m_LockStageInInspector?[i].RemoveByConfig(source.m_LockStageInInspector[i], id, priority);            }
 
-            if(source.m_Priority.IsUse) m_Priority.Remove(new MixItem<System.Int32>(id, priority, source.m_Priority.CalculatorExpression, source.m_Priority.Value));
-            if(source.FollowTargetAttachment.IsUse) FollowTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.CalculatorExpression, source.FollowTargetAttachment.Value));
-            if(source.LookAtTargetAttachment.IsUse) LookAtTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.CalculatorExpression, source.LookAtTargetAttachment.Value));
-            if(source.m_StandbyUpdate.IsUse) m_StandbyUpdate.Remove(new MixItem<Cinemachine.CinemachineVirtualCameraBase.StandbyUpdateMode>(id, priority, source.m_StandbyUpdate.CalculatorExpression, source.m_StandbyUpdate.Value));
+            if(source.m_Priority.IsUse) m_Priority.Remove(new MixItem<System.Int32>(id, priority, source.m_Priority.CalculatorExpression, source.m_Priority.Value, source.m_Priority.IsUse));
+            if(source.FollowTargetAttachment.IsUse) FollowTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.CalculatorExpression, source.FollowTargetAttachment.Value, source.FollowTargetAttachment.IsUse));
+            if(source.LookAtTargetAttachment.IsUse) LookAtTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.CalculatorExpression, source.LookAtTargetAttachment.Value, source.LookAtTargetAttachment.IsUse));
+            if(source.m_StandbyUpdate.IsUse) m_StandbyUpdate.Remove(new MixItem<Cinemachine.CinemachineVirtualCameraBase.StandbyUpdateMode>(id, priority, source.m_StandbyUpdate.CalculatorExpression, source.m_StandbyUpdate.Value, source.m_StandbyUpdate.IsUse));
         }
         public void RemoveAll()
         {
             m_CommonLens.RemoveAll();
-            m_Lens.RemoveAll();
-            m_Transitions.RemoveAll();
-            m_YAxis.RemoveAll();
-            m_YAxisRecentering.RemoveAll();
-            m_XAxis.RemoveAll();
-            m_Heading.RemoveAll();
-            m_RecenterToTargetHeading.RemoveAll();
+            m_Lens?.RemoveAll();
+            m_Transitions?.RemoveAll();
+            m_YAxis?.RemoveAll();
+            m_YAxisRecentering?.RemoveAll();
+            m_XAxis?.RemoveAll();
+            m_Heading?.RemoveAll();
+            m_RecenterToTargetHeading?.RemoveAll();
             m_BindingMode.RemoveAll();
             m_SplineCurvature.RemoveAll();
-            for(int i = 0;i < m_Orbits.Length;i++)
+            for(int i = 0;i < (m_Orbits?.Length ?? 0);i++)
             {
-                m_Orbits[i].RemoveAll();            }
+                m_Orbits?[i].RemoveAll();            }
 
-            for(int i = 0;i < m_ExcludedPropertiesInInspector.Length;i++)
+            for(int i = 0;i < (m_ExcludedPropertiesInInspector?.Length ?? 0);i++)
             {
-                m_ExcludedPropertiesInInspector[i].RemoveAll();            }
+                m_ExcludedPropertiesInInspector?[i].RemoveAll();            }
 
-            for(int i = 0;i < m_LockStageInInspector.Length;i++)
+            for(int i = 0;i < (m_LockStageInInspector?.Length ?? 0);i++)
             {
-                m_LockStageInInspector[i].RemoveAll();            }
+                m_LockStageInInspector?[i].RemoveAll();            }
 
             m_Priority.RemoveAll();
             FollowTargetAttachment.RemoveAll();
             LookAtTargetAttachment.RemoveAll();
             m_StandbyUpdate.RemoveAll();
         }
-        public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
+        public void ControlCinemachine(ref Cinemachine.CinemachineFreeLook target, Dictionary<int, RuntimeTemplate> templateDict)
         {
-            var target = (Cinemachine.CinemachineFreeLook)targetObj;
-            target.m_CommonLens = !Mathf.Approximately(m_CommonLens.Value, 0);
+            if (m_CommonLens.IsUse) target.m_CommonLens = m_CommonLens.IsExpression ? !Mathf.Approximately(m_CommonLens.Value, 0) : m_CommonLens.PrimitiveValue;
             // 处理字段 m_Lens
             // 生成递归代码
-            m_Lens.ControlCinemachine(target.m_Lens, templateDict);
+            m_Lens?.ControlCinemachine(ref target.m_Lens, templateDict);
             // 处理字段 m_Transitions
             // 生成递归代码
-            m_Transitions.ControlCinemachine(target.m_Transitions, templateDict);
+            m_Transitions?.ControlCinemachine(ref target.m_Transitions, templateDict);
             // 处理字段 m_YAxis
             // 生成递归代码
-            m_YAxis.ControlCinemachine(target.m_YAxis, templateDict);
+            m_YAxis?.ControlCinemachine(ref target.m_YAxis, templateDict);
             // 处理字段 m_YAxisRecentering
             // 生成递归代码
-            m_YAxisRecentering.ControlCinemachine(target.m_YAxisRecentering, templateDict);
+            m_YAxisRecentering?.ControlCinemachine(ref target.m_YAxisRecentering, templateDict);
             // 处理字段 m_XAxis
             // 生成递归代码
-            m_XAxis.ControlCinemachine(target.m_XAxis, templateDict);
+            m_XAxis?.ControlCinemachine(ref target.m_XAxis, templateDict);
             // 处理字段 m_Heading
             // 生成递归代码
-            m_Heading.ControlCinemachine(target.m_Heading, templateDict);
+            m_Heading?.ControlCinemachine(ref target.m_Heading, templateDict);
             // 处理字段 m_RecenterToTargetHeading
             // 生成递归代码
-            m_RecenterToTargetHeading.ControlCinemachine(target.m_RecenterToTargetHeading, templateDict);
-            target.m_BindingMode = (Cinemachine.CinemachineTransposer.BindingMode)m_BindingMode.Value;
-            if (templateDict.ContainsKey(m_SplineCurvature.Id))
-                target.m_SplineCurvature = templateDict[m_SplineCurvature.Id].Config.alertCurve.Evaluate(templateDict[m_SplineCurvature.Id].CostTime / templateDict[m_SplineCurvature.Id].Config.duration) * m_SplineCurvature.Value;
-            target.m_SplineCurvature = (System.Single)m_SplineCurvature.Value;
+            m_RecenterToTargetHeading?.ControlCinemachine(ref target.m_RecenterToTargetHeading, templateDict);
+            if (m_BindingMode.IsUse) target.m_BindingMode = m_BindingMode.IsExpression ? (Cinemachine.CinemachineTransposer.BindingMode)m_BindingMode.Value :m_BindingMode.PrimitiveValue;
+            if (m_SplineCurvature.IsUse && templateDict.ContainsKey(m_SplineCurvature.Id))
+                target.m_SplineCurvature = Mathf.Approximately(0, templateDict[m_SplineCurvature.Id].Config.duration) ? (m_SplineCurvature.IsExpression ? m_SplineCurvature.Value : m_SplineCurvature.PrimitiveValue) : templateDict[m_SplineCurvature.Id].Config.alertCurve.Evaluate(templateDict[m_SplineCurvature.Id].CostTime / templateDict[m_SplineCurvature.Id].Config.duration) * (m_SplineCurvature.IsExpression ? m_SplineCurvature.Value : m_SplineCurvature.PrimitiveValue);
             // 处理数组字段 m_Orbits
-            for (int i = 0; i < m_Orbits.Length; i++)
+            for (int i = 0; i < (target.m_Orbits?.Length ?? 0); i++)
             {
                 // 生成递归代码
-                m_Orbits[i].ControlCinemachine(target.m_Orbits[i], templateDict);
+                m_Orbits?[i].ControlCinemachine(ref target.m_Orbits[i], templateDict);
             }
             // 处理数组字段 m_ExcludedPropertiesInInspector
-            for (int i = 0; i < m_ExcludedPropertiesInInspector.Length; i++)
+            for (int i = 0; i < (target.m_ExcludedPropertiesInInspector?.Length ?? 0); i++)
             {
                 // 生成递归代码
-                m_ExcludedPropertiesInInspector[i].ControlCinemachine(target.m_ExcludedPropertiesInInspector[i], templateDict);
+                m_ExcludedPropertiesInInspector?[i].ControlCinemachine(ref target.m_ExcludedPropertiesInInspector[i], templateDict);
             }
             // 处理数组字段 m_LockStageInInspector
-            for (int i = 0; i < m_LockStageInInspector.Length; i++)
+            for (int i = 0; i < (target.m_LockStageInInspector?.Length ?? 0); i++)
             {
                 // 生成递归代码
-                m_LockStageInInspector[i].ControlCinemachine(target.m_LockStageInInspector[i], templateDict);
+                m_LockStageInInspector?[i].ControlCinemachine(ref target.m_LockStageInInspector[i], templateDict);
             }
-            target.m_Priority = (System.Int32)m_Priority.Value;
-            target.m_StandbyUpdate = (Cinemachine.CinemachineVirtualCameraBase.StandbyUpdateMode)m_StandbyUpdate.Value;
+            if (m_Priority.IsUse) target.m_Priority = m_Priority.IsExpression ? (System.Int32)m_Priority.Value :m_Priority.PrimitiveValue;
+            if (FollowTargetAttachment.IsUse && templateDict.ContainsKey(FollowTargetAttachment.Id))
+                target.FollowTargetAttachment = Mathf.Approximately(0, templateDict[FollowTargetAttachment.Id].Config.duration) ? (FollowTargetAttachment.IsExpression ? FollowTargetAttachment.Value : FollowTargetAttachment.PrimitiveValue) : templateDict[FollowTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[FollowTargetAttachment.Id].CostTime / templateDict[FollowTargetAttachment.Id].Config.duration) * (FollowTargetAttachment.IsExpression ? FollowTargetAttachment.Value : FollowTargetAttachment.PrimitiveValue);
+            if (LookAtTargetAttachment.IsUse && templateDict.ContainsKey(LookAtTargetAttachment.Id))
+                target.LookAtTargetAttachment = Mathf.Approximately(0, templateDict[LookAtTargetAttachment.Id].Config.duration) ? (LookAtTargetAttachment.IsExpression ? LookAtTargetAttachment.Value : LookAtTargetAttachment.PrimitiveValue) : templateDict[LookAtTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[LookAtTargetAttachment.Id].CostTime / templateDict[LookAtTargetAttachment.Id].Config.duration) * (LookAtTargetAttachment.IsExpression ? LookAtTargetAttachment.Value : LookAtTargetAttachment.PrimitiveValue);
+            if (m_StandbyUpdate.IsUse) target.m_StandbyUpdate = m_StandbyUpdate.IsExpression ? (Cinemachine.CinemachineVirtualCameraBase.StandbyUpdateMode)m_StandbyUpdate.Value :m_StandbyUpdate.PrimitiveValue;
         }
     }
 }

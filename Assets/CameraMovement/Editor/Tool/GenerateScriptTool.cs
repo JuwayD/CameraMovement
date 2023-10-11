@@ -101,13 +101,13 @@ namespace CameraMovement
             }
             if (!checkSerializable || type.IsSerializable)
             {
-                var name = autoGetArrayElementType(ref type);
+                var name = autoGetArrayElementTypeFullName(type);
                 name = simplifyTypeName(name);
                 //构造前缀，如果实现的是field接口那么久继承field接口，
                 StringBuilder code = new StringBuilder(
                     $"using System;\nusing System.Collections.Generic;\nusing UnityEngine;\nusing UnityEditor;\nusing CameraMovement;\n\nnamespace CameraMovement{{\n" +
                     $"    {(implementInterface.Contains("Field") ? "" : $"[CreateAssetMenu(menuName = \"创建{name}\")]\n")}" +
-                    $"    public {(needClass ? "class" : "struct")} {prefix}_{name}_{(implementInterface.Contains("Field") ? "Field" : "Config")} :{implementInterface}\n    {{\n" +
+                    $"    public {(needClass ? "class" : "struct")} {prefix}_{name}_{(implementInterface.Contains("Field") ? "Field" : "Config")} :{implementInterface}<{autoGetArrayElementTypeFullName(type)}>\n    {{\n" +
                     $"       public {(implementInterface.Contains("Field") ? "" : "override")} Type Attach{prefix}Field => typeof({getFullName(type)});\n\n");
                 // 如果类型不可序列化，继续检查它的字段和属性
                 FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
@@ -156,8 +156,8 @@ namespace CameraMovement
                     }
                     if (sourceType != null)
                     {
-                        code.Append(generateUpdateMethodCode(sourceType, fields));
-                        code.Append(generateUpdateMethodCode(sourceType, fields, true));
+                        code.Append(generateUpdateMethodCode(sourceType, fields, prefix + "_", "_" + (implementInterface.Contains("Field") ? "Field" : "Config")));
+                        code.Append(generateUpdateMethodCode(sourceType, fields, prefix + "_", "_" + (implementInterface.Contains("Field") ? "Field" : "Config"), true));
                         code.Append(generateRemoveAllMethodCode(sourceType, fields));
                     }
                 }
@@ -176,73 +176,14 @@ namespace CameraMovement
             }
         }
 
-        private static string generateRemoveAllMethodCode(Type sourceType, FieldInfo[] targetFields)
-        {
-            // 获取源类型和目标类型的所有字段
-            FieldInfo[] sourceFields = sourceType.GetFields();
-
-            StringBuilder codeBuilder = new StringBuilder();
-
-            // 生成函数签名
-            codeBuilder.AppendLine($"        public void RemoveAll()");
-            codeBuilder.AppendLine("        {");
-
-            foreach (var targetField in targetFields)
-            {
-                // 查找具有相同名称的源字段
-                var sourceField = sourceFields.FirstOrDefault(f => f.Name == targetField.Name);
-
-                if (sourceField != null)
-                {
-                    // 判断字段是否为基元类型
-                    if (mapTypeCheck(targetField.FieldType))
-                    {
-                        // 生成基元类型字段赋值语句
-                        if (targetField.FieldType.IsArray)
-                        {
-                            codeBuilder.AppendLine($"            for(int i = 0;i < {targetField.Name}.Length;i++)\n" +
-                                                   $"            {{\n" +
-                                                   $"                {targetField.Name}.RemoveAll();" +
-                                                   $"            }}\n");
-                        }
-                        else
-                        {
-                            codeBuilder.AppendLine($"            {targetField.Name}.RemoveAll();");
-                        }
-                    }
-                    else
-                    {
-                        // 生成递归调用的语句
-                        // 数组的话遍历元素每个元素递归调用
-                        if (targetField.FieldType.IsArray)
-                        {
-                            codeBuilder.AppendLine($"            for(int i = 0;i < {targetField.Name}.Length;i++)\n" +
-                                                   $"            {{\n" +
-                                                   $"                {targetField.Name}[i].RemoveAll();" +
-                                                   $"            }}\n");
-                        }
-                        else
-                        {
-                            codeBuilder.AppendLine($"            {targetField.Name}.RemoveAll();");
-                        }
-                    }
-                }
-            }
-
-            codeBuilder.AppendLine("        }");
-
-            return codeBuilder.ToString();
-        }
-
         /// <summary>
         /// 获取元素类型没有元素则是当前类型
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        private static string autoGetArrayElementType(ref Type type)
+        private static string autoGetArrayElementTypeFullName(Type type)
         {
-            string name = type.IsArray ? type.GetElementType()?.FullName : type.FullName;
-            type = type.IsArray ? type.GetElementType() : type;
+            string name = type.IsArray ? getFullName(type.GetElementType()) : getFullName(type);
             return name;
         }
 
@@ -298,8 +239,12 @@ namespace CameraMovement
         /// </summary>
         /// <param name="sourceType"></param>
         /// <param name="targetFields"></param>
-        /// <param name="targetTypeName"></param>
-        private static string generateUpdateMethodCode(Type sourceType, FieldInfo[] targetFields, bool isRemove = false)
+        /// <param name="prefix"></param>
+        /// <param name="postfix"></param>
+        /// <param name="isRemove"></param>
+        private static string generateUpdateMethodCode(Type sourceType, FieldInfo[] targetFields, string prefix,
+            string postfix,
+            bool isRemove = false)
         {
             // 获取源类型和目标类型的所有字段
             FieldInfo[] sourceFields = sourceType.GetFields();
@@ -307,11 +252,80 @@ namespace CameraMovement
             StringBuilder codeBuilder = new StringBuilder();
 
             // 生成函数签名
-            var prefix = isRemove ? "Remove" : "Add";
-            codeBuilder.AppendLine($"        public void {prefix}ByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)");
+            var methodPrefix = isRemove ? "Remove" : "Add";
+            codeBuilder.AppendLine($"        public void {methodPrefix}ByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)");
             codeBuilder.AppendLine("        {");
-            codeBuilder.AppendLine($"            if(sourceConfig.GetType() != AttachControlField) return;");
+            codeBuilder.AppendLine($"            if(sourceConfig == null) return;");
+            codeBuilder.AppendLine($"            if(sourceConfig.AttachControlField != AttachControlField) return;");
             codeBuilder.AppendLine($"            {sourceType.FullName} source = ({sourceType.FullName})sourceConfig;");
+
+            foreach (var targetField in targetFields)
+            {
+                // 查找具有相同名称的源字段
+                var sourceField = sourceFields.FirstOrDefault(f => f.Name == targetField.Name);
+
+                if (sourceField != null)
+                {
+                    // 判断字段是否为基元类型
+                    if (mapTypeCheck(targetField.FieldType))
+                    {
+                        // 生成基元类型字段赋值语句
+                        if (targetField.FieldType.IsArray)
+                        {
+                            codeBuilder.AppendLine($"            for(int i = 0;i < source.{sourceField.Name}.Length;i++)\n" +
+                                                   $"            {{\n" +
+                                                   $"                if(source.{sourceField.Name}.IsUse) {targetField.Name}.{methodPrefix}(new MixItem<{getFullName(targetField.FieldType)}>(id, priority, source.{sourceField.Name}.CalculatorExpression, source.{sourceField.Name}.Value, source.{sourceField.Name}.IsUse));" +
+                                                   $"            }}\n");
+                        }
+                        else
+                        {
+                            codeBuilder.AppendLine($"            if(source.{sourceField.Name}.IsUse) {targetField.Name}.{methodPrefix}(new MixItem<{getFullName(targetField.FieldType)}>(id, priority, source.{sourceField.Name}.CalculatorExpression, source.{sourceField.Name}.Value, source.{sourceField.Name}.IsUse));");
+                        }
+                    }
+                    else
+                    {
+                        // 生成递归调用的语句
+                        // 数组的话遍历元素每个元素递归调用
+                        if (targetField.FieldType.IsArray)
+                        {
+                            var name = autoGetArrayElementTypeFullName(targetField.FieldType);
+                            name = prefix + simplifyTypeName(name) + postfix;
+                            codeBuilder.AppendLine($"            for(int i = 0;i < (source.{sourceField.Name}?.Length ?? 0);i++)\n" +
+                                                   $"            {{\n" +
+                                                   //如果不是移除就需要把字段先创建出来
+                                                   (isRemove ? "" : $"                if(source.{sourceField.Name} != null && {targetField.Name} == null) {targetField.Name} = new {name}[source.{sourceField.Name}.Length];\n") +
+                                                   $"                {targetField.Name}?[i].{methodPrefix}ByConfig(source.{sourceField.Name}[i], id, priority);" +
+                                                   $"            }}\n");
+                        }
+                        else
+                        {
+                            if (!isRemove)
+                            {
+                                var name = autoGetArrayElementTypeFullName(targetField.FieldType);
+                                name = prefix + simplifyTypeName(name) + postfix;
+                                codeBuilder.AppendLine($"                if(source.{sourceField.Name} != null && {targetField.Name} == null) {targetField.Name} = new {name}();");
+                            }
+                            codeBuilder.AppendLine($"            {targetField.Name}?.{methodPrefix}ByConfig(source.{sourceField.Name}, id, priority);");
+                        }
+                    }
+                }
+            }
+
+            codeBuilder.AppendLine("        }");
+
+            return codeBuilder.ToString();
+        }
+
+        private static string generateRemoveAllMethodCode(Type sourceType, FieldInfo[] targetFields)
+        {
+            // 获取源类型和目标类型的所有字段
+            FieldInfo[] sourceFields = sourceType.GetFields();
+
+            StringBuilder codeBuilder = new StringBuilder();
+
+            // 生成函数签名
+            codeBuilder.AppendLine($"        public void RemoveAll()");
+            codeBuilder.AppendLine("        {");
 
             foreach (var targetField in targetFields)
             {
@@ -328,12 +342,12 @@ namespace CameraMovement
                         {
                             codeBuilder.AppendLine($"            for(int i = 0;i < {targetField.Name}.Length;i++)\n" +
                                                    $"            {{\n" +
-                                                   $"                if(source.{sourceField.Name}.IsUse) {targetField.Name}.{prefix}(new MixItem<{getFullName(targetField.FieldType)}>(id, priority, source.{sourceField.Name}.CalculatorExpression, source.{sourceField.Name}.Value));" +
+                                                   $"                {targetField.Name}.RemoveAll();" +
                                                    $"            }}\n");
                         }
                         else
                         {
-                            codeBuilder.AppendLine($"            if(source.{sourceField.Name}.IsUse) {targetField.Name}.{prefix}(new MixItem<{getFullName(targetField.FieldType)}>(id, priority, source.{sourceField.Name}.CalculatorExpression, source.{sourceField.Name}.Value));");
+                            codeBuilder.AppendLine($"            {targetField.Name}.RemoveAll();");
                         }
                     }
                     else
@@ -342,14 +356,14 @@ namespace CameraMovement
                         // 数组的话遍历元素每个元素递归调用
                         if (targetField.FieldType.IsArray)
                         {
-                            codeBuilder.AppendLine($"            for(int i = 0;i < {targetField.Name}.Length;i++)\n" +
+                            codeBuilder.AppendLine($"            for(int i = 0;i < ({targetField.Name}?.Length ?? 0);i++)\n" +
                                                    $"            {{\n" +
-                                                   $"                {targetField.Name}[i].{prefix}ByConfig(source.{sourceField.Name}[i], id, priority);" +
+                                                   $"                {targetField.Name}?[i].RemoveAll();" +
                                                    $"            }}\n");
                         }
                         else
                         {
-                            codeBuilder.AppendLine($"            {targetField.Name}.{prefix}ByConfig(source.{sourceField.Name}, id, priority);");
+                            codeBuilder.AppendLine($"            {targetField.Name}?.RemoveAll();");
                         }
                     }
                 }
@@ -373,58 +387,53 @@ namespace CameraMovement
             FieldInfo[] fields1 = type1.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
     
             StringBuilder code = new StringBuilder();
-            code.AppendLine($"        public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)");
+            code.AppendLine($"        public void ControlCinemachine(ref {autoGetArrayElementTypeFullName(type1)} target, Dictionary<int, RuntimeTemplate> templateDict)");
             code.AppendLine("        {");
-            code.AppendLine($"            var target = ({getFullName(type1)})targetObj;");
             
             foreach (FieldInfo field2 in fields2)
             {
                 string fieldName = field2.Name;
-                if (fieldName.StartsWith("m_"))
-                {
-                    fieldName = fieldName.Substring(2); // 去掉 "m_" 前缀
-                    FieldInfo correspondingField = Array.Find(fields1, f => f.Name.Substring(2) == fieldName);
-    
-                    if (correspondingField != null)
-                    {
-                        if (field2.FieldType.IsSerializable && mapTypeCheck(field2.FieldType))
-                        {
-                            if (field2.FieldType == typeof(float) || field2.FieldType == typeof(double))
-                            {
-                                code.AppendLine($"            if (templateDict.ContainsKey({correspondingField.Name}.Id))");
-                                code.AppendLine($"                target.{field2.Name} = templateDict[{correspondingField.Name}.Id].Config.alertCurve.Evaluate(templateDict[{correspondingField.Name}.Id].CostTime / templateDict[{correspondingField.Name}.Id].Config.duration) * {correspondingField.Name}.Value;");
-                            }
+                
+                FieldInfo correspondingField = Array.Find(fields1, f => f.Name == fieldName);
 
-                            if (field2.FieldType == typeof(string))
-                            {
-                                code.AppendLine($"            target.{field2.Name} = ({field2.FieldType.Name}){correspondingField.Name}.PrimitiveValue;");
-                            }
-                            else if (field2.FieldType == typeof(bool))
-                            {
-                                code.AppendLine($"            target.{field2.Name} = !Mathf.Approximately({correspondingField.Name}.Value, 0);");
-                            }
-                            else
-                            {
-                                code.AppendLine($"            target.{field2.Name} = ({getFullName(field2.FieldType)}){correspondingField.Name}.Value;");
-                            }
-                        }
-                        else if (field2.FieldType is { IsSerializable: true, IsArray: true } && correspondingField.FieldType.IsArray)
+                if (correspondingField != null)
+                {
+                    if (field2.FieldType.IsSerializable && mapTypeCheck(field2.FieldType))
+                    {
+                        if (field2.FieldType == typeof(float) || field2.FieldType == typeof(double))
                         {
-                            // 对于数组类型的字段，需要生成递归代码
-                            code.AppendLine($"            // 处理数组字段 {field2.Name}");
-                            code.AppendLine($"            for (int i = 0; i < {correspondingField.Name}.Length; i++)");
-                            code.AppendLine($"            {{");
-                            code.AppendLine($"                // 生成递归代码");
-                            code.AppendLine($"                {correspondingField.Name}[i].ControlCinemachine(target.{field2.Name}[i], templateDict);");
-                            code.AppendLine($"            }}");
+                            code.AppendLine($"            if ({correspondingField.Name}.IsUse && templateDict.ContainsKey({correspondingField.Name}.Id))");
+                            code.AppendLine($"                target.{field2.Name} = Mathf.Approximately(0, templateDict[{correspondingField.Name}.Id].Config.duration) ? ({correspondingField.Name}.IsExpression ? {correspondingField.Name}.Value : {correspondingField.Name}.PrimitiveValue) : templateDict[{correspondingField.Name}.Id].Config.alertCurve.Evaluate(templateDict[{correspondingField.Name}.Id].CostTime / templateDict[{correspondingField.Name}.Id].Config.duration) * ({correspondingField.Name}.IsExpression ? {correspondingField.Name}.Value : {correspondingField.Name}.PrimitiveValue);");
                         }
-                        else if (field2.FieldType.IsSerializable && !mapTypeCheck(field2.FieldType))
+                        else if (field2.FieldType == typeof(string))
                         {
-                            // 对于非基元类型的字段，需要生成递归代码
-                            code.AppendLine($"            // 处理字段 {field2.Name}");
-                            code.AppendLine($"            // 生成递归代码");
-                            code.AppendLine($"            {correspondingField.Name}.ControlCinemachine(target.{field2.Name}, templateDict);");
+                            code.AppendLine($"            if ({correspondingField.Name}.IsUse) target.{field2.Name} = {correspondingField.Name}.PrimitiveValue;");
                         }
+                        else if (field2.FieldType == typeof(bool))
+                        {
+                            code.AppendLine($"            if ({correspondingField.Name}.IsUse) target.{field2.Name} = {correspondingField.Name}.IsExpression ? !Mathf.Approximately({correspondingField.Name}.Value, 0) : {correspondingField.Name}.PrimitiveValue;");
+                        }
+                        else
+                        {
+                            code.AppendLine($"            if ({correspondingField.Name}.IsUse) target.{field2.Name} = {correspondingField.Name}.IsExpression ? ({getFullName(field2.FieldType)}){correspondingField.Name}.Value :{correspondingField.Name}.PrimitiveValue;");
+                        }
+                    }
+                    else if (field2.FieldType is { IsSerializable: true, IsArray: true } && correspondingField.FieldType.IsArray)
+                    {
+                        // 对于数组类型的字段，需要生成递归代码
+                        code.AppendLine($"            // 处理数组字段 {field2.Name}");
+                        code.AppendLine($"            for (int i = 0; i < (target.{field2.Name}?.Length ?? 0); i++)");
+                        code.AppendLine($"            {{");
+                        code.AppendLine($"                // 生成递归代码");
+                        code.AppendLine($"                {correspondingField.Name}?[i].ControlCinemachine(ref target.{field2.Name}[i], templateDict);");
+                        code.AppendLine($"            }}");
+                    }
+                    else if (field2.FieldType.IsSerializable && !mapTypeCheck(field2.FieldType))
+                    {
+                        // 对于非基元类型的字段，需要生成递归代码
+                        code.AppendLine($"            // 处理字段 {field2.Name}");
+                        code.AppendLine($"            // 生成递归代码");
+                        code.AppendLine($"            {correspondingField.Name}?.ControlCinemachine(ref target.{field2.Name}, templateDict);");
                     }
                 }
             }

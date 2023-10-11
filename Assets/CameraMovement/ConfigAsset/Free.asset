@@ -10,30 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: New Camera Movement Config
+  m_Name: Free
   m_EditorClassIdentifier: Assembly-CSharp:CameraMovement:CameraMovementConfig
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: DataConfigTemplate
-      Entry: 6
-      Data: 
-    - Name: ControlConfigTemplate
-      Entry: 6
-      Data: 
-  contextEvent: 0
+  contextEvent: 1
   duration: 0
   priority: 0
-  id: 0
+  id: 1
   alertCurve:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  DataConfigBaseTemplate: {fileID: 11400000, guid: 17ab9072c0758414a9c7c838c498610c, type: 2}
+  controlConfigBaseTemplate: {fileID: 11400000, guid: 499de1c305c55134f857e0eab56e678c, type: 2}

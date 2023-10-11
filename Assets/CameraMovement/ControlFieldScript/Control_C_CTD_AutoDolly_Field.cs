@@ -5,7 +5,7 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-        public class Control_C_CTD_AutoDolly_Field :ICameraMovementControlField
+        public class Control_C_CTD_AutoDolly_Field :ICameraMovementControlField<Cinemachine.CinemachineTrackedDolly.AutoDolly>
     {
        public  Type AttachControlField => typeof(Cinemachine.CinemachineTrackedDolly.AutoDolly);
 
@@ -19,21 +19,23 @@ namespace CameraMovement{
             public DataMixer <System.Int32> m_SearchResolution;
         public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
-            if(sourceConfig.GetType() != AttachControlField) return;
+            if(sourceConfig == null) return;
+            if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CTD_AutoDolly_Config source = (CameraMovement.Control_C_CTD_AutoDolly_Config)sourceConfig;
-            if(source.m_Enabled.IsUse) m_Enabled.Add(new MixItem<System.Boolean>(id, priority, source.m_Enabled.CalculatorExpression, source.m_Enabled.Value));
-            if(source.m_PositionOffset.IsUse) m_PositionOffset.Add(new MixItem<System.Single>(id, priority, source.m_PositionOffset.CalculatorExpression, source.m_PositionOffset.Value));
-            if(source.m_SearchRadius.IsUse) m_SearchRadius.Add(new MixItem<System.Int32>(id, priority, source.m_SearchRadius.CalculatorExpression, source.m_SearchRadius.Value));
-            if(source.m_SearchResolution.IsUse) m_SearchResolution.Add(new MixItem<System.Int32>(id, priority, source.m_SearchResolution.CalculatorExpression, source.m_SearchResolution.Value));
+            if(source.m_Enabled.IsUse) m_Enabled.Add(new MixItem<System.Boolean>(id, priority, source.m_Enabled.CalculatorExpression, source.m_Enabled.Value, source.m_Enabled.IsUse));
+            if(source.m_PositionOffset.IsUse) m_PositionOffset.Add(new MixItem<System.Single>(id, priority, source.m_PositionOffset.CalculatorExpression, source.m_PositionOffset.Value, source.m_PositionOffset.IsUse));
+            if(source.m_SearchRadius.IsUse) m_SearchRadius.Add(new MixItem<System.Int32>(id, priority, source.m_SearchRadius.CalculatorExpression, source.m_SearchRadius.Value, source.m_SearchRadius.IsUse));
+            if(source.m_SearchResolution.IsUse) m_SearchResolution.Add(new MixItem<System.Int32>(id, priority, source.m_SearchResolution.CalculatorExpression, source.m_SearchResolution.Value, source.m_SearchResolution.IsUse));
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
-            if(sourceConfig.GetType() != AttachControlField) return;
+            if(sourceConfig == null) return;
+            if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CTD_AutoDolly_Config source = (CameraMovement.Control_C_CTD_AutoDolly_Config)sourceConfig;
-            if(source.m_Enabled.IsUse) m_Enabled.Remove(new MixItem<System.Boolean>(id, priority, source.m_Enabled.CalculatorExpression, source.m_Enabled.Value));
-            if(source.m_PositionOffset.IsUse) m_PositionOffset.Remove(new MixItem<System.Single>(id, priority, source.m_PositionOffset.CalculatorExpression, source.m_PositionOffset.Value));
-            if(source.m_SearchRadius.IsUse) m_SearchRadius.Remove(new MixItem<System.Int32>(id, priority, source.m_SearchRadius.CalculatorExpression, source.m_SearchRadius.Value));
-            if(source.m_SearchResolution.IsUse) m_SearchResolution.Remove(new MixItem<System.Int32>(id, priority, source.m_SearchResolution.CalculatorExpression, source.m_SearchResolution.Value));
+            if(source.m_Enabled.IsUse) m_Enabled.Remove(new MixItem<System.Boolean>(id, priority, source.m_Enabled.CalculatorExpression, source.m_Enabled.Value, source.m_Enabled.IsUse));
+            if(source.m_PositionOffset.IsUse) m_PositionOffset.Remove(new MixItem<System.Single>(id, priority, source.m_PositionOffset.CalculatorExpression, source.m_PositionOffset.Value, source.m_PositionOffset.IsUse));
+            if(source.m_SearchRadius.IsUse) m_SearchRadius.Remove(new MixItem<System.Int32>(id, priority, source.m_SearchRadius.CalculatorExpression, source.m_SearchRadius.Value, source.m_SearchRadius.IsUse));
+            if(source.m_SearchResolution.IsUse) m_SearchResolution.Remove(new MixItem<System.Int32>(id, priority, source.m_SearchResolution.CalculatorExpression, source.m_SearchResolution.Value, source.m_SearchResolution.IsUse));
         }
         public void RemoveAll()
         {
@@ -42,15 +44,13 @@ namespace CameraMovement{
             m_SearchRadius.RemoveAll();
             m_SearchResolution.RemoveAll();
         }
-        public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
+        public void ControlCinemachine(ref Cinemachine.CinemachineTrackedDolly.AutoDolly target, Dictionary<int, RuntimeTemplate> templateDict)
         {
-            var target = (Cinemachine.CinemachineTrackedDolly.AutoDolly)targetObj;
-            target.m_Enabled = !Mathf.Approximately(m_Enabled.Value, 0);
-            if (templateDict.ContainsKey(m_PositionOffset.Id))
-                target.m_PositionOffset = templateDict[m_PositionOffset.Id].Config.alertCurve.Evaluate(templateDict[m_PositionOffset.Id].CostTime / templateDict[m_PositionOffset.Id].Config.duration) * m_PositionOffset.Value;
-            target.m_PositionOffset = (System.Single)m_PositionOffset.Value;
-            target.m_SearchRadius = (System.Int32)m_SearchRadius.Value;
-            target.m_SearchResolution = (System.Int32)m_SearchResolution.Value;
+            if (m_Enabled.IsUse) target.m_Enabled = m_Enabled.IsExpression ? !Mathf.Approximately(m_Enabled.Value, 0) : m_Enabled.PrimitiveValue;
+            if (m_PositionOffset.IsUse && templateDict.ContainsKey(m_PositionOffset.Id))
+                target.m_PositionOffset = Mathf.Approximately(0, templateDict[m_PositionOffset.Id].Config.duration) ? (m_PositionOffset.IsExpression ? m_PositionOffset.Value : m_PositionOffset.PrimitiveValue) : templateDict[m_PositionOffset.Id].Config.alertCurve.Evaluate(templateDict[m_PositionOffset.Id].CostTime / templateDict[m_PositionOffset.Id].Config.duration) * (m_PositionOffset.IsExpression ? m_PositionOffset.Value : m_PositionOffset.PrimitiveValue);
+            if (m_SearchRadius.IsUse) target.m_SearchRadius = m_SearchRadius.IsExpression ? (System.Int32)m_SearchRadius.Value :m_SearchRadius.PrimitiveValue;
+            if (m_SearchResolution.IsUse) target.m_SearchResolution = m_SearchResolution.IsExpression ? (System.Int32)m_SearchResolution.Value :m_SearchResolution.PrimitiveValue;
         }
     }
 }

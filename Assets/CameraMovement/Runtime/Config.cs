@@ -35,7 +35,7 @@ namespace CameraMovement
     public class CameraMovementConfig : ScriptableObject
     {
         public EContextEvent contextEvent;
-        public float duration;
+        [FormerlySerializedAs("Duration")] public float duration;
         public int priority;
         public int id;
         public AnimationCurve alertCurve;
@@ -46,7 +46,7 @@ namespace CameraMovement
     [CreateAssetMenu(menuName = "创建配置脚本")]
     public class CameraMovementConfigState : ScriptableObject
     {
-        public CameraMovementStateBase RuntimeState;
-        public List<CameraMovementConfig> configList;
+        public string TypeName;
+        public List<CameraMovementConfig> ConfigList;
     }
 }

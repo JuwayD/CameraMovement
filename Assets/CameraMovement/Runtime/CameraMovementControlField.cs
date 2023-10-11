@@ -7,7 +7,7 @@ namespace CameraMovement
     /// <summary>
     /// 相机运镜控制区接口
     /// </summary>
-    public interface ICameraMovementControlField
+    public interface ICameraMovementControlField<T>
     {
         /// <summary>
         /// 作用于哪个cinemachine组件
@@ -39,7 +39,7 @@ namespace CameraMovement
         /// 控制cinemachine的数据
         /// </summary>
         /// <param name="target"></param>
-        public void ControlCinemachine(object target, Dictionary<int, RuntimeTemplate> templateDict);
+        public void ControlCinemachine(ref T target, Dictionary<int, RuntimeTemplate> templateDict);
     }
     
     /// <summary>

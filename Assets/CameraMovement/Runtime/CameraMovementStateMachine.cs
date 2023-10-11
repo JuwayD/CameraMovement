@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace CameraMovement
 {
@@ -25,14 +27,36 @@ namespace CameraMovement
 
         private static CameraMovementStateMachine instance_;
         public CameraMovementContext Context => context_;
-        protected CameraMovementContext context_;
+        protected CameraMovementContext context_ = new CameraMovementContext();
         protected CameraMovementStateBase currentState_;
+        protected Dictionary<Type, CameraMovementStateBase> stateDict_ = new Dictionary<Type, CameraMovementStateBase>()
+        {
+            {typeof(CameraMovementStateFreeLook),new CameraMovementStateFreeLook()},
+            {typeof(CameraMovementStateThreeRD),new CameraMovementStateThreeRD()},
+        };
         protected List<CameraMovementStateTransition> transitionList_;
 
         #endregion
 
         #region 生命周期函数
 
+        public void Init(CameraMovementConfigState[] configs)
+        {
+            context_.Init();    
+            stateDict_[typeof(CameraMovementStateFreeLook)].Init(GameObject.Find("CameraRoot/CM/FreeLook"), configs[1], this);
+            stateDict_[typeof(CameraMovementStateThreeRD)].Init(GameObject.Find("CameraRoot/CM/ThreeRD"), configs[0], this);
+            transitionList_ = new List<CameraMovementStateTransition>();
+            CameraMovementStateTransition temp;
+            temp = new CameraMovementStateTransition(stateDict_[typeof(CameraMovementStateFreeLook)], stateDict_[typeof(CameraMovementStateThreeRD)]);
+            temp.AddConditionCheck(context => context.GetContextMember(EContextMember.ZoomMax) > 10);
+            transitionList_.Add(temp);
+            temp = new CameraMovementStateTransition(stateDict_[typeof(CameraMovementStateThreeRD)], stateDict_[typeof(CameraMovementStateFreeLook)]);
+            temp.AddConditionCheck(context => context.GetContextMember(EContextMember.ZoomMax) < 10);
+            transitionList_.Add(temp);
+            currentState_ = stateDict_[typeof(CameraMovementStateFreeLook)];
+            currentState_.Enter(null);
+        }
+        
         public void Tick()
         {
             context_.Tick();

@@ -5,7 +5,7 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-        public class Control_C_CinemachineBasicMultiChannelPerlin_Field :ICameraMovementControlField
+        public class Control_C_CinemachineBasicMultiChannelPerlin_Field :ICameraMovementControlField<Cinemachine.CinemachineBasicMultiChannelPerlin>
     {
        public  Type AttachControlField => typeof(Cinemachine.CinemachineBasicMultiChannelPerlin);
 
@@ -17,19 +17,21 @@ namespace CameraMovement{
             public DataMixer <System.Single> m_FrequencyGain;
         public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
-            if(sourceConfig.GetType() != AttachControlField) return;
+            if(sourceConfig == null) return;
+            if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachineBasicMultiChannelPerlin_Config source = (CameraMovement.Control_C_CinemachineBasicMultiChannelPerlin_Config)sourceConfig;
-            if(source.m_PivotOffset.IsUse) m_PivotOffset.Add(new MixItem<UnityEngine.Vector3>(id, priority, source.m_PivotOffset.CalculatorExpression, source.m_PivotOffset.Value));
-            if(source.m_AmplitudeGain.IsUse) m_AmplitudeGain.Add(new MixItem<System.Single>(id, priority, source.m_AmplitudeGain.CalculatorExpression, source.m_AmplitudeGain.Value));
-            if(source.m_FrequencyGain.IsUse) m_FrequencyGain.Add(new MixItem<System.Single>(id, priority, source.m_FrequencyGain.CalculatorExpression, source.m_FrequencyGain.Value));
+            if(source.m_PivotOffset.IsUse) m_PivotOffset.Add(new MixItem<UnityEngine.Vector3>(id, priority, source.m_PivotOffset.CalculatorExpression, source.m_PivotOffset.Value, source.m_PivotOffset.IsUse));
+            if(source.m_AmplitudeGain.IsUse) m_AmplitudeGain.Add(new MixItem<System.Single>(id, priority, source.m_AmplitudeGain.CalculatorExpression, source.m_AmplitudeGain.Value, source.m_AmplitudeGain.IsUse));
+            if(source.m_FrequencyGain.IsUse) m_FrequencyGain.Add(new MixItem<System.Single>(id, priority, source.m_FrequencyGain.CalculatorExpression, source.m_FrequencyGain.Value, source.m_FrequencyGain.IsUse));
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
-            if(sourceConfig.GetType() != AttachControlField) return;
+            if(sourceConfig == null) return;
+            if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachineBasicMultiChannelPerlin_Config source = (CameraMovement.Control_C_CinemachineBasicMultiChannelPerlin_Config)sourceConfig;
-            if(source.m_PivotOffset.IsUse) m_PivotOffset.Remove(new MixItem<UnityEngine.Vector3>(id, priority, source.m_PivotOffset.CalculatorExpression, source.m_PivotOffset.Value));
-            if(source.m_AmplitudeGain.IsUse) m_AmplitudeGain.Remove(new MixItem<System.Single>(id, priority, source.m_AmplitudeGain.CalculatorExpression, source.m_AmplitudeGain.Value));
-            if(source.m_FrequencyGain.IsUse) m_FrequencyGain.Remove(new MixItem<System.Single>(id, priority, source.m_FrequencyGain.CalculatorExpression, source.m_FrequencyGain.Value));
+            if(source.m_PivotOffset.IsUse) m_PivotOffset.Remove(new MixItem<UnityEngine.Vector3>(id, priority, source.m_PivotOffset.CalculatorExpression, source.m_PivotOffset.Value, source.m_PivotOffset.IsUse));
+            if(source.m_AmplitudeGain.IsUse) m_AmplitudeGain.Remove(new MixItem<System.Single>(id, priority, source.m_AmplitudeGain.CalculatorExpression, source.m_AmplitudeGain.Value, source.m_AmplitudeGain.IsUse));
+            if(source.m_FrequencyGain.IsUse) m_FrequencyGain.Remove(new MixItem<System.Single>(id, priority, source.m_FrequencyGain.CalculatorExpression, source.m_FrequencyGain.Value, source.m_FrequencyGain.IsUse));
         }
         public void RemoveAll()
         {
@@ -37,15 +39,12 @@ namespace CameraMovement{
             m_AmplitudeGain.RemoveAll();
             m_FrequencyGain.RemoveAll();
         }
-        public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
+        public void ControlCinemachine(ref Cinemachine.CinemachineBasicMultiChannelPerlin target, Dictionary<int, RuntimeTemplate> templateDict)
         {
-            var target = (Cinemachine.CinemachineBasicMultiChannelPerlin)targetObj;
-            if (templateDict.ContainsKey(m_AmplitudeGain.Id))
-                target.m_AmplitudeGain = templateDict[m_AmplitudeGain.Id].Config.alertCurve.Evaluate(templateDict[m_AmplitudeGain.Id].CostTime / templateDict[m_AmplitudeGain.Id].Config.duration) * m_AmplitudeGain.Value;
-            target.m_AmplitudeGain = (System.Single)m_AmplitudeGain.Value;
-            if (templateDict.ContainsKey(m_FrequencyGain.Id))
-                target.m_FrequencyGain = templateDict[m_FrequencyGain.Id].Config.alertCurve.Evaluate(templateDict[m_FrequencyGain.Id].CostTime / templateDict[m_FrequencyGain.Id].Config.duration) * m_FrequencyGain.Value;
-            target.m_FrequencyGain = (System.Single)m_FrequencyGain.Value;
+            if (m_AmplitudeGain.IsUse && templateDict.ContainsKey(m_AmplitudeGain.Id))
+                target.m_AmplitudeGain = Mathf.Approximately(0, templateDict[m_AmplitudeGain.Id].Config.duration) ? (m_AmplitudeGain.IsExpression ? m_AmplitudeGain.Value : m_AmplitudeGain.PrimitiveValue) : templateDict[m_AmplitudeGain.Id].Config.alertCurve.Evaluate(templateDict[m_AmplitudeGain.Id].CostTime / templateDict[m_AmplitudeGain.Id].Config.duration) * (m_AmplitudeGain.IsExpression ? m_AmplitudeGain.Value : m_AmplitudeGain.PrimitiveValue);
+            if (m_FrequencyGain.IsUse && templateDict.ContainsKey(m_FrequencyGain.Id))
+                target.m_FrequencyGain = Mathf.Approximately(0, templateDict[m_FrequencyGain.Id].Config.duration) ? (m_FrequencyGain.IsExpression ? m_FrequencyGain.Value : m_FrequencyGain.PrimitiveValue) : templateDict[m_FrequencyGain.Id].Config.alertCurve.Evaluate(templateDict[m_FrequencyGain.Id].CostTime / templateDict[m_FrequencyGain.Id].Config.duration) * (m_FrequencyGain.IsExpression ? m_FrequencyGain.Value : m_FrequencyGain.PrimitiveValue);
         }
     }
 }

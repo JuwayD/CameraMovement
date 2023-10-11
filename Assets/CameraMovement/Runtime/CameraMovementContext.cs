@@ -16,7 +16,7 @@ namespace CameraMovement
         /// <summary>
         /// 标志哪个相机事件被触发
         /// </summary>
-        public BitArray CameraEventBit;
+        public BitArray ContextEventBit;
 
         /// <summary>
         /// 标志哪个相机事件被触发
@@ -27,10 +27,20 @@ namespace CameraMovement
 
         #region 周期函数
 
+        public void Init()
+        {
+            dataField_ = new CameraMovementDataField();
+            ContextEventBit = new BitArray((int)EContextEvent.Max);
+            CameraEventParamDict = new Dictionary<EContextEvent, Dictionary<EEventParamType, float>>()
+            {
+                { EContextEvent.Tick, new Dictionary<EEventParamType, float>() }
+            };
+        }
+        
         public void Tick()
         {
-            CameraEventBit.SetAll(false);
-            CameraEventBit.Set((int)EContextEvent.Tick, true);
+            ContextEventBit.SetAll(false);
+            ContextEventBit.Set((int)EContextEvent.Tick, true);
         }
 
         #endregion
@@ -51,13 +61,41 @@ namespace CameraMovement
         /// <param name="member"></param>
         public float GetContextMember(EContextMember member)
         {
-            switch (member)
+            if (dataField_ is CameraMovementDataField dataField)
             {
+                switch (member)
+                {
+                    case EContextMember.ZoomMax:
+                        return dataField.ZoomMax;
+                    case EContextMember.ZoomMin:
+                        return dataField.ZoomMin;
+                }
             }
 
             return 0;
         }
         
+        /// <summary>
+        /// 获取上下文成员
+        /// </summary>
+        /// <param name="member"></param>
+        public void SetContextMember(EContextMember member,float value)
+        {
+            if (dataField_ is CameraMovementDataField dataField)
+            {
+                switch (member)
+                {
+                    case EContextMember.ZoomMax:
+                        dataField.ZoomMax = value;
+                        break;
+                    case EContextMember.ZoomMin:
+                        dataField.ZoomMin = value;
+                        break;
+                }
+            }
+
+        }
+
         #endregion
         
     }

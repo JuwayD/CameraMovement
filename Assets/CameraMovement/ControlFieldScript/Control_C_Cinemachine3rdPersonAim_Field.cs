@@ -5,7 +5,7 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-        public class Control_C_Cinemachine3rdPersonAim_Field :ICameraMovementControlField
+        public class Control_C_Cinemachine3rdPersonAim_Field :ICameraMovementControlField<Cinemachine.Cinemachine3rdPersonAim>
     {
        public  Type AttachControlField => typeof(Cinemachine.Cinemachine3rdPersonAim);
 
@@ -15,26 +15,30 @@ namespace CameraMovement{
             public DataMixer <System.Single> AimDistance;
         public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
-            if(sourceConfig.GetType() != AttachControlField) return;
+            if(sourceConfig == null) return;
+            if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_Cinemachine3rdPersonAim_Config source = (CameraMovement.Control_C_Cinemachine3rdPersonAim_Config)sourceConfig;
-            if(source.IgnoreTag.IsUse) IgnoreTag.Add(new MixItem<System.String>(id, priority, source.IgnoreTag.CalculatorExpression, source.IgnoreTag.Value));
-            if(source.AimDistance.IsUse) AimDistance.Add(new MixItem<System.Single>(id, priority, source.AimDistance.CalculatorExpression, source.AimDistance.Value));
+            if(source.IgnoreTag.IsUse) IgnoreTag.Add(new MixItem<System.String>(id, priority, source.IgnoreTag.CalculatorExpression, source.IgnoreTag.Value, source.IgnoreTag.IsUse));
+            if(source.AimDistance.IsUse) AimDistance.Add(new MixItem<System.Single>(id, priority, source.AimDistance.CalculatorExpression, source.AimDistance.Value, source.AimDistance.IsUse));
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
-            if(sourceConfig.GetType() != AttachControlField) return;
+            if(sourceConfig == null) return;
+            if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_Cinemachine3rdPersonAim_Config source = (CameraMovement.Control_C_Cinemachine3rdPersonAim_Config)sourceConfig;
-            if(source.IgnoreTag.IsUse) IgnoreTag.Remove(new MixItem<System.String>(id, priority, source.IgnoreTag.CalculatorExpression, source.IgnoreTag.Value));
-            if(source.AimDistance.IsUse) AimDistance.Remove(new MixItem<System.Single>(id, priority, source.AimDistance.CalculatorExpression, source.AimDistance.Value));
+            if(source.IgnoreTag.IsUse) IgnoreTag.Remove(new MixItem<System.String>(id, priority, source.IgnoreTag.CalculatorExpression, source.IgnoreTag.Value, source.IgnoreTag.IsUse));
+            if(source.AimDistance.IsUse) AimDistance.Remove(new MixItem<System.Single>(id, priority, source.AimDistance.CalculatorExpression, source.AimDistance.Value, source.AimDistance.IsUse));
         }
         public void RemoveAll()
         {
             IgnoreTag.RemoveAll();
             AimDistance.RemoveAll();
         }
-        public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
+        public void ControlCinemachine(ref Cinemachine.Cinemachine3rdPersonAim target, Dictionary<int, RuntimeTemplate> templateDict)
         {
-            var target = (Cinemachine.Cinemachine3rdPersonAim)targetObj;
+            if (IgnoreTag.IsUse) target.IgnoreTag = IgnoreTag.PrimitiveValue;
+            if (AimDistance.IsUse && templateDict.ContainsKey(AimDistance.Id))
+                target.AimDistance = Mathf.Approximately(0, templateDict[AimDistance.Id].Config.duration) ? (AimDistance.IsExpression ? AimDistance.Value : AimDistance.PrimitiveValue) : templateDict[AimDistance.Id].Config.alertCurve.Evaluate(templateDict[AimDistance.Id].CostTime / templateDict[AimDistance.Id].Config.duration) * (AimDistance.IsExpression ? AimDistance.Value : AimDistance.PrimitiveValue);
         }
     }
 }

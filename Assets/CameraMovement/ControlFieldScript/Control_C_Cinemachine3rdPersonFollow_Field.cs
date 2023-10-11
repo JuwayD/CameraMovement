@@ -5,7 +5,7 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-        public class Control_C_Cinemachine3rdPersonFollow_Field :ICameraMovementControlField
+        public class Control_C_Cinemachine3rdPersonFollow_Field :ICameraMovementControlField<Cinemachine.Cinemachine3rdPersonFollow>
     {
        public  Type AttachControlField => typeof(Cinemachine.Cinemachine3rdPersonFollow);
 
@@ -30,31 +30,33 @@ namespace CameraMovement{
             public DataMixer <System.Single> DampingFromCollision;
         public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
-            if(sourceConfig.GetType() != AttachControlField) return;
+            if(sourceConfig == null) return;
+            if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_Cinemachine3rdPersonFollow_Config source = (CameraMovement.Control_C_Cinemachine3rdPersonFollow_Config)sourceConfig;
-            if(source.Damping.IsUse) Damping.Add(new MixItem<UnityEngine.Vector3>(id, priority, source.Damping.CalculatorExpression, source.Damping.Value));
-            if(source.ShoulderOffset.IsUse) ShoulderOffset.Add(new MixItem<UnityEngine.Vector3>(id, priority, source.ShoulderOffset.CalculatorExpression, source.ShoulderOffset.Value));
-            if(source.VerticalArmLength.IsUse) VerticalArmLength.Add(new MixItem<System.Single>(id, priority, source.VerticalArmLength.CalculatorExpression, source.VerticalArmLength.Value));
-            if(source.CameraSide.IsUse) CameraSide.Add(new MixItem<System.Single>(id, priority, source.CameraSide.CalculatorExpression, source.CameraSide.Value));
-            if(source.CameraDistance.IsUse) CameraDistance.Add(new MixItem<System.Single>(id, priority, source.CameraDistance.CalculatorExpression, source.CameraDistance.Value));
-            if(source.IgnoreTag.IsUse) IgnoreTag.Add(new MixItem<System.String>(id, priority, source.IgnoreTag.CalculatorExpression, source.IgnoreTag.Value));
-            if(source.CameraRadius.IsUse) CameraRadius.Add(new MixItem<System.Single>(id, priority, source.CameraRadius.CalculatorExpression, source.CameraRadius.Value));
-            if(source.DampingIntoCollision.IsUse) DampingIntoCollision.Add(new MixItem<System.Single>(id, priority, source.DampingIntoCollision.CalculatorExpression, source.DampingIntoCollision.Value));
-            if(source.DampingFromCollision.IsUse) DampingFromCollision.Add(new MixItem<System.Single>(id, priority, source.DampingFromCollision.CalculatorExpression, source.DampingFromCollision.Value));
+            if(source.Damping.IsUse) Damping.Add(new MixItem<UnityEngine.Vector3>(id, priority, source.Damping.CalculatorExpression, source.Damping.Value, source.Damping.IsUse));
+            if(source.ShoulderOffset.IsUse) ShoulderOffset.Add(new MixItem<UnityEngine.Vector3>(id, priority, source.ShoulderOffset.CalculatorExpression, source.ShoulderOffset.Value, source.ShoulderOffset.IsUse));
+            if(source.VerticalArmLength.IsUse) VerticalArmLength.Add(new MixItem<System.Single>(id, priority, source.VerticalArmLength.CalculatorExpression, source.VerticalArmLength.Value, source.VerticalArmLength.IsUse));
+            if(source.CameraSide.IsUse) CameraSide.Add(new MixItem<System.Single>(id, priority, source.CameraSide.CalculatorExpression, source.CameraSide.Value, source.CameraSide.IsUse));
+            if(source.CameraDistance.IsUse) CameraDistance.Add(new MixItem<System.Single>(id, priority, source.CameraDistance.CalculatorExpression, source.CameraDistance.Value, source.CameraDistance.IsUse));
+            if(source.IgnoreTag.IsUse) IgnoreTag.Add(new MixItem<System.String>(id, priority, source.IgnoreTag.CalculatorExpression, source.IgnoreTag.Value, source.IgnoreTag.IsUse));
+            if(source.CameraRadius.IsUse) CameraRadius.Add(new MixItem<System.Single>(id, priority, source.CameraRadius.CalculatorExpression, source.CameraRadius.Value, source.CameraRadius.IsUse));
+            if(source.DampingIntoCollision.IsUse) DampingIntoCollision.Add(new MixItem<System.Single>(id, priority, source.DampingIntoCollision.CalculatorExpression, source.DampingIntoCollision.Value, source.DampingIntoCollision.IsUse));
+            if(source.DampingFromCollision.IsUse) DampingFromCollision.Add(new MixItem<System.Single>(id, priority, source.DampingFromCollision.CalculatorExpression, source.DampingFromCollision.Value, source.DampingFromCollision.IsUse));
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
-            if(sourceConfig.GetType() != AttachControlField) return;
+            if(sourceConfig == null) return;
+            if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_Cinemachine3rdPersonFollow_Config source = (CameraMovement.Control_C_Cinemachine3rdPersonFollow_Config)sourceConfig;
-            if(source.Damping.IsUse) Damping.Remove(new MixItem<UnityEngine.Vector3>(id, priority, source.Damping.CalculatorExpression, source.Damping.Value));
-            if(source.ShoulderOffset.IsUse) ShoulderOffset.Remove(new MixItem<UnityEngine.Vector3>(id, priority, source.ShoulderOffset.CalculatorExpression, source.ShoulderOffset.Value));
-            if(source.VerticalArmLength.IsUse) VerticalArmLength.Remove(new MixItem<System.Single>(id, priority, source.VerticalArmLength.CalculatorExpression, source.VerticalArmLength.Value));
-            if(source.CameraSide.IsUse) CameraSide.Remove(new MixItem<System.Single>(id, priority, source.CameraSide.CalculatorExpression, source.CameraSide.Value));
-            if(source.CameraDistance.IsUse) CameraDistance.Remove(new MixItem<System.Single>(id, priority, source.CameraDistance.CalculatorExpression, source.CameraDistance.Value));
-            if(source.IgnoreTag.IsUse) IgnoreTag.Remove(new MixItem<System.String>(id, priority, source.IgnoreTag.CalculatorExpression, source.IgnoreTag.Value));
-            if(source.CameraRadius.IsUse) CameraRadius.Remove(new MixItem<System.Single>(id, priority, source.CameraRadius.CalculatorExpression, source.CameraRadius.Value));
-            if(source.DampingIntoCollision.IsUse) DampingIntoCollision.Remove(new MixItem<System.Single>(id, priority, source.DampingIntoCollision.CalculatorExpression, source.DampingIntoCollision.Value));
-            if(source.DampingFromCollision.IsUse) DampingFromCollision.Remove(new MixItem<System.Single>(id, priority, source.DampingFromCollision.CalculatorExpression, source.DampingFromCollision.Value));
+            if(source.Damping.IsUse) Damping.Remove(new MixItem<UnityEngine.Vector3>(id, priority, source.Damping.CalculatorExpression, source.Damping.Value, source.Damping.IsUse));
+            if(source.ShoulderOffset.IsUse) ShoulderOffset.Remove(new MixItem<UnityEngine.Vector3>(id, priority, source.ShoulderOffset.CalculatorExpression, source.ShoulderOffset.Value, source.ShoulderOffset.IsUse));
+            if(source.VerticalArmLength.IsUse) VerticalArmLength.Remove(new MixItem<System.Single>(id, priority, source.VerticalArmLength.CalculatorExpression, source.VerticalArmLength.Value, source.VerticalArmLength.IsUse));
+            if(source.CameraSide.IsUse) CameraSide.Remove(new MixItem<System.Single>(id, priority, source.CameraSide.CalculatorExpression, source.CameraSide.Value, source.CameraSide.IsUse));
+            if(source.CameraDistance.IsUse) CameraDistance.Remove(new MixItem<System.Single>(id, priority, source.CameraDistance.CalculatorExpression, source.CameraDistance.Value, source.CameraDistance.IsUse));
+            if(source.IgnoreTag.IsUse) IgnoreTag.Remove(new MixItem<System.String>(id, priority, source.IgnoreTag.CalculatorExpression, source.IgnoreTag.Value, source.IgnoreTag.IsUse));
+            if(source.CameraRadius.IsUse) CameraRadius.Remove(new MixItem<System.Single>(id, priority, source.CameraRadius.CalculatorExpression, source.CameraRadius.Value, source.CameraRadius.IsUse));
+            if(source.DampingIntoCollision.IsUse) DampingIntoCollision.Remove(new MixItem<System.Single>(id, priority, source.DampingIntoCollision.CalculatorExpression, source.DampingIntoCollision.Value, source.DampingIntoCollision.IsUse));
+            if(source.DampingFromCollision.IsUse) DampingFromCollision.Remove(new MixItem<System.Single>(id, priority, source.DampingFromCollision.CalculatorExpression, source.DampingFromCollision.Value, source.DampingFromCollision.IsUse));
         }
         public void RemoveAll()
         {
@@ -68,9 +70,21 @@ namespace CameraMovement{
             DampingIntoCollision.RemoveAll();
             DampingFromCollision.RemoveAll();
         }
-        public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
+        public void ControlCinemachine(ref Cinemachine.Cinemachine3rdPersonFollow target, Dictionary<int, RuntimeTemplate> templateDict)
         {
-            var target = (Cinemachine.Cinemachine3rdPersonFollow)targetObj;
+            if (VerticalArmLength.IsUse && templateDict.ContainsKey(VerticalArmLength.Id))
+                target.VerticalArmLength = Mathf.Approximately(0, templateDict[VerticalArmLength.Id].Config.duration) ? (VerticalArmLength.IsExpression ? VerticalArmLength.Value : VerticalArmLength.PrimitiveValue) : templateDict[VerticalArmLength.Id].Config.alertCurve.Evaluate(templateDict[VerticalArmLength.Id].CostTime / templateDict[VerticalArmLength.Id].Config.duration) * (VerticalArmLength.IsExpression ? VerticalArmLength.Value : VerticalArmLength.PrimitiveValue);
+            if (CameraSide.IsUse && templateDict.ContainsKey(CameraSide.Id))
+                target.CameraSide = Mathf.Approximately(0, templateDict[CameraSide.Id].Config.duration) ? (CameraSide.IsExpression ? CameraSide.Value : CameraSide.PrimitiveValue) : templateDict[CameraSide.Id].Config.alertCurve.Evaluate(templateDict[CameraSide.Id].CostTime / templateDict[CameraSide.Id].Config.duration) * (CameraSide.IsExpression ? CameraSide.Value : CameraSide.PrimitiveValue);
+            if (CameraDistance.IsUse && templateDict.ContainsKey(CameraDistance.Id))
+                target.CameraDistance = Mathf.Approximately(0, templateDict[CameraDistance.Id].Config.duration) ? (CameraDistance.IsExpression ? CameraDistance.Value : CameraDistance.PrimitiveValue) : templateDict[CameraDistance.Id].Config.alertCurve.Evaluate(templateDict[CameraDistance.Id].CostTime / templateDict[CameraDistance.Id].Config.duration) * (CameraDistance.IsExpression ? CameraDistance.Value : CameraDistance.PrimitiveValue);
+            if (IgnoreTag.IsUse) target.IgnoreTag = IgnoreTag.PrimitiveValue;
+            if (CameraRadius.IsUse && templateDict.ContainsKey(CameraRadius.Id))
+                target.CameraRadius = Mathf.Approximately(0, templateDict[CameraRadius.Id].Config.duration) ? (CameraRadius.IsExpression ? CameraRadius.Value : CameraRadius.PrimitiveValue) : templateDict[CameraRadius.Id].Config.alertCurve.Evaluate(templateDict[CameraRadius.Id].CostTime / templateDict[CameraRadius.Id].Config.duration) * (CameraRadius.IsExpression ? CameraRadius.Value : CameraRadius.PrimitiveValue);
+            if (DampingIntoCollision.IsUse && templateDict.ContainsKey(DampingIntoCollision.Id))
+                target.DampingIntoCollision = Mathf.Approximately(0, templateDict[DampingIntoCollision.Id].Config.duration) ? (DampingIntoCollision.IsExpression ? DampingIntoCollision.Value : DampingIntoCollision.PrimitiveValue) : templateDict[DampingIntoCollision.Id].Config.alertCurve.Evaluate(templateDict[DampingIntoCollision.Id].CostTime / templateDict[DampingIntoCollision.Id].Config.duration) * (DampingIntoCollision.IsExpression ? DampingIntoCollision.Value : DampingIntoCollision.PrimitiveValue);
+            if (DampingFromCollision.IsUse && templateDict.ContainsKey(DampingFromCollision.Id))
+                target.DampingFromCollision = Mathf.Approximately(0, templateDict[DampingFromCollision.Id].Config.duration) ? (DampingFromCollision.IsExpression ? DampingFromCollision.Value : DampingFromCollision.PrimitiveValue) : templateDict[DampingFromCollision.Id].Config.alertCurve.Evaluate(templateDict[DampingFromCollision.Id].CostTime / templateDict[DampingFromCollision.Id].Config.duration) * (DampingFromCollision.IsExpression ? DampingFromCollision.Value : DampingFromCollision.PrimitiveValue);
         }
     }
 }

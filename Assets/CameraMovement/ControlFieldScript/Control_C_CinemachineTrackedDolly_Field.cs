@@ -5,7 +5,7 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-        public class Control_C_CinemachineTrackedDolly_Field :ICameraMovementControlField
+        public class Control_C_CinemachineTrackedDolly_Field :ICameraMovementControlField<Cinemachine.CinemachineTrackedDolly>
     {
        public  Type AttachControlField => typeof(Cinemachine.CinemachineTrackedDolly);
 
@@ -33,35 +33,38 @@ namespace CameraMovement{
         public Control_C_CTD_AutoDolly_Field m_AutoDolly;
         public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
-            if(sourceConfig.GetType() != AttachControlField) return;
+            if(sourceConfig == null) return;
+            if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachineTrackedDolly_Config source = (CameraMovement.Control_C_CinemachineTrackedDolly_Config)sourceConfig;
-            if(source.m_PathPosition.IsUse) m_PathPosition.Add(new MixItem<System.Single>(id, priority, source.m_PathPosition.CalculatorExpression, source.m_PathPosition.Value));
-            if(source.m_PositionUnits.IsUse) m_PositionUnits.Add(new MixItem<Cinemachine.CinemachinePathBase.PositionUnits>(id, priority, source.m_PositionUnits.CalculatorExpression, source.m_PositionUnits.Value));
-            if(source.m_PathOffset.IsUse) m_PathOffset.Add(new MixItem<UnityEngine.Vector3>(id, priority, source.m_PathOffset.CalculatorExpression, source.m_PathOffset.Value));
-            if(source.m_XDamping.IsUse) m_XDamping.Add(new MixItem<System.Single>(id, priority, source.m_XDamping.CalculatorExpression, source.m_XDamping.Value));
-            if(source.m_YDamping.IsUse) m_YDamping.Add(new MixItem<System.Single>(id, priority, source.m_YDamping.CalculatorExpression, source.m_YDamping.Value));
-            if(source.m_ZDamping.IsUse) m_ZDamping.Add(new MixItem<System.Single>(id, priority, source.m_ZDamping.CalculatorExpression, source.m_ZDamping.Value));
-            if(source.m_CameraUp.IsUse) m_CameraUp.Add(new MixItem<Cinemachine.CinemachineTrackedDolly.CameraUpMode>(id, priority, source.m_CameraUp.CalculatorExpression, source.m_CameraUp.Value));
-            if(source.m_PitchDamping.IsUse) m_PitchDamping.Add(new MixItem<System.Single>(id, priority, source.m_PitchDamping.CalculatorExpression, source.m_PitchDamping.Value));
-            if(source.m_YawDamping.IsUse) m_YawDamping.Add(new MixItem<System.Single>(id, priority, source.m_YawDamping.CalculatorExpression, source.m_YawDamping.Value));
-            if(source.m_RollDamping.IsUse) m_RollDamping.Add(new MixItem<System.Single>(id, priority, source.m_RollDamping.CalculatorExpression, source.m_RollDamping.Value));
-            m_AutoDolly.AddByConfig(source.m_AutoDolly, id, priority);
+            if(source.m_PathPosition.IsUse) m_PathPosition.Add(new MixItem<System.Single>(id, priority, source.m_PathPosition.CalculatorExpression, source.m_PathPosition.Value, source.m_PathPosition.IsUse));
+            if(source.m_PositionUnits.IsUse) m_PositionUnits.Add(new MixItem<Cinemachine.CinemachinePathBase.PositionUnits>(id, priority, source.m_PositionUnits.CalculatorExpression, source.m_PositionUnits.Value, source.m_PositionUnits.IsUse));
+            if(source.m_PathOffset.IsUse) m_PathOffset.Add(new MixItem<UnityEngine.Vector3>(id, priority, source.m_PathOffset.CalculatorExpression, source.m_PathOffset.Value, source.m_PathOffset.IsUse));
+            if(source.m_XDamping.IsUse) m_XDamping.Add(new MixItem<System.Single>(id, priority, source.m_XDamping.CalculatorExpression, source.m_XDamping.Value, source.m_XDamping.IsUse));
+            if(source.m_YDamping.IsUse) m_YDamping.Add(new MixItem<System.Single>(id, priority, source.m_YDamping.CalculatorExpression, source.m_YDamping.Value, source.m_YDamping.IsUse));
+            if(source.m_ZDamping.IsUse) m_ZDamping.Add(new MixItem<System.Single>(id, priority, source.m_ZDamping.CalculatorExpression, source.m_ZDamping.Value, source.m_ZDamping.IsUse));
+            if(source.m_CameraUp.IsUse) m_CameraUp.Add(new MixItem<Cinemachine.CinemachineTrackedDolly.CameraUpMode>(id, priority, source.m_CameraUp.CalculatorExpression, source.m_CameraUp.Value, source.m_CameraUp.IsUse));
+            if(source.m_PitchDamping.IsUse) m_PitchDamping.Add(new MixItem<System.Single>(id, priority, source.m_PitchDamping.CalculatorExpression, source.m_PitchDamping.Value, source.m_PitchDamping.IsUse));
+            if(source.m_YawDamping.IsUse) m_YawDamping.Add(new MixItem<System.Single>(id, priority, source.m_YawDamping.CalculatorExpression, source.m_YawDamping.Value, source.m_YawDamping.IsUse));
+            if(source.m_RollDamping.IsUse) m_RollDamping.Add(new MixItem<System.Single>(id, priority, source.m_RollDamping.CalculatorExpression, source.m_RollDamping.Value, source.m_RollDamping.IsUse));
+                if(source.m_AutoDolly != null && m_AutoDolly == null) m_AutoDolly = new Control_C_CTD_AutoDolly_Field();
+            m_AutoDolly?.AddByConfig(source.m_AutoDolly, id, priority);
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
-            if(sourceConfig.GetType() != AttachControlField) return;
+            if(sourceConfig == null) return;
+            if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachineTrackedDolly_Config source = (CameraMovement.Control_C_CinemachineTrackedDolly_Config)sourceConfig;
-            if(source.m_PathPosition.IsUse) m_PathPosition.Remove(new MixItem<System.Single>(id, priority, source.m_PathPosition.CalculatorExpression, source.m_PathPosition.Value));
-            if(source.m_PositionUnits.IsUse) m_PositionUnits.Remove(new MixItem<Cinemachine.CinemachinePathBase.PositionUnits>(id, priority, source.m_PositionUnits.CalculatorExpression, source.m_PositionUnits.Value));
-            if(source.m_PathOffset.IsUse) m_PathOffset.Remove(new MixItem<UnityEngine.Vector3>(id, priority, source.m_PathOffset.CalculatorExpression, source.m_PathOffset.Value));
-            if(source.m_XDamping.IsUse) m_XDamping.Remove(new MixItem<System.Single>(id, priority, source.m_XDamping.CalculatorExpression, source.m_XDamping.Value));
-            if(source.m_YDamping.IsUse) m_YDamping.Remove(new MixItem<System.Single>(id, priority, source.m_YDamping.CalculatorExpression, source.m_YDamping.Value));
-            if(source.m_ZDamping.IsUse) m_ZDamping.Remove(new MixItem<System.Single>(id, priority, source.m_ZDamping.CalculatorExpression, source.m_ZDamping.Value));
-            if(source.m_CameraUp.IsUse) m_CameraUp.Remove(new MixItem<Cinemachine.CinemachineTrackedDolly.CameraUpMode>(id, priority, source.m_CameraUp.CalculatorExpression, source.m_CameraUp.Value));
-            if(source.m_PitchDamping.IsUse) m_PitchDamping.Remove(new MixItem<System.Single>(id, priority, source.m_PitchDamping.CalculatorExpression, source.m_PitchDamping.Value));
-            if(source.m_YawDamping.IsUse) m_YawDamping.Remove(new MixItem<System.Single>(id, priority, source.m_YawDamping.CalculatorExpression, source.m_YawDamping.Value));
-            if(source.m_RollDamping.IsUse) m_RollDamping.Remove(new MixItem<System.Single>(id, priority, source.m_RollDamping.CalculatorExpression, source.m_RollDamping.Value));
-            m_AutoDolly.RemoveByConfig(source.m_AutoDolly, id, priority);
+            if(source.m_PathPosition.IsUse) m_PathPosition.Remove(new MixItem<System.Single>(id, priority, source.m_PathPosition.CalculatorExpression, source.m_PathPosition.Value, source.m_PathPosition.IsUse));
+            if(source.m_PositionUnits.IsUse) m_PositionUnits.Remove(new MixItem<Cinemachine.CinemachinePathBase.PositionUnits>(id, priority, source.m_PositionUnits.CalculatorExpression, source.m_PositionUnits.Value, source.m_PositionUnits.IsUse));
+            if(source.m_PathOffset.IsUse) m_PathOffset.Remove(new MixItem<UnityEngine.Vector3>(id, priority, source.m_PathOffset.CalculatorExpression, source.m_PathOffset.Value, source.m_PathOffset.IsUse));
+            if(source.m_XDamping.IsUse) m_XDamping.Remove(new MixItem<System.Single>(id, priority, source.m_XDamping.CalculatorExpression, source.m_XDamping.Value, source.m_XDamping.IsUse));
+            if(source.m_YDamping.IsUse) m_YDamping.Remove(new MixItem<System.Single>(id, priority, source.m_YDamping.CalculatorExpression, source.m_YDamping.Value, source.m_YDamping.IsUse));
+            if(source.m_ZDamping.IsUse) m_ZDamping.Remove(new MixItem<System.Single>(id, priority, source.m_ZDamping.CalculatorExpression, source.m_ZDamping.Value, source.m_ZDamping.IsUse));
+            if(source.m_CameraUp.IsUse) m_CameraUp.Remove(new MixItem<Cinemachine.CinemachineTrackedDolly.CameraUpMode>(id, priority, source.m_CameraUp.CalculatorExpression, source.m_CameraUp.Value, source.m_CameraUp.IsUse));
+            if(source.m_PitchDamping.IsUse) m_PitchDamping.Remove(new MixItem<System.Single>(id, priority, source.m_PitchDamping.CalculatorExpression, source.m_PitchDamping.Value, source.m_PitchDamping.IsUse));
+            if(source.m_YawDamping.IsUse) m_YawDamping.Remove(new MixItem<System.Single>(id, priority, source.m_YawDamping.CalculatorExpression, source.m_YawDamping.Value, source.m_YawDamping.IsUse));
+            if(source.m_RollDamping.IsUse) m_RollDamping.Remove(new MixItem<System.Single>(id, priority, source.m_RollDamping.CalculatorExpression, source.m_RollDamping.Value, source.m_RollDamping.IsUse));
+            m_AutoDolly?.RemoveByConfig(source.m_AutoDolly, id, priority);
         }
         public void RemoveAll()
         {
@@ -75,37 +78,29 @@ namespace CameraMovement{
             m_PitchDamping.RemoveAll();
             m_YawDamping.RemoveAll();
             m_RollDamping.RemoveAll();
-            m_AutoDolly.RemoveAll();
+            m_AutoDolly?.RemoveAll();
         }
-        public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
+        public void ControlCinemachine(ref Cinemachine.CinemachineTrackedDolly target, Dictionary<int, RuntimeTemplate> templateDict)
         {
-            var target = (Cinemachine.CinemachineTrackedDolly)targetObj;
-            if (templateDict.ContainsKey(m_PathPosition.Id))
-                target.m_PathPosition = templateDict[m_PathPosition.Id].Config.alertCurve.Evaluate(templateDict[m_PathPosition.Id].CostTime / templateDict[m_PathPosition.Id].Config.duration) * m_PathPosition.Value;
-            target.m_PathPosition = (System.Single)m_PathPosition.Value;
-            target.m_PositionUnits = (Cinemachine.CinemachinePathBase.PositionUnits)m_PositionUnits.Value;
-            if (templateDict.ContainsKey(m_XDamping.Id))
-                target.m_XDamping = templateDict[m_XDamping.Id].Config.alertCurve.Evaluate(templateDict[m_XDamping.Id].CostTime / templateDict[m_XDamping.Id].Config.duration) * m_XDamping.Value;
-            target.m_XDamping = (System.Single)m_XDamping.Value;
-            if (templateDict.ContainsKey(m_YDamping.Id))
-                target.m_YDamping = templateDict[m_YDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YDamping.Id].CostTime / templateDict[m_YDamping.Id].Config.duration) * m_YDamping.Value;
-            target.m_YDamping = (System.Single)m_YDamping.Value;
-            if (templateDict.ContainsKey(m_ZDamping.Id))
-                target.m_ZDamping = templateDict[m_ZDamping.Id].Config.alertCurve.Evaluate(templateDict[m_ZDamping.Id].CostTime / templateDict[m_ZDamping.Id].Config.duration) * m_ZDamping.Value;
-            target.m_ZDamping = (System.Single)m_ZDamping.Value;
-            target.m_CameraUp = (Cinemachine.CinemachineTrackedDolly.CameraUpMode)m_CameraUp.Value;
-            if (templateDict.ContainsKey(m_PitchDamping.Id))
-                target.m_PitchDamping = templateDict[m_PitchDamping.Id].Config.alertCurve.Evaluate(templateDict[m_PitchDamping.Id].CostTime / templateDict[m_PitchDamping.Id].Config.duration) * m_PitchDamping.Value;
-            target.m_PitchDamping = (System.Single)m_PitchDamping.Value;
-            if (templateDict.ContainsKey(m_YawDamping.Id))
-                target.m_YawDamping = templateDict[m_YawDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YawDamping.Id].CostTime / templateDict[m_YawDamping.Id].Config.duration) * m_YawDamping.Value;
-            target.m_YawDamping = (System.Single)m_YawDamping.Value;
-            if (templateDict.ContainsKey(m_RollDamping.Id))
-                target.m_RollDamping = templateDict[m_RollDamping.Id].Config.alertCurve.Evaluate(templateDict[m_RollDamping.Id].CostTime / templateDict[m_RollDamping.Id].Config.duration) * m_RollDamping.Value;
-            target.m_RollDamping = (System.Single)m_RollDamping.Value;
+            if (m_PathPosition.IsUse && templateDict.ContainsKey(m_PathPosition.Id))
+                target.m_PathPosition = Mathf.Approximately(0, templateDict[m_PathPosition.Id].Config.duration) ? (m_PathPosition.IsExpression ? m_PathPosition.Value : m_PathPosition.PrimitiveValue) : templateDict[m_PathPosition.Id].Config.alertCurve.Evaluate(templateDict[m_PathPosition.Id].CostTime / templateDict[m_PathPosition.Id].Config.duration) * (m_PathPosition.IsExpression ? m_PathPosition.Value : m_PathPosition.PrimitiveValue);
+            if (m_PositionUnits.IsUse) target.m_PositionUnits = m_PositionUnits.IsExpression ? (Cinemachine.CinemachinePathBase.PositionUnits)m_PositionUnits.Value :m_PositionUnits.PrimitiveValue;
+            if (m_XDamping.IsUse && templateDict.ContainsKey(m_XDamping.Id))
+                target.m_XDamping = Mathf.Approximately(0, templateDict[m_XDamping.Id].Config.duration) ? (m_XDamping.IsExpression ? m_XDamping.Value : m_XDamping.PrimitiveValue) : templateDict[m_XDamping.Id].Config.alertCurve.Evaluate(templateDict[m_XDamping.Id].CostTime / templateDict[m_XDamping.Id].Config.duration) * (m_XDamping.IsExpression ? m_XDamping.Value : m_XDamping.PrimitiveValue);
+            if (m_YDamping.IsUse && templateDict.ContainsKey(m_YDamping.Id))
+                target.m_YDamping = Mathf.Approximately(0, templateDict[m_YDamping.Id].Config.duration) ? (m_YDamping.IsExpression ? m_YDamping.Value : m_YDamping.PrimitiveValue) : templateDict[m_YDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YDamping.Id].CostTime / templateDict[m_YDamping.Id].Config.duration) * (m_YDamping.IsExpression ? m_YDamping.Value : m_YDamping.PrimitiveValue);
+            if (m_ZDamping.IsUse && templateDict.ContainsKey(m_ZDamping.Id))
+                target.m_ZDamping = Mathf.Approximately(0, templateDict[m_ZDamping.Id].Config.duration) ? (m_ZDamping.IsExpression ? m_ZDamping.Value : m_ZDamping.PrimitiveValue) : templateDict[m_ZDamping.Id].Config.alertCurve.Evaluate(templateDict[m_ZDamping.Id].CostTime / templateDict[m_ZDamping.Id].Config.duration) * (m_ZDamping.IsExpression ? m_ZDamping.Value : m_ZDamping.PrimitiveValue);
+            if (m_CameraUp.IsUse) target.m_CameraUp = m_CameraUp.IsExpression ? (Cinemachine.CinemachineTrackedDolly.CameraUpMode)m_CameraUp.Value :m_CameraUp.PrimitiveValue;
+            if (m_PitchDamping.IsUse && templateDict.ContainsKey(m_PitchDamping.Id))
+                target.m_PitchDamping = Mathf.Approximately(0, templateDict[m_PitchDamping.Id].Config.duration) ? (m_PitchDamping.IsExpression ? m_PitchDamping.Value : m_PitchDamping.PrimitiveValue) : templateDict[m_PitchDamping.Id].Config.alertCurve.Evaluate(templateDict[m_PitchDamping.Id].CostTime / templateDict[m_PitchDamping.Id].Config.duration) * (m_PitchDamping.IsExpression ? m_PitchDamping.Value : m_PitchDamping.PrimitiveValue);
+            if (m_YawDamping.IsUse && templateDict.ContainsKey(m_YawDamping.Id))
+                target.m_YawDamping = Mathf.Approximately(0, templateDict[m_YawDamping.Id].Config.duration) ? (m_YawDamping.IsExpression ? m_YawDamping.Value : m_YawDamping.PrimitiveValue) : templateDict[m_YawDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YawDamping.Id].CostTime / templateDict[m_YawDamping.Id].Config.duration) * (m_YawDamping.IsExpression ? m_YawDamping.Value : m_YawDamping.PrimitiveValue);
+            if (m_RollDamping.IsUse && templateDict.ContainsKey(m_RollDamping.Id))
+                target.m_RollDamping = Mathf.Approximately(0, templateDict[m_RollDamping.Id].Config.duration) ? (m_RollDamping.IsExpression ? m_RollDamping.Value : m_RollDamping.PrimitiveValue) : templateDict[m_RollDamping.Id].Config.alertCurve.Evaluate(templateDict[m_RollDamping.Id].CostTime / templateDict[m_RollDamping.Id].Config.duration) * (m_RollDamping.IsExpression ? m_RollDamping.Value : m_RollDamping.PrimitiveValue);
             // 处理字段 m_AutoDolly
             // 生成递归代码
-            m_AutoDolly.ControlCinemachine(target.m_AutoDolly, templateDict);
+            m_AutoDolly?.ControlCinemachine(ref target.m_AutoDolly, templateDict);
         }
     }
 }

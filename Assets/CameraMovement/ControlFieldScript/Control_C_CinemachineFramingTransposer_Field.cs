@@ -5,7 +5,7 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-        public class Control_C_CinemachineFramingTransposer_Field :ICameraMovementControlField
+        public class Control_C_CinemachineFramingTransposer_Field :ICameraMovementControlField<Cinemachine.CinemachineFramingTransposer>
     {
        public  Type AttachControlField => typeof(Cinemachine.CinemachineFramingTransposer);
 
@@ -73,75 +73,77 @@ namespace CameraMovement{
             public DataMixer <System.Single> m_MaximumOrthoSize;
         public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
-            if(sourceConfig.GetType() != AttachControlField) return;
+            if(sourceConfig == null) return;
+            if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachineFramingTransposer_Config source = (CameraMovement.Control_C_CinemachineFramingTransposer_Config)sourceConfig;
-            if(source.m_TrackedObjectOffset.IsUse) m_TrackedObjectOffset.Add(new MixItem<UnityEngine.Vector3>(id, priority, source.m_TrackedObjectOffset.CalculatorExpression, source.m_TrackedObjectOffset.Value));
-            if(source.m_LookaheadTime.IsUse) m_LookaheadTime.Add(new MixItem<System.Single>(id, priority, source.m_LookaheadTime.CalculatorExpression, source.m_LookaheadTime.Value));
-            if(source.m_LookaheadSmoothing.IsUse) m_LookaheadSmoothing.Add(new MixItem<System.Single>(id, priority, source.m_LookaheadSmoothing.CalculatorExpression, source.m_LookaheadSmoothing.Value));
-            if(source.m_LookaheadIgnoreY.IsUse) m_LookaheadIgnoreY.Add(new MixItem<System.Boolean>(id, priority, source.m_LookaheadIgnoreY.CalculatorExpression, source.m_LookaheadIgnoreY.Value));
-            if(source.m_XDamping.IsUse) m_XDamping.Add(new MixItem<System.Single>(id, priority, source.m_XDamping.CalculatorExpression, source.m_XDamping.Value));
-            if(source.m_YDamping.IsUse) m_YDamping.Add(new MixItem<System.Single>(id, priority, source.m_YDamping.CalculatorExpression, source.m_YDamping.Value));
-            if(source.m_ZDamping.IsUse) m_ZDamping.Add(new MixItem<System.Single>(id, priority, source.m_ZDamping.CalculatorExpression, source.m_ZDamping.Value));
-            if(source.m_TargetMovementOnly.IsUse) m_TargetMovementOnly.Add(new MixItem<System.Boolean>(id, priority, source.m_TargetMovementOnly.CalculatorExpression, source.m_TargetMovementOnly.Value));
-            if(source.m_ScreenX.IsUse) m_ScreenX.Add(new MixItem<System.Single>(id, priority, source.m_ScreenX.CalculatorExpression, source.m_ScreenX.Value));
-            if(source.m_ScreenY.IsUse) m_ScreenY.Add(new MixItem<System.Single>(id, priority, source.m_ScreenY.CalculatorExpression, source.m_ScreenY.Value));
-            if(source.m_CameraDistance.IsUse) m_CameraDistance.Add(new MixItem<System.Single>(id, priority, source.m_CameraDistance.CalculatorExpression, source.m_CameraDistance.Value));
-            if(source.m_DeadZoneWidth.IsUse) m_DeadZoneWidth.Add(new MixItem<System.Single>(id, priority, source.m_DeadZoneWidth.CalculatorExpression, source.m_DeadZoneWidth.Value));
-            if(source.m_DeadZoneHeight.IsUse) m_DeadZoneHeight.Add(new MixItem<System.Single>(id, priority, source.m_DeadZoneHeight.CalculatorExpression, source.m_DeadZoneHeight.Value));
-            if(source.m_DeadZoneDepth.IsUse) m_DeadZoneDepth.Add(new MixItem<System.Single>(id, priority, source.m_DeadZoneDepth.CalculatorExpression, source.m_DeadZoneDepth.Value));
-            if(source.m_UnlimitedSoftZone.IsUse) m_UnlimitedSoftZone.Add(new MixItem<System.Boolean>(id, priority, source.m_UnlimitedSoftZone.CalculatorExpression, source.m_UnlimitedSoftZone.Value));
-            if(source.m_SoftZoneWidth.IsUse) m_SoftZoneWidth.Add(new MixItem<System.Single>(id, priority, source.m_SoftZoneWidth.CalculatorExpression, source.m_SoftZoneWidth.Value));
-            if(source.m_SoftZoneHeight.IsUse) m_SoftZoneHeight.Add(new MixItem<System.Single>(id, priority, source.m_SoftZoneHeight.CalculatorExpression, source.m_SoftZoneHeight.Value));
-            if(source.m_BiasX.IsUse) m_BiasX.Add(new MixItem<System.Single>(id, priority, source.m_BiasX.CalculatorExpression, source.m_BiasX.Value));
-            if(source.m_BiasY.IsUse) m_BiasY.Add(new MixItem<System.Single>(id, priority, source.m_BiasY.CalculatorExpression, source.m_BiasY.Value));
-            if(source.m_CenterOnActivate.IsUse) m_CenterOnActivate.Add(new MixItem<System.Boolean>(id, priority, source.m_CenterOnActivate.CalculatorExpression, source.m_CenterOnActivate.Value));
-            if(source.m_GroupFramingMode.IsUse) m_GroupFramingMode.Add(new MixItem<Cinemachine.CinemachineFramingTransposer.FramingMode>(id, priority, source.m_GroupFramingMode.CalculatorExpression, source.m_GroupFramingMode.Value));
-            if(source.m_AdjustmentMode.IsUse) m_AdjustmentMode.Add(new MixItem<Cinemachine.CinemachineFramingTransposer.AdjustmentMode>(id, priority, source.m_AdjustmentMode.CalculatorExpression, source.m_AdjustmentMode.Value));
-            if(source.m_GroupFramingSize.IsUse) m_GroupFramingSize.Add(new MixItem<System.Single>(id, priority, source.m_GroupFramingSize.CalculatorExpression, source.m_GroupFramingSize.Value));
-            if(source.m_MaxDollyIn.IsUse) m_MaxDollyIn.Add(new MixItem<System.Single>(id, priority, source.m_MaxDollyIn.CalculatorExpression, source.m_MaxDollyIn.Value));
-            if(source.m_MaxDollyOut.IsUse) m_MaxDollyOut.Add(new MixItem<System.Single>(id, priority, source.m_MaxDollyOut.CalculatorExpression, source.m_MaxDollyOut.Value));
-            if(source.m_MinimumDistance.IsUse) m_MinimumDistance.Add(new MixItem<System.Single>(id, priority, source.m_MinimumDistance.CalculatorExpression, source.m_MinimumDistance.Value));
-            if(source.m_MaximumDistance.IsUse) m_MaximumDistance.Add(new MixItem<System.Single>(id, priority, source.m_MaximumDistance.CalculatorExpression, source.m_MaximumDistance.Value));
-            if(source.m_MinimumFOV.IsUse) m_MinimumFOV.Add(new MixItem<System.Single>(id, priority, source.m_MinimumFOV.CalculatorExpression, source.m_MinimumFOV.Value));
-            if(source.m_MaximumFOV.IsUse) m_MaximumFOV.Add(new MixItem<System.Single>(id, priority, source.m_MaximumFOV.CalculatorExpression, source.m_MaximumFOV.Value));
-            if(source.m_MinimumOrthoSize.IsUse) m_MinimumOrthoSize.Add(new MixItem<System.Single>(id, priority, source.m_MinimumOrthoSize.CalculatorExpression, source.m_MinimumOrthoSize.Value));
-            if(source.m_MaximumOrthoSize.IsUse) m_MaximumOrthoSize.Add(new MixItem<System.Single>(id, priority, source.m_MaximumOrthoSize.CalculatorExpression, source.m_MaximumOrthoSize.Value));
+            if(source.m_TrackedObjectOffset.IsUse) m_TrackedObjectOffset.Add(new MixItem<UnityEngine.Vector3>(id, priority, source.m_TrackedObjectOffset.CalculatorExpression, source.m_TrackedObjectOffset.Value, source.m_TrackedObjectOffset.IsUse));
+            if(source.m_LookaheadTime.IsUse) m_LookaheadTime.Add(new MixItem<System.Single>(id, priority, source.m_LookaheadTime.CalculatorExpression, source.m_LookaheadTime.Value, source.m_LookaheadTime.IsUse));
+            if(source.m_LookaheadSmoothing.IsUse) m_LookaheadSmoothing.Add(new MixItem<System.Single>(id, priority, source.m_LookaheadSmoothing.CalculatorExpression, source.m_LookaheadSmoothing.Value, source.m_LookaheadSmoothing.IsUse));
+            if(source.m_LookaheadIgnoreY.IsUse) m_LookaheadIgnoreY.Add(new MixItem<System.Boolean>(id, priority, source.m_LookaheadIgnoreY.CalculatorExpression, source.m_LookaheadIgnoreY.Value, source.m_LookaheadIgnoreY.IsUse));
+            if(source.m_XDamping.IsUse) m_XDamping.Add(new MixItem<System.Single>(id, priority, source.m_XDamping.CalculatorExpression, source.m_XDamping.Value, source.m_XDamping.IsUse));
+            if(source.m_YDamping.IsUse) m_YDamping.Add(new MixItem<System.Single>(id, priority, source.m_YDamping.CalculatorExpression, source.m_YDamping.Value, source.m_YDamping.IsUse));
+            if(source.m_ZDamping.IsUse) m_ZDamping.Add(new MixItem<System.Single>(id, priority, source.m_ZDamping.CalculatorExpression, source.m_ZDamping.Value, source.m_ZDamping.IsUse));
+            if(source.m_TargetMovementOnly.IsUse) m_TargetMovementOnly.Add(new MixItem<System.Boolean>(id, priority, source.m_TargetMovementOnly.CalculatorExpression, source.m_TargetMovementOnly.Value, source.m_TargetMovementOnly.IsUse));
+            if(source.m_ScreenX.IsUse) m_ScreenX.Add(new MixItem<System.Single>(id, priority, source.m_ScreenX.CalculatorExpression, source.m_ScreenX.Value, source.m_ScreenX.IsUse));
+            if(source.m_ScreenY.IsUse) m_ScreenY.Add(new MixItem<System.Single>(id, priority, source.m_ScreenY.CalculatorExpression, source.m_ScreenY.Value, source.m_ScreenY.IsUse));
+            if(source.m_CameraDistance.IsUse) m_CameraDistance.Add(new MixItem<System.Single>(id, priority, source.m_CameraDistance.CalculatorExpression, source.m_CameraDistance.Value, source.m_CameraDistance.IsUse));
+            if(source.m_DeadZoneWidth.IsUse) m_DeadZoneWidth.Add(new MixItem<System.Single>(id, priority, source.m_DeadZoneWidth.CalculatorExpression, source.m_DeadZoneWidth.Value, source.m_DeadZoneWidth.IsUse));
+            if(source.m_DeadZoneHeight.IsUse) m_DeadZoneHeight.Add(new MixItem<System.Single>(id, priority, source.m_DeadZoneHeight.CalculatorExpression, source.m_DeadZoneHeight.Value, source.m_DeadZoneHeight.IsUse));
+            if(source.m_DeadZoneDepth.IsUse) m_DeadZoneDepth.Add(new MixItem<System.Single>(id, priority, source.m_DeadZoneDepth.CalculatorExpression, source.m_DeadZoneDepth.Value, source.m_DeadZoneDepth.IsUse));
+            if(source.m_UnlimitedSoftZone.IsUse) m_UnlimitedSoftZone.Add(new MixItem<System.Boolean>(id, priority, source.m_UnlimitedSoftZone.CalculatorExpression, source.m_UnlimitedSoftZone.Value, source.m_UnlimitedSoftZone.IsUse));
+            if(source.m_SoftZoneWidth.IsUse) m_SoftZoneWidth.Add(new MixItem<System.Single>(id, priority, source.m_SoftZoneWidth.CalculatorExpression, source.m_SoftZoneWidth.Value, source.m_SoftZoneWidth.IsUse));
+            if(source.m_SoftZoneHeight.IsUse) m_SoftZoneHeight.Add(new MixItem<System.Single>(id, priority, source.m_SoftZoneHeight.CalculatorExpression, source.m_SoftZoneHeight.Value, source.m_SoftZoneHeight.IsUse));
+            if(source.m_BiasX.IsUse) m_BiasX.Add(new MixItem<System.Single>(id, priority, source.m_BiasX.CalculatorExpression, source.m_BiasX.Value, source.m_BiasX.IsUse));
+            if(source.m_BiasY.IsUse) m_BiasY.Add(new MixItem<System.Single>(id, priority, source.m_BiasY.CalculatorExpression, source.m_BiasY.Value, source.m_BiasY.IsUse));
+            if(source.m_CenterOnActivate.IsUse) m_CenterOnActivate.Add(new MixItem<System.Boolean>(id, priority, source.m_CenterOnActivate.CalculatorExpression, source.m_CenterOnActivate.Value, source.m_CenterOnActivate.IsUse));
+            if(source.m_GroupFramingMode.IsUse) m_GroupFramingMode.Add(new MixItem<Cinemachine.CinemachineFramingTransposer.FramingMode>(id, priority, source.m_GroupFramingMode.CalculatorExpression, source.m_GroupFramingMode.Value, source.m_GroupFramingMode.IsUse));
+            if(source.m_AdjustmentMode.IsUse) m_AdjustmentMode.Add(new MixItem<Cinemachine.CinemachineFramingTransposer.AdjustmentMode>(id, priority, source.m_AdjustmentMode.CalculatorExpression, source.m_AdjustmentMode.Value, source.m_AdjustmentMode.IsUse));
+            if(source.m_GroupFramingSize.IsUse) m_GroupFramingSize.Add(new MixItem<System.Single>(id, priority, source.m_GroupFramingSize.CalculatorExpression, source.m_GroupFramingSize.Value, source.m_GroupFramingSize.IsUse));
+            if(source.m_MaxDollyIn.IsUse) m_MaxDollyIn.Add(new MixItem<System.Single>(id, priority, source.m_MaxDollyIn.CalculatorExpression, source.m_MaxDollyIn.Value, source.m_MaxDollyIn.IsUse));
+            if(source.m_MaxDollyOut.IsUse) m_MaxDollyOut.Add(new MixItem<System.Single>(id, priority, source.m_MaxDollyOut.CalculatorExpression, source.m_MaxDollyOut.Value, source.m_MaxDollyOut.IsUse));
+            if(source.m_MinimumDistance.IsUse) m_MinimumDistance.Add(new MixItem<System.Single>(id, priority, source.m_MinimumDistance.CalculatorExpression, source.m_MinimumDistance.Value, source.m_MinimumDistance.IsUse));
+            if(source.m_MaximumDistance.IsUse) m_MaximumDistance.Add(new MixItem<System.Single>(id, priority, source.m_MaximumDistance.CalculatorExpression, source.m_MaximumDistance.Value, source.m_MaximumDistance.IsUse));
+            if(source.m_MinimumFOV.IsUse) m_MinimumFOV.Add(new MixItem<System.Single>(id, priority, source.m_MinimumFOV.CalculatorExpression, source.m_MinimumFOV.Value, source.m_MinimumFOV.IsUse));
+            if(source.m_MaximumFOV.IsUse) m_MaximumFOV.Add(new MixItem<System.Single>(id, priority, source.m_MaximumFOV.CalculatorExpression, source.m_MaximumFOV.Value, source.m_MaximumFOV.IsUse));
+            if(source.m_MinimumOrthoSize.IsUse) m_MinimumOrthoSize.Add(new MixItem<System.Single>(id, priority, source.m_MinimumOrthoSize.CalculatorExpression, source.m_MinimumOrthoSize.Value, source.m_MinimumOrthoSize.IsUse));
+            if(source.m_MaximumOrthoSize.IsUse) m_MaximumOrthoSize.Add(new MixItem<System.Single>(id, priority, source.m_MaximumOrthoSize.CalculatorExpression, source.m_MaximumOrthoSize.Value, source.m_MaximumOrthoSize.IsUse));
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
         {
-            if(sourceConfig.GetType() != AttachControlField) return;
+            if(sourceConfig == null) return;
+            if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachineFramingTransposer_Config source = (CameraMovement.Control_C_CinemachineFramingTransposer_Config)sourceConfig;
-            if(source.m_TrackedObjectOffset.IsUse) m_TrackedObjectOffset.Remove(new MixItem<UnityEngine.Vector3>(id, priority, source.m_TrackedObjectOffset.CalculatorExpression, source.m_TrackedObjectOffset.Value));
-            if(source.m_LookaheadTime.IsUse) m_LookaheadTime.Remove(new MixItem<System.Single>(id, priority, source.m_LookaheadTime.CalculatorExpression, source.m_LookaheadTime.Value));
-            if(source.m_LookaheadSmoothing.IsUse) m_LookaheadSmoothing.Remove(new MixItem<System.Single>(id, priority, source.m_LookaheadSmoothing.CalculatorExpression, source.m_LookaheadSmoothing.Value));
-            if(source.m_LookaheadIgnoreY.IsUse) m_LookaheadIgnoreY.Remove(new MixItem<System.Boolean>(id, priority, source.m_LookaheadIgnoreY.CalculatorExpression, source.m_LookaheadIgnoreY.Value));
-            if(source.m_XDamping.IsUse) m_XDamping.Remove(new MixItem<System.Single>(id, priority, source.m_XDamping.CalculatorExpression, source.m_XDamping.Value));
-            if(source.m_YDamping.IsUse) m_YDamping.Remove(new MixItem<System.Single>(id, priority, source.m_YDamping.CalculatorExpression, source.m_YDamping.Value));
-            if(source.m_ZDamping.IsUse) m_ZDamping.Remove(new MixItem<System.Single>(id, priority, source.m_ZDamping.CalculatorExpression, source.m_ZDamping.Value));
-            if(source.m_TargetMovementOnly.IsUse) m_TargetMovementOnly.Remove(new MixItem<System.Boolean>(id, priority, source.m_TargetMovementOnly.CalculatorExpression, source.m_TargetMovementOnly.Value));
-            if(source.m_ScreenX.IsUse) m_ScreenX.Remove(new MixItem<System.Single>(id, priority, source.m_ScreenX.CalculatorExpression, source.m_ScreenX.Value));
-            if(source.m_ScreenY.IsUse) m_ScreenY.Remove(new MixItem<System.Single>(id, priority, source.m_ScreenY.CalculatorExpression, source.m_ScreenY.Value));
-            if(source.m_CameraDistance.IsUse) m_CameraDistance.Remove(new MixItem<System.Single>(id, priority, source.m_CameraDistance.CalculatorExpression, source.m_CameraDistance.Value));
-            if(source.m_DeadZoneWidth.IsUse) m_DeadZoneWidth.Remove(new MixItem<System.Single>(id, priority, source.m_DeadZoneWidth.CalculatorExpression, source.m_DeadZoneWidth.Value));
-            if(source.m_DeadZoneHeight.IsUse) m_DeadZoneHeight.Remove(new MixItem<System.Single>(id, priority, source.m_DeadZoneHeight.CalculatorExpression, source.m_DeadZoneHeight.Value));
-            if(source.m_DeadZoneDepth.IsUse) m_DeadZoneDepth.Remove(new MixItem<System.Single>(id, priority, source.m_DeadZoneDepth.CalculatorExpression, source.m_DeadZoneDepth.Value));
-            if(source.m_UnlimitedSoftZone.IsUse) m_UnlimitedSoftZone.Remove(new MixItem<System.Boolean>(id, priority, source.m_UnlimitedSoftZone.CalculatorExpression, source.m_UnlimitedSoftZone.Value));
-            if(source.m_SoftZoneWidth.IsUse) m_SoftZoneWidth.Remove(new MixItem<System.Single>(id, priority, source.m_SoftZoneWidth.CalculatorExpression, source.m_SoftZoneWidth.Value));
-            if(source.m_SoftZoneHeight.IsUse) m_SoftZoneHeight.Remove(new MixItem<System.Single>(id, priority, source.m_SoftZoneHeight.CalculatorExpression, source.m_SoftZoneHeight.Value));
-            if(source.m_BiasX.IsUse) m_BiasX.Remove(new MixItem<System.Single>(id, priority, source.m_BiasX.CalculatorExpression, source.m_BiasX.Value));
-            if(source.m_BiasY.IsUse) m_BiasY.Remove(new MixItem<System.Single>(id, priority, source.m_BiasY.CalculatorExpression, source.m_BiasY.Value));
-            if(source.m_CenterOnActivate.IsUse) m_CenterOnActivate.Remove(new MixItem<System.Boolean>(id, priority, source.m_CenterOnActivate.CalculatorExpression, source.m_CenterOnActivate.Value));
-            if(source.m_GroupFramingMode.IsUse) m_GroupFramingMode.Remove(new MixItem<Cinemachine.CinemachineFramingTransposer.FramingMode>(id, priority, source.m_GroupFramingMode.CalculatorExpression, source.m_GroupFramingMode.Value));
-            if(source.m_AdjustmentMode.IsUse) m_AdjustmentMode.Remove(new MixItem<Cinemachine.CinemachineFramingTransposer.AdjustmentMode>(id, priority, source.m_AdjustmentMode.CalculatorExpression, source.m_AdjustmentMode.Value));
-            if(source.m_GroupFramingSize.IsUse) m_GroupFramingSize.Remove(new MixItem<System.Single>(id, priority, source.m_GroupFramingSize.CalculatorExpression, source.m_GroupFramingSize.Value));
-            if(source.m_MaxDollyIn.IsUse) m_MaxDollyIn.Remove(new MixItem<System.Single>(id, priority, source.m_MaxDollyIn.CalculatorExpression, source.m_MaxDollyIn.Value));
-            if(source.m_MaxDollyOut.IsUse) m_MaxDollyOut.Remove(new MixItem<System.Single>(id, priority, source.m_MaxDollyOut.CalculatorExpression, source.m_MaxDollyOut.Value));
-            if(source.m_MinimumDistance.IsUse) m_MinimumDistance.Remove(new MixItem<System.Single>(id, priority, source.m_MinimumDistance.CalculatorExpression, source.m_MinimumDistance.Value));
-            if(source.m_MaximumDistance.IsUse) m_MaximumDistance.Remove(new MixItem<System.Single>(id, priority, source.m_MaximumDistance.CalculatorExpression, source.m_MaximumDistance.Value));
-            if(source.m_MinimumFOV.IsUse) m_MinimumFOV.Remove(new MixItem<System.Single>(id, priority, source.m_MinimumFOV.CalculatorExpression, source.m_MinimumFOV.Value));
-            if(source.m_MaximumFOV.IsUse) m_MaximumFOV.Remove(new MixItem<System.Single>(id, priority, source.m_MaximumFOV.CalculatorExpression, source.m_MaximumFOV.Value));
-            if(source.m_MinimumOrthoSize.IsUse) m_MinimumOrthoSize.Remove(new MixItem<System.Single>(id, priority, source.m_MinimumOrthoSize.CalculatorExpression, source.m_MinimumOrthoSize.Value));
-            if(source.m_MaximumOrthoSize.IsUse) m_MaximumOrthoSize.Remove(new MixItem<System.Single>(id, priority, source.m_MaximumOrthoSize.CalculatorExpression, source.m_MaximumOrthoSize.Value));
+            if(source.m_TrackedObjectOffset.IsUse) m_TrackedObjectOffset.Remove(new MixItem<UnityEngine.Vector3>(id, priority, source.m_TrackedObjectOffset.CalculatorExpression, source.m_TrackedObjectOffset.Value, source.m_TrackedObjectOffset.IsUse));
+            if(source.m_LookaheadTime.IsUse) m_LookaheadTime.Remove(new MixItem<System.Single>(id, priority, source.m_LookaheadTime.CalculatorExpression, source.m_LookaheadTime.Value, source.m_LookaheadTime.IsUse));
+            if(source.m_LookaheadSmoothing.IsUse) m_LookaheadSmoothing.Remove(new MixItem<System.Single>(id, priority, source.m_LookaheadSmoothing.CalculatorExpression, source.m_LookaheadSmoothing.Value, source.m_LookaheadSmoothing.IsUse));
+            if(source.m_LookaheadIgnoreY.IsUse) m_LookaheadIgnoreY.Remove(new MixItem<System.Boolean>(id, priority, source.m_LookaheadIgnoreY.CalculatorExpression, source.m_LookaheadIgnoreY.Value, source.m_LookaheadIgnoreY.IsUse));
+            if(source.m_XDamping.IsUse) m_XDamping.Remove(new MixItem<System.Single>(id, priority, source.m_XDamping.CalculatorExpression, source.m_XDamping.Value, source.m_XDamping.IsUse));
+            if(source.m_YDamping.IsUse) m_YDamping.Remove(new MixItem<System.Single>(id, priority, source.m_YDamping.CalculatorExpression, source.m_YDamping.Value, source.m_YDamping.IsUse));
+            if(source.m_ZDamping.IsUse) m_ZDamping.Remove(new MixItem<System.Single>(id, priority, source.m_ZDamping.CalculatorExpression, source.m_ZDamping.Value, source.m_ZDamping.IsUse));
+            if(source.m_TargetMovementOnly.IsUse) m_TargetMovementOnly.Remove(new MixItem<System.Boolean>(id, priority, source.m_TargetMovementOnly.CalculatorExpression, source.m_TargetMovementOnly.Value, source.m_TargetMovementOnly.IsUse));
+            if(source.m_ScreenX.IsUse) m_ScreenX.Remove(new MixItem<System.Single>(id, priority, source.m_ScreenX.CalculatorExpression, source.m_ScreenX.Value, source.m_ScreenX.IsUse));
+            if(source.m_ScreenY.IsUse) m_ScreenY.Remove(new MixItem<System.Single>(id, priority, source.m_ScreenY.CalculatorExpression, source.m_ScreenY.Value, source.m_ScreenY.IsUse));
+            if(source.m_CameraDistance.IsUse) m_CameraDistance.Remove(new MixItem<System.Single>(id, priority, source.m_CameraDistance.CalculatorExpression, source.m_CameraDistance.Value, source.m_CameraDistance.IsUse));
+            if(source.m_DeadZoneWidth.IsUse) m_DeadZoneWidth.Remove(new MixItem<System.Single>(id, priority, source.m_DeadZoneWidth.CalculatorExpression, source.m_DeadZoneWidth.Value, source.m_DeadZoneWidth.IsUse));
+            if(source.m_DeadZoneHeight.IsUse) m_DeadZoneHeight.Remove(new MixItem<System.Single>(id, priority, source.m_DeadZoneHeight.CalculatorExpression, source.m_DeadZoneHeight.Value, source.m_DeadZoneHeight.IsUse));
+            if(source.m_DeadZoneDepth.IsUse) m_DeadZoneDepth.Remove(new MixItem<System.Single>(id, priority, source.m_DeadZoneDepth.CalculatorExpression, source.m_DeadZoneDepth.Value, source.m_DeadZoneDepth.IsUse));
+            if(source.m_UnlimitedSoftZone.IsUse) m_UnlimitedSoftZone.Remove(new MixItem<System.Boolean>(id, priority, source.m_UnlimitedSoftZone.CalculatorExpression, source.m_UnlimitedSoftZone.Value, source.m_UnlimitedSoftZone.IsUse));
+            if(source.m_SoftZoneWidth.IsUse) m_SoftZoneWidth.Remove(new MixItem<System.Single>(id, priority, source.m_SoftZoneWidth.CalculatorExpression, source.m_SoftZoneWidth.Value, source.m_SoftZoneWidth.IsUse));
+            if(source.m_SoftZoneHeight.IsUse) m_SoftZoneHeight.Remove(new MixItem<System.Single>(id, priority, source.m_SoftZoneHeight.CalculatorExpression, source.m_SoftZoneHeight.Value, source.m_SoftZoneHeight.IsUse));
+            if(source.m_BiasX.IsUse) m_BiasX.Remove(new MixItem<System.Single>(id, priority, source.m_BiasX.CalculatorExpression, source.m_BiasX.Value, source.m_BiasX.IsUse));
+            if(source.m_BiasY.IsUse) m_BiasY.Remove(new MixItem<System.Single>(id, priority, source.m_BiasY.CalculatorExpression, source.m_BiasY.Value, source.m_BiasY.IsUse));
+            if(source.m_CenterOnActivate.IsUse) m_CenterOnActivate.Remove(new MixItem<System.Boolean>(id, priority, source.m_CenterOnActivate.CalculatorExpression, source.m_CenterOnActivate.Value, source.m_CenterOnActivate.IsUse));
+            if(source.m_GroupFramingMode.IsUse) m_GroupFramingMode.Remove(new MixItem<Cinemachine.CinemachineFramingTransposer.FramingMode>(id, priority, source.m_GroupFramingMode.CalculatorExpression, source.m_GroupFramingMode.Value, source.m_GroupFramingMode.IsUse));
+            if(source.m_AdjustmentMode.IsUse) m_AdjustmentMode.Remove(new MixItem<Cinemachine.CinemachineFramingTransposer.AdjustmentMode>(id, priority, source.m_AdjustmentMode.CalculatorExpression, source.m_AdjustmentMode.Value, source.m_AdjustmentMode.IsUse));
+            if(source.m_GroupFramingSize.IsUse) m_GroupFramingSize.Remove(new MixItem<System.Single>(id, priority, source.m_GroupFramingSize.CalculatorExpression, source.m_GroupFramingSize.Value, source.m_GroupFramingSize.IsUse));
+            if(source.m_MaxDollyIn.IsUse) m_MaxDollyIn.Remove(new MixItem<System.Single>(id, priority, source.m_MaxDollyIn.CalculatorExpression, source.m_MaxDollyIn.Value, source.m_MaxDollyIn.IsUse));
+            if(source.m_MaxDollyOut.IsUse) m_MaxDollyOut.Remove(new MixItem<System.Single>(id, priority, source.m_MaxDollyOut.CalculatorExpression, source.m_MaxDollyOut.Value, source.m_MaxDollyOut.IsUse));
+            if(source.m_MinimumDistance.IsUse) m_MinimumDistance.Remove(new MixItem<System.Single>(id, priority, source.m_MinimumDistance.CalculatorExpression, source.m_MinimumDistance.Value, source.m_MinimumDistance.IsUse));
+            if(source.m_MaximumDistance.IsUse) m_MaximumDistance.Remove(new MixItem<System.Single>(id, priority, source.m_MaximumDistance.CalculatorExpression, source.m_MaximumDistance.Value, source.m_MaximumDistance.IsUse));
+            if(source.m_MinimumFOV.IsUse) m_MinimumFOV.Remove(new MixItem<System.Single>(id, priority, source.m_MinimumFOV.CalculatorExpression, source.m_MinimumFOV.Value, source.m_MinimumFOV.IsUse));
+            if(source.m_MaximumFOV.IsUse) m_MaximumFOV.Remove(new MixItem<System.Single>(id, priority, source.m_MaximumFOV.CalculatorExpression, source.m_MaximumFOV.Value, source.m_MaximumFOV.IsUse));
+            if(source.m_MinimumOrthoSize.IsUse) m_MinimumOrthoSize.Remove(new MixItem<System.Single>(id, priority, source.m_MinimumOrthoSize.CalculatorExpression, source.m_MinimumOrthoSize.Value, source.m_MinimumOrthoSize.IsUse));
+            if(source.m_MaximumOrthoSize.IsUse) m_MaximumOrthoSize.Remove(new MixItem<System.Single>(id, priority, source.m_MaximumOrthoSize.CalculatorExpression, source.m_MaximumOrthoSize.Value, source.m_MaximumOrthoSize.IsUse));
         }
         public void RemoveAll()
         {
@@ -177,87 +179,62 @@ namespace CameraMovement{
             m_MinimumOrthoSize.RemoveAll();
             m_MaximumOrthoSize.RemoveAll();
         }
-        public void ControlCinemachine(object targetObj, Dictionary<int, RuntimeTemplate> templateDict)
+        public void ControlCinemachine(ref Cinemachine.CinemachineFramingTransposer target, Dictionary<int, RuntimeTemplate> templateDict)
         {
-            var target = (Cinemachine.CinemachineFramingTransposer)targetObj;
-            if (templateDict.ContainsKey(m_LookaheadTime.Id))
-                target.m_LookaheadTime = templateDict[m_LookaheadTime.Id].Config.alertCurve.Evaluate(templateDict[m_LookaheadTime.Id].CostTime / templateDict[m_LookaheadTime.Id].Config.duration) * m_LookaheadTime.Value;
-            target.m_LookaheadTime = (System.Single)m_LookaheadTime.Value;
-            if (templateDict.ContainsKey(m_LookaheadSmoothing.Id))
-                target.m_LookaheadSmoothing = templateDict[m_LookaheadSmoothing.Id].Config.alertCurve.Evaluate(templateDict[m_LookaheadSmoothing.Id].CostTime / templateDict[m_LookaheadSmoothing.Id].Config.duration) * m_LookaheadSmoothing.Value;
-            target.m_LookaheadSmoothing = (System.Single)m_LookaheadSmoothing.Value;
-            target.m_LookaheadIgnoreY = !Mathf.Approximately(m_LookaheadIgnoreY.Value, 0);
-            if (templateDict.ContainsKey(m_XDamping.Id))
-                target.m_XDamping = templateDict[m_XDamping.Id].Config.alertCurve.Evaluate(templateDict[m_XDamping.Id].CostTime / templateDict[m_XDamping.Id].Config.duration) * m_XDamping.Value;
-            target.m_XDamping = (System.Single)m_XDamping.Value;
-            if (templateDict.ContainsKey(m_YDamping.Id))
-                target.m_YDamping = templateDict[m_YDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YDamping.Id].CostTime / templateDict[m_YDamping.Id].Config.duration) * m_YDamping.Value;
-            target.m_YDamping = (System.Single)m_YDamping.Value;
-            if (templateDict.ContainsKey(m_ZDamping.Id))
-                target.m_ZDamping = templateDict[m_ZDamping.Id].Config.alertCurve.Evaluate(templateDict[m_ZDamping.Id].CostTime / templateDict[m_ZDamping.Id].Config.duration) * m_ZDamping.Value;
-            target.m_ZDamping = (System.Single)m_ZDamping.Value;
-            target.m_TargetMovementOnly = !Mathf.Approximately(m_TargetMovementOnly.Value, 0);
-            if (templateDict.ContainsKey(m_ScreenX.Id))
-                target.m_ScreenX = templateDict[m_ScreenX.Id].Config.alertCurve.Evaluate(templateDict[m_ScreenX.Id].CostTime / templateDict[m_ScreenX.Id].Config.duration) * m_ScreenX.Value;
-            target.m_ScreenX = (System.Single)m_ScreenX.Value;
-            if (templateDict.ContainsKey(m_ScreenY.Id))
-                target.m_ScreenY = templateDict[m_ScreenY.Id].Config.alertCurve.Evaluate(templateDict[m_ScreenY.Id].CostTime / templateDict[m_ScreenY.Id].Config.duration) * m_ScreenY.Value;
-            target.m_ScreenY = (System.Single)m_ScreenY.Value;
-            if (templateDict.ContainsKey(m_CameraDistance.Id))
-                target.m_CameraDistance = templateDict[m_CameraDistance.Id].Config.alertCurve.Evaluate(templateDict[m_CameraDistance.Id].CostTime / templateDict[m_CameraDistance.Id].Config.duration) * m_CameraDistance.Value;
-            target.m_CameraDistance = (System.Single)m_CameraDistance.Value;
-            if (templateDict.ContainsKey(m_DeadZoneWidth.Id))
-                target.m_DeadZoneWidth = templateDict[m_DeadZoneWidth.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneWidth.Id].CostTime / templateDict[m_DeadZoneWidth.Id].Config.duration) * m_DeadZoneWidth.Value;
-            target.m_DeadZoneWidth = (System.Single)m_DeadZoneWidth.Value;
-            if (templateDict.ContainsKey(m_DeadZoneHeight.Id))
-                target.m_DeadZoneHeight = templateDict[m_DeadZoneHeight.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneHeight.Id].CostTime / templateDict[m_DeadZoneHeight.Id].Config.duration) * m_DeadZoneHeight.Value;
-            target.m_DeadZoneHeight = (System.Single)m_DeadZoneHeight.Value;
-            if (templateDict.ContainsKey(m_DeadZoneDepth.Id))
-                target.m_DeadZoneDepth = templateDict[m_DeadZoneDepth.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneDepth.Id].CostTime / templateDict[m_DeadZoneDepth.Id].Config.duration) * m_DeadZoneDepth.Value;
-            target.m_DeadZoneDepth = (System.Single)m_DeadZoneDepth.Value;
-            target.m_UnlimitedSoftZone = !Mathf.Approximately(m_UnlimitedSoftZone.Value, 0);
-            if (templateDict.ContainsKey(m_SoftZoneWidth.Id))
-                target.m_SoftZoneWidth = templateDict[m_SoftZoneWidth.Id].Config.alertCurve.Evaluate(templateDict[m_SoftZoneWidth.Id].CostTime / templateDict[m_SoftZoneWidth.Id].Config.duration) * m_SoftZoneWidth.Value;
-            target.m_SoftZoneWidth = (System.Single)m_SoftZoneWidth.Value;
-            if (templateDict.ContainsKey(m_SoftZoneHeight.Id))
-                target.m_SoftZoneHeight = templateDict[m_SoftZoneHeight.Id].Config.alertCurve.Evaluate(templateDict[m_SoftZoneHeight.Id].CostTime / templateDict[m_SoftZoneHeight.Id].Config.duration) * m_SoftZoneHeight.Value;
-            target.m_SoftZoneHeight = (System.Single)m_SoftZoneHeight.Value;
-            if (templateDict.ContainsKey(m_BiasX.Id))
-                target.m_BiasX = templateDict[m_BiasX.Id].Config.alertCurve.Evaluate(templateDict[m_BiasX.Id].CostTime / templateDict[m_BiasX.Id].Config.duration) * m_BiasX.Value;
-            target.m_BiasX = (System.Single)m_BiasX.Value;
-            if (templateDict.ContainsKey(m_BiasY.Id))
-                target.m_BiasY = templateDict[m_BiasY.Id].Config.alertCurve.Evaluate(templateDict[m_BiasY.Id].CostTime / templateDict[m_BiasY.Id].Config.duration) * m_BiasY.Value;
-            target.m_BiasY = (System.Single)m_BiasY.Value;
-            target.m_CenterOnActivate = !Mathf.Approximately(m_CenterOnActivate.Value, 0);
-            target.m_GroupFramingMode = (Cinemachine.CinemachineFramingTransposer.FramingMode)m_GroupFramingMode.Value;
-            target.m_AdjustmentMode = (Cinemachine.CinemachineFramingTransposer.AdjustmentMode)m_AdjustmentMode.Value;
-            if (templateDict.ContainsKey(m_GroupFramingSize.Id))
-                target.m_GroupFramingSize = templateDict[m_GroupFramingSize.Id].Config.alertCurve.Evaluate(templateDict[m_GroupFramingSize.Id].CostTime / templateDict[m_GroupFramingSize.Id].Config.duration) * m_GroupFramingSize.Value;
-            target.m_GroupFramingSize = (System.Single)m_GroupFramingSize.Value;
-            if (templateDict.ContainsKey(m_MaxDollyIn.Id))
-                target.m_MaxDollyIn = templateDict[m_MaxDollyIn.Id].Config.alertCurve.Evaluate(templateDict[m_MaxDollyIn.Id].CostTime / templateDict[m_MaxDollyIn.Id].Config.duration) * m_MaxDollyIn.Value;
-            target.m_MaxDollyIn = (System.Single)m_MaxDollyIn.Value;
-            if (templateDict.ContainsKey(m_MaxDollyOut.Id))
-                target.m_MaxDollyOut = templateDict[m_MaxDollyOut.Id].Config.alertCurve.Evaluate(templateDict[m_MaxDollyOut.Id].CostTime / templateDict[m_MaxDollyOut.Id].Config.duration) * m_MaxDollyOut.Value;
-            target.m_MaxDollyOut = (System.Single)m_MaxDollyOut.Value;
-            if (templateDict.ContainsKey(m_MinimumDistance.Id))
-                target.m_MinimumDistance = templateDict[m_MinimumDistance.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumDistance.Id].CostTime / templateDict[m_MinimumDistance.Id].Config.duration) * m_MinimumDistance.Value;
-            target.m_MinimumDistance = (System.Single)m_MinimumDistance.Value;
-            if (templateDict.ContainsKey(m_MaximumDistance.Id))
-                target.m_MaximumDistance = templateDict[m_MaximumDistance.Id].Config.alertCurve.Evaluate(templateDict[m_MaximumDistance.Id].CostTime / templateDict[m_MaximumDistance.Id].Config.duration) * m_MaximumDistance.Value;
-            target.m_MaximumDistance = (System.Single)m_MaximumDistance.Value;
-            if (templateDict.ContainsKey(m_MinimumFOV.Id))
-                target.m_MinimumFOV = templateDict[m_MinimumFOV.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumFOV.Id].CostTime / templateDict[m_MinimumFOV.Id].Config.duration) * m_MinimumFOV.Value;
-            target.m_MinimumFOV = (System.Single)m_MinimumFOV.Value;
-            if (templateDict.ContainsKey(m_MaximumFOV.Id))
-                target.m_MaximumFOV = templateDict[m_MaximumFOV.Id].Config.alertCurve.Evaluate(templateDict[m_MaximumFOV.Id].CostTime / templateDict[m_MaximumFOV.Id].Config.duration) * m_MaximumFOV.Value;
-            target.m_MaximumFOV = (System.Single)m_MaximumFOV.Value;
-            if (templateDict.ContainsKey(m_MinimumOrthoSize.Id))
-                target.m_MinimumOrthoSize = templateDict[m_MinimumOrthoSize.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumOrthoSize.Id].CostTime / templateDict[m_MinimumOrthoSize.Id].Config.duration) * m_MinimumOrthoSize.Value;
-            target.m_MinimumOrthoSize = (System.Single)m_MinimumOrthoSize.Value;
-            if (templateDict.ContainsKey(m_MaximumOrthoSize.Id))
-                target.m_MaximumOrthoSize = templateDict[m_MaximumOrthoSize.Id].Config.alertCurve.Evaluate(templateDict[m_MaximumOrthoSize.Id].CostTime / templateDict[m_MaximumOrthoSize.Id].Config.duration) * m_MaximumOrthoSize.Value;
-            target.m_MaximumOrthoSize = (System.Single)m_MaximumOrthoSize.Value;
+            if (m_LookaheadTime.IsUse && templateDict.ContainsKey(m_LookaheadTime.Id))
+                target.m_LookaheadTime = Mathf.Approximately(0, templateDict[m_LookaheadTime.Id].Config.duration) ? (m_LookaheadTime.IsExpression ? m_LookaheadTime.Value : m_LookaheadTime.PrimitiveValue) : templateDict[m_LookaheadTime.Id].Config.alertCurve.Evaluate(templateDict[m_LookaheadTime.Id].CostTime / templateDict[m_LookaheadTime.Id].Config.duration) * (m_LookaheadTime.IsExpression ? m_LookaheadTime.Value : m_LookaheadTime.PrimitiveValue);
+            if (m_LookaheadSmoothing.IsUse && templateDict.ContainsKey(m_LookaheadSmoothing.Id))
+                target.m_LookaheadSmoothing = Mathf.Approximately(0, templateDict[m_LookaheadSmoothing.Id].Config.duration) ? (m_LookaheadSmoothing.IsExpression ? m_LookaheadSmoothing.Value : m_LookaheadSmoothing.PrimitiveValue) : templateDict[m_LookaheadSmoothing.Id].Config.alertCurve.Evaluate(templateDict[m_LookaheadSmoothing.Id].CostTime / templateDict[m_LookaheadSmoothing.Id].Config.duration) * (m_LookaheadSmoothing.IsExpression ? m_LookaheadSmoothing.Value : m_LookaheadSmoothing.PrimitiveValue);
+            if (m_LookaheadIgnoreY.IsUse) target.m_LookaheadIgnoreY = m_LookaheadIgnoreY.IsExpression ? !Mathf.Approximately(m_LookaheadIgnoreY.Value, 0) : m_LookaheadIgnoreY.PrimitiveValue;
+            if (m_XDamping.IsUse && templateDict.ContainsKey(m_XDamping.Id))
+                target.m_XDamping = Mathf.Approximately(0, templateDict[m_XDamping.Id].Config.duration) ? (m_XDamping.IsExpression ? m_XDamping.Value : m_XDamping.PrimitiveValue) : templateDict[m_XDamping.Id].Config.alertCurve.Evaluate(templateDict[m_XDamping.Id].CostTime / templateDict[m_XDamping.Id].Config.duration) * (m_XDamping.IsExpression ? m_XDamping.Value : m_XDamping.PrimitiveValue);
+            if (m_YDamping.IsUse && templateDict.ContainsKey(m_YDamping.Id))
+                target.m_YDamping = Mathf.Approximately(0, templateDict[m_YDamping.Id].Config.duration) ? (m_YDamping.IsExpression ? m_YDamping.Value : m_YDamping.PrimitiveValue) : templateDict[m_YDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YDamping.Id].CostTime / templateDict[m_YDamping.Id].Config.duration) * (m_YDamping.IsExpression ? m_YDamping.Value : m_YDamping.PrimitiveValue);
+            if (m_ZDamping.IsUse && templateDict.ContainsKey(m_ZDamping.Id))
+                target.m_ZDamping = Mathf.Approximately(0, templateDict[m_ZDamping.Id].Config.duration) ? (m_ZDamping.IsExpression ? m_ZDamping.Value : m_ZDamping.PrimitiveValue) : templateDict[m_ZDamping.Id].Config.alertCurve.Evaluate(templateDict[m_ZDamping.Id].CostTime / templateDict[m_ZDamping.Id].Config.duration) * (m_ZDamping.IsExpression ? m_ZDamping.Value : m_ZDamping.PrimitiveValue);
+            if (m_TargetMovementOnly.IsUse) target.m_TargetMovementOnly = m_TargetMovementOnly.IsExpression ? !Mathf.Approximately(m_TargetMovementOnly.Value, 0) : m_TargetMovementOnly.PrimitiveValue;
+            if (m_ScreenX.IsUse && templateDict.ContainsKey(m_ScreenX.Id))
+                target.m_ScreenX = Mathf.Approximately(0, templateDict[m_ScreenX.Id].Config.duration) ? (m_ScreenX.IsExpression ? m_ScreenX.Value : m_ScreenX.PrimitiveValue) : templateDict[m_ScreenX.Id].Config.alertCurve.Evaluate(templateDict[m_ScreenX.Id].CostTime / templateDict[m_ScreenX.Id].Config.duration) * (m_ScreenX.IsExpression ? m_ScreenX.Value : m_ScreenX.PrimitiveValue);
+            if (m_ScreenY.IsUse && templateDict.ContainsKey(m_ScreenY.Id))
+                target.m_ScreenY = Mathf.Approximately(0, templateDict[m_ScreenY.Id].Config.duration) ? (m_ScreenY.IsExpression ? m_ScreenY.Value : m_ScreenY.PrimitiveValue) : templateDict[m_ScreenY.Id].Config.alertCurve.Evaluate(templateDict[m_ScreenY.Id].CostTime / templateDict[m_ScreenY.Id].Config.duration) * (m_ScreenY.IsExpression ? m_ScreenY.Value : m_ScreenY.PrimitiveValue);
+            if (m_CameraDistance.IsUse && templateDict.ContainsKey(m_CameraDistance.Id))
+                target.m_CameraDistance = Mathf.Approximately(0, templateDict[m_CameraDistance.Id].Config.duration) ? (m_CameraDistance.IsExpression ? m_CameraDistance.Value : m_CameraDistance.PrimitiveValue) : templateDict[m_CameraDistance.Id].Config.alertCurve.Evaluate(templateDict[m_CameraDistance.Id].CostTime / templateDict[m_CameraDistance.Id].Config.duration) * (m_CameraDistance.IsExpression ? m_CameraDistance.Value : m_CameraDistance.PrimitiveValue);
+            if (m_DeadZoneWidth.IsUse && templateDict.ContainsKey(m_DeadZoneWidth.Id))
+                target.m_DeadZoneWidth = Mathf.Approximately(0, templateDict[m_DeadZoneWidth.Id].Config.duration) ? (m_DeadZoneWidth.IsExpression ? m_DeadZoneWidth.Value : m_DeadZoneWidth.PrimitiveValue) : templateDict[m_DeadZoneWidth.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneWidth.Id].CostTime / templateDict[m_DeadZoneWidth.Id].Config.duration) * (m_DeadZoneWidth.IsExpression ? m_DeadZoneWidth.Value : m_DeadZoneWidth.PrimitiveValue);
+            if (m_DeadZoneHeight.IsUse && templateDict.ContainsKey(m_DeadZoneHeight.Id))
+                target.m_DeadZoneHeight = Mathf.Approximately(0, templateDict[m_DeadZoneHeight.Id].Config.duration) ? (m_DeadZoneHeight.IsExpression ? m_DeadZoneHeight.Value : m_DeadZoneHeight.PrimitiveValue) : templateDict[m_DeadZoneHeight.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneHeight.Id].CostTime / templateDict[m_DeadZoneHeight.Id].Config.duration) * (m_DeadZoneHeight.IsExpression ? m_DeadZoneHeight.Value : m_DeadZoneHeight.PrimitiveValue);
+            if (m_DeadZoneDepth.IsUse && templateDict.ContainsKey(m_DeadZoneDepth.Id))
+                target.m_DeadZoneDepth = Mathf.Approximately(0, templateDict[m_DeadZoneDepth.Id].Config.duration) ? (m_DeadZoneDepth.IsExpression ? m_DeadZoneDepth.Value : m_DeadZoneDepth.PrimitiveValue) : templateDict[m_DeadZoneDepth.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneDepth.Id].CostTime / templateDict[m_DeadZoneDepth.Id].Config.duration) * (m_DeadZoneDepth.IsExpression ? m_DeadZoneDepth.Value : m_DeadZoneDepth.PrimitiveValue);
+            if (m_UnlimitedSoftZone.IsUse) target.m_UnlimitedSoftZone = m_UnlimitedSoftZone.IsExpression ? !Mathf.Approximately(m_UnlimitedSoftZone.Value, 0) : m_UnlimitedSoftZone.PrimitiveValue;
+            if (m_SoftZoneWidth.IsUse && templateDict.ContainsKey(m_SoftZoneWidth.Id))
+                target.m_SoftZoneWidth = Mathf.Approximately(0, templateDict[m_SoftZoneWidth.Id].Config.duration) ? (m_SoftZoneWidth.IsExpression ? m_SoftZoneWidth.Value : m_SoftZoneWidth.PrimitiveValue) : templateDict[m_SoftZoneWidth.Id].Config.alertCurve.Evaluate(templateDict[m_SoftZoneWidth.Id].CostTime / templateDict[m_SoftZoneWidth.Id].Config.duration) * (m_SoftZoneWidth.IsExpression ? m_SoftZoneWidth.Value : m_SoftZoneWidth.PrimitiveValue);
+            if (m_SoftZoneHeight.IsUse && templateDict.ContainsKey(m_SoftZoneHeight.Id))
+                target.m_SoftZoneHeight = Mathf.Approximately(0, templateDict[m_SoftZoneHeight.Id].Config.duration) ? (m_SoftZoneHeight.IsExpression ? m_SoftZoneHeight.Value : m_SoftZoneHeight.PrimitiveValue) : templateDict[m_SoftZoneHeight.Id].Config.alertCurve.Evaluate(templateDict[m_SoftZoneHeight.Id].CostTime / templateDict[m_SoftZoneHeight.Id].Config.duration) * (m_SoftZoneHeight.IsExpression ? m_SoftZoneHeight.Value : m_SoftZoneHeight.PrimitiveValue);
+            if (m_BiasX.IsUse && templateDict.ContainsKey(m_BiasX.Id))
+                target.m_BiasX = Mathf.Approximately(0, templateDict[m_BiasX.Id].Config.duration) ? (m_BiasX.IsExpression ? m_BiasX.Value : m_BiasX.PrimitiveValue) : templateDict[m_BiasX.Id].Config.alertCurve.Evaluate(templateDict[m_BiasX.Id].CostTime / templateDict[m_BiasX.Id].Config.duration) * (m_BiasX.IsExpression ? m_BiasX.Value : m_BiasX.PrimitiveValue);
+            if (m_BiasY.IsUse && templateDict.ContainsKey(m_BiasY.Id))
+                target.m_BiasY = Mathf.Approximately(0, templateDict[m_BiasY.Id].Config.duration) ? (m_BiasY.IsExpression ? m_BiasY.Value : m_BiasY.PrimitiveValue) : templateDict[m_BiasY.Id].Config.alertCurve.Evaluate(templateDict[m_BiasY.Id].CostTime / templateDict[m_BiasY.Id].Config.duration) * (m_BiasY.IsExpression ? m_BiasY.Value : m_BiasY.PrimitiveValue);
+            if (m_CenterOnActivate.IsUse) target.m_CenterOnActivate = m_CenterOnActivate.IsExpression ? !Mathf.Approximately(m_CenterOnActivate.Value, 0) : m_CenterOnActivate.PrimitiveValue;
+            if (m_GroupFramingMode.IsUse) target.m_GroupFramingMode = m_GroupFramingMode.IsExpression ? (Cinemachine.CinemachineFramingTransposer.FramingMode)m_GroupFramingMode.Value :m_GroupFramingMode.PrimitiveValue;
+            if (m_AdjustmentMode.IsUse) target.m_AdjustmentMode = m_AdjustmentMode.IsExpression ? (Cinemachine.CinemachineFramingTransposer.AdjustmentMode)m_AdjustmentMode.Value :m_AdjustmentMode.PrimitiveValue;
+            if (m_GroupFramingSize.IsUse && templateDict.ContainsKey(m_GroupFramingSize.Id))
+                target.m_GroupFramingSize = Mathf.Approximately(0, templateDict[m_GroupFramingSize.Id].Config.duration) ? (m_GroupFramingSize.IsExpression ? m_GroupFramingSize.Value : m_GroupFramingSize.PrimitiveValue) : templateDict[m_GroupFramingSize.Id].Config.alertCurve.Evaluate(templateDict[m_GroupFramingSize.Id].CostTime / templateDict[m_GroupFramingSize.Id].Config.duration) * (m_GroupFramingSize.IsExpression ? m_GroupFramingSize.Value : m_GroupFramingSize.PrimitiveValue);
+            if (m_MaxDollyIn.IsUse && templateDict.ContainsKey(m_MaxDollyIn.Id))
+                target.m_MaxDollyIn = Mathf.Approximately(0, templateDict[m_MaxDollyIn.Id].Config.duration) ? (m_MaxDollyIn.IsExpression ? m_MaxDollyIn.Value : m_MaxDollyIn.PrimitiveValue) : templateDict[m_MaxDollyIn.Id].Config.alertCurve.Evaluate(templateDict[m_MaxDollyIn.Id].CostTime / templateDict[m_MaxDollyIn.Id].Config.duration) * (m_MaxDollyIn.IsExpression ? m_MaxDollyIn.Value : m_MaxDollyIn.PrimitiveValue);
+            if (m_MaxDollyOut.IsUse && templateDict.ContainsKey(m_MaxDollyOut.Id))
+                target.m_MaxDollyOut = Mathf.Approximately(0, templateDict[m_MaxDollyOut.Id].Config.duration) ? (m_MaxDollyOut.IsExpression ? m_MaxDollyOut.Value : m_MaxDollyOut.PrimitiveValue) : templateDict[m_MaxDollyOut.Id].Config.alertCurve.Evaluate(templateDict[m_MaxDollyOut.Id].CostTime / templateDict[m_MaxDollyOut.Id].Config.duration) * (m_MaxDollyOut.IsExpression ? m_MaxDollyOut.Value : m_MaxDollyOut.PrimitiveValue);
+            if (m_MinimumDistance.IsUse && templateDict.ContainsKey(m_MinimumDistance.Id))
+                target.m_MinimumDistance = Mathf.Approximately(0, templateDict[m_MinimumDistance.Id].Config.duration) ? (m_MinimumDistance.IsExpression ? m_MinimumDistance.Value : m_MinimumDistance.PrimitiveValue) : templateDict[m_MinimumDistance.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumDistance.Id].CostTime / templateDict[m_MinimumDistance.Id].Config.duration) * (m_MinimumDistance.IsExpression ? m_MinimumDistance.Value : m_MinimumDistance.PrimitiveValue);
+            if (m_MaximumDistance.IsUse && templateDict.ContainsKey(m_MaximumDistance.Id))
+                target.m_MaximumDistance = Mathf.Approximately(0, templateDict[m_MaximumDistance.Id].Config.duration) ? (m_MaximumDistance.IsExpression ? m_MaximumDistance.Value : m_MaximumDistance.PrimitiveValue) : templateDict[m_MaximumDistance.Id].Config.alertCurve.Evaluate(templateDict[m_MaximumDistance.Id].CostTime / templateDict[m_MaximumDistance.Id].Config.duration) * (m_MaximumDistance.IsExpression ? m_MaximumDistance.Value : m_MaximumDistance.PrimitiveValue);
+            if (m_MinimumFOV.IsUse && templateDict.ContainsKey(m_MinimumFOV.Id))
+                target.m_MinimumFOV = Mathf.Approximately(0, templateDict[m_MinimumFOV.Id].Config.duration) ? (m_MinimumFOV.IsExpression ? m_MinimumFOV.Value : m_MinimumFOV.PrimitiveValue) : templateDict[m_MinimumFOV.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumFOV.Id].CostTime / templateDict[m_MinimumFOV.Id].Config.duration) * (m_MinimumFOV.IsExpression ? m_MinimumFOV.Value : m_MinimumFOV.PrimitiveValue);
+            if (m_MaximumFOV.IsUse && templateDict.ContainsKey(m_MaximumFOV.Id))
+                target.m_MaximumFOV = Mathf.Approximately(0, templateDict[m_MaximumFOV.Id].Config.duration) ? (m_MaximumFOV.IsExpression ? m_MaximumFOV.Value : m_MaximumFOV.PrimitiveValue) : templateDict[m_MaximumFOV.Id].Config.alertCurve.Evaluate(templateDict[m_MaximumFOV.Id].CostTime / templateDict[m_MaximumFOV.Id].Config.duration) * (m_MaximumFOV.IsExpression ? m_MaximumFOV.Value : m_MaximumFOV.PrimitiveValue);
+            if (m_MinimumOrthoSize.IsUse && templateDict.ContainsKey(m_MinimumOrthoSize.Id))
+                target.m_MinimumOrthoSize = Mathf.Approximately(0, templateDict[m_MinimumOrthoSize.Id].Config.duration) ? (m_MinimumOrthoSize.IsExpression ? m_MinimumOrthoSize.Value : m_MinimumOrthoSize.PrimitiveValue) : templateDict[m_MinimumOrthoSize.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumOrthoSize.Id].CostTime / templateDict[m_MinimumOrthoSize.Id].Config.duration) * (m_MinimumOrthoSize.IsExpression ? m_MinimumOrthoSize.Value : m_MinimumOrthoSize.PrimitiveValue);
+            if (m_MaximumOrthoSize.IsUse && templateDict.ContainsKey(m_MaximumOrthoSize.Id))
+                target.m_MaximumOrthoSize = Mathf.Approximately(0, templateDict[m_MaximumOrthoSize.Id].Config.duration) ? (m_MaximumOrthoSize.IsExpression ? m_MaximumOrthoSize.Value : m_MaximumOrthoSize.PrimitiveValue) : templateDict[m_MaximumOrthoSize.Id].Config.alertCurve.Evaluate(templateDict[m_MaximumOrthoSize.Id].CostTime / templateDict[m_MaximumOrthoSize.Id].Config.duration) * (m_MaximumOrthoSize.IsExpression ? m_MaximumOrthoSize.Value : m_MaximumOrthoSize.PrimitiveValue);
         }
     }
 }
