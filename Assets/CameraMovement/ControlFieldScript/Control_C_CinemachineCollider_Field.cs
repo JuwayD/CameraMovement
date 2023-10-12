@@ -42,7 +42,7 @@ namespace CameraMovement{
            [UnityEngine.TooltipAttribute("If greater than zero, a higher score will be given to shots when the target is closer to this distance.  Set this to zero to disable this feature.")]
             public DataMixer <System.Single> m_OptimalTargetDistance;
         public float m_OptimalTargetDistanceAlertInit;
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineCollider target)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineCollider target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
@@ -53,8 +53,9 @@ namespace CameraMovement{
                 }
                 if(source.m_MinimumDistanceFromTarget.IsUse)
                 {
-                    m_MinimumDistanceFromTargetAlertInit = target.m_MinimumDistanceFromTarget;
                     m_MinimumDistanceFromTarget.Add(new MixItem<System.Single>(id, priority, source.m_MinimumDistanceFromTarget.CalculatorExpression, source.m_MinimumDistanceFromTarget.Value, source.m_MinimumDistanceFromTarget.IsUse));
+                   var targetValue = (m_MinimumDistanceFromTarget.IsExpression ? m_MinimumDistanceFromTarget.Value : m_MinimumDistanceFromTarget.PrimitiveValue);
+                   m_MinimumDistanceFromTargetAlertInit = target.m_MinimumDistanceFromTarget - templateDict[m_MinimumDistanceFromTarget.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumDistanceFromTarget.Id].CostTime / templateDict[m_MinimumDistanceFromTarget.Id].Config.duration) * (targetValue - m_MinimumDistanceFromTargetAlertInit);
                 }
                 if(source.m_AvoidObstacles.IsUse)
                 {
@@ -62,18 +63,21 @@ namespace CameraMovement{
                 }
                 if(source.m_DistanceLimit.IsUse)
                 {
-                    m_DistanceLimitAlertInit = target.m_DistanceLimit;
                     m_DistanceLimit.Add(new MixItem<System.Single>(id, priority, source.m_DistanceLimit.CalculatorExpression, source.m_DistanceLimit.Value, source.m_DistanceLimit.IsUse));
+                   var targetValue = (m_DistanceLimit.IsExpression ? m_DistanceLimit.Value : m_DistanceLimit.PrimitiveValue);
+                   m_DistanceLimitAlertInit = target.m_DistanceLimit - templateDict[m_DistanceLimit.Id].Config.alertCurve.Evaluate(templateDict[m_DistanceLimit.Id].CostTime / templateDict[m_DistanceLimit.Id].Config.duration) * (targetValue - m_DistanceLimitAlertInit);
                 }
                 if(source.m_MinimumOcclusionTime.IsUse)
                 {
-                    m_MinimumOcclusionTimeAlertInit = target.m_MinimumOcclusionTime;
                     m_MinimumOcclusionTime.Add(new MixItem<System.Single>(id, priority, source.m_MinimumOcclusionTime.CalculatorExpression, source.m_MinimumOcclusionTime.Value, source.m_MinimumOcclusionTime.IsUse));
+                   var targetValue = (m_MinimumOcclusionTime.IsExpression ? m_MinimumOcclusionTime.Value : m_MinimumOcclusionTime.PrimitiveValue);
+                   m_MinimumOcclusionTimeAlertInit = target.m_MinimumOcclusionTime - templateDict[m_MinimumOcclusionTime.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumOcclusionTime.Id].CostTime / templateDict[m_MinimumOcclusionTime.Id].Config.duration) * (targetValue - m_MinimumOcclusionTimeAlertInit);
                 }
                 if(source.m_CameraRadius.IsUse)
                 {
-                    m_CameraRadiusAlertInit = target.m_CameraRadius;
                     m_CameraRadius.Add(new MixItem<System.Single>(id, priority, source.m_CameraRadius.CalculatorExpression, source.m_CameraRadius.Value, source.m_CameraRadius.IsUse));
+                   var targetValue = (m_CameraRadius.IsExpression ? m_CameraRadius.Value : m_CameraRadius.PrimitiveValue);
+                   m_CameraRadiusAlertInit = target.m_CameraRadius - templateDict[m_CameraRadius.Id].Config.alertCurve.Evaluate(templateDict[m_CameraRadius.Id].CostTime / templateDict[m_CameraRadius.Id].Config.duration) * (targetValue - m_CameraRadiusAlertInit);
                 }
                 if(source.m_Strategy.IsUse)
                 {
@@ -85,26 +89,30 @@ namespace CameraMovement{
                 }
                 if(source.m_SmoothingTime.IsUse)
                 {
-                    m_SmoothingTimeAlertInit = target.m_SmoothingTime;
                     m_SmoothingTime.Add(new MixItem<System.Single>(id, priority, source.m_SmoothingTime.CalculatorExpression, source.m_SmoothingTime.Value, source.m_SmoothingTime.IsUse));
+                   var targetValue = (m_SmoothingTime.IsExpression ? m_SmoothingTime.Value : m_SmoothingTime.PrimitiveValue);
+                   m_SmoothingTimeAlertInit = target.m_SmoothingTime - templateDict[m_SmoothingTime.Id].Config.alertCurve.Evaluate(templateDict[m_SmoothingTime.Id].CostTime / templateDict[m_SmoothingTime.Id].Config.duration) * (targetValue - m_SmoothingTimeAlertInit);
                 }
                 if(source.m_Damping.IsUse)
                 {
-                    m_DampingAlertInit = target.m_Damping;
                     m_Damping.Add(new MixItem<System.Single>(id, priority, source.m_Damping.CalculatorExpression, source.m_Damping.Value, source.m_Damping.IsUse));
+                   var targetValue = (m_Damping.IsExpression ? m_Damping.Value : m_Damping.PrimitiveValue);
+                   m_DampingAlertInit = target.m_Damping - templateDict[m_Damping.Id].Config.alertCurve.Evaluate(templateDict[m_Damping.Id].CostTime / templateDict[m_Damping.Id].Config.duration) * (targetValue - m_DampingAlertInit);
                 }
                 if(source.m_DampingWhenOccluded.IsUse)
                 {
-                    m_DampingWhenOccludedAlertInit = target.m_DampingWhenOccluded;
                     m_DampingWhenOccluded.Add(new MixItem<System.Single>(id, priority, source.m_DampingWhenOccluded.CalculatorExpression, source.m_DampingWhenOccluded.Value, source.m_DampingWhenOccluded.IsUse));
+                   var targetValue = (m_DampingWhenOccluded.IsExpression ? m_DampingWhenOccluded.Value : m_DampingWhenOccluded.PrimitiveValue);
+                   m_DampingWhenOccludedAlertInit = target.m_DampingWhenOccluded - templateDict[m_DampingWhenOccluded.Id].Config.alertCurve.Evaluate(templateDict[m_DampingWhenOccluded.Id].CostTime / templateDict[m_DampingWhenOccluded.Id].Config.duration) * (targetValue - m_DampingWhenOccludedAlertInit);
                 }
                 if(source.m_OptimalTargetDistance.IsUse)
                 {
-                    m_OptimalTargetDistanceAlertInit = target.m_OptimalTargetDistance;
                     m_OptimalTargetDistance.Add(new MixItem<System.Single>(id, priority, source.m_OptimalTargetDistance.CalculatorExpression, source.m_OptimalTargetDistance.Value, source.m_OptimalTargetDistance.IsUse));
+                   var targetValue = (m_OptimalTargetDistance.IsExpression ? m_OptimalTargetDistance.Value : m_OptimalTargetDistance.PrimitiveValue);
+                   m_OptimalTargetDistanceAlertInit = target.m_OptimalTargetDistance - templateDict[m_OptimalTargetDistance.Id].Config.alertCurve.Evaluate(templateDict[m_OptimalTargetDistance.Id].CostTime / templateDict[m_OptimalTargetDistance.Id].Config.duration) * (targetValue - m_OptimalTargetDistanceAlertInit);
                 }
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineCollider target)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineCollider target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
@@ -115,7 +123,8 @@ namespace CameraMovement{
                 }
                 if(source.m_MinimumDistanceFromTarget.IsUse)
                 {
-                    m_MinimumDistanceFromTargetAlertInit = target.m_MinimumDistanceFromTarget;
+                   var targetValue = (m_MinimumDistanceFromTarget.IsExpression ? m_MinimumDistanceFromTarget.Value : m_MinimumDistanceFromTarget.PrimitiveValue);
+                   m_MinimumDistanceFromTargetAlertInit = target.m_MinimumDistanceFromTarget - templateDict[m_MinimumDistanceFromTarget.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumDistanceFromTarget.Id].CostTime / templateDict[m_MinimumDistanceFromTarget.Id].Config.duration) * (targetValue - m_MinimumDistanceFromTargetAlertInit);
                     m_MinimumDistanceFromTarget.Remove(new MixItem<System.Single>(id, priority, source.m_MinimumDistanceFromTarget.CalculatorExpression, source.m_MinimumDistanceFromTarget.Value, source.m_MinimumDistanceFromTarget.IsUse));
                 }
                 if(source.m_AvoidObstacles.IsUse)
@@ -124,17 +133,20 @@ namespace CameraMovement{
                 }
                 if(source.m_DistanceLimit.IsUse)
                 {
-                    m_DistanceLimitAlertInit = target.m_DistanceLimit;
+                   var targetValue = (m_DistanceLimit.IsExpression ? m_DistanceLimit.Value : m_DistanceLimit.PrimitiveValue);
+                   m_DistanceLimitAlertInit = target.m_DistanceLimit - templateDict[m_DistanceLimit.Id].Config.alertCurve.Evaluate(templateDict[m_DistanceLimit.Id].CostTime / templateDict[m_DistanceLimit.Id].Config.duration) * (targetValue - m_DistanceLimitAlertInit);
                     m_DistanceLimit.Remove(new MixItem<System.Single>(id, priority, source.m_DistanceLimit.CalculatorExpression, source.m_DistanceLimit.Value, source.m_DistanceLimit.IsUse));
                 }
                 if(source.m_MinimumOcclusionTime.IsUse)
                 {
-                    m_MinimumOcclusionTimeAlertInit = target.m_MinimumOcclusionTime;
+                   var targetValue = (m_MinimumOcclusionTime.IsExpression ? m_MinimumOcclusionTime.Value : m_MinimumOcclusionTime.PrimitiveValue);
+                   m_MinimumOcclusionTimeAlertInit = target.m_MinimumOcclusionTime - templateDict[m_MinimumOcclusionTime.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumOcclusionTime.Id].CostTime / templateDict[m_MinimumOcclusionTime.Id].Config.duration) * (targetValue - m_MinimumOcclusionTimeAlertInit);
                     m_MinimumOcclusionTime.Remove(new MixItem<System.Single>(id, priority, source.m_MinimumOcclusionTime.CalculatorExpression, source.m_MinimumOcclusionTime.Value, source.m_MinimumOcclusionTime.IsUse));
                 }
                 if(source.m_CameraRadius.IsUse)
                 {
-                    m_CameraRadiusAlertInit = target.m_CameraRadius;
+                   var targetValue = (m_CameraRadius.IsExpression ? m_CameraRadius.Value : m_CameraRadius.PrimitiveValue);
+                   m_CameraRadiusAlertInit = target.m_CameraRadius - templateDict[m_CameraRadius.Id].Config.alertCurve.Evaluate(templateDict[m_CameraRadius.Id].CostTime / templateDict[m_CameraRadius.Id].Config.duration) * (targetValue - m_CameraRadiusAlertInit);
                     m_CameraRadius.Remove(new MixItem<System.Single>(id, priority, source.m_CameraRadius.CalculatorExpression, source.m_CameraRadius.Value, source.m_CameraRadius.IsUse));
                 }
                 if(source.m_Strategy.IsUse)
@@ -147,22 +159,26 @@ namespace CameraMovement{
                 }
                 if(source.m_SmoothingTime.IsUse)
                 {
-                    m_SmoothingTimeAlertInit = target.m_SmoothingTime;
+                   var targetValue = (m_SmoothingTime.IsExpression ? m_SmoothingTime.Value : m_SmoothingTime.PrimitiveValue);
+                   m_SmoothingTimeAlertInit = target.m_SmoothingTime - templateDict[m_SmoothingTime.Id].Config.alertCurve.Evaluate(templateDict[m_SmoothingTime.Id].CostTime / templateDict[m_SmoothingTime.Id].Config.duration) * (targetValue - m_SmoothingTimeAlertInit);
                     m_SmoothingTime.Remove(new MixItem<System.Single>(id, priority, source.m_SmoothingTime.CalculatorExpression, source.m_SmoothingTime.Value, source.m_SmoothingTime.IsUse));
                 }
                 if(source.m_Damping.IsUse)
                 {
-                    m_DampingAlertInit = target.m_Damping;
+                   var targetValue = (m_Damping.IsExpression ? m_Damping.Value : m_Damping.PrimitiveValue);
+                   m_DampingAlertInit = target.m_Damping - templateDict[m_Damping.Id].Config.alertCurve.Evaluate(templateDict[m_Damping.Id].CostTime / templateDict[m_Damping.Id].Config.duration) * (targetValue - m_DampingAlertInit);
                     m_Damping.Remove(new MixItem<System.Single>(id, priority, source.m_Damping.CalculatorExpression, source.m_Damping.Value, source.m_Damping.IsUse));
                 }
                 if(source.m_DampingWhenOccluded.IsUse)
                 {
-                    m_DampingWhenOccludedAlertInit = target.m_DampingWhenOccluded;
+                   var targetValue = (m_DampingWhenOccluded.IsExpression ? m_DampingWhenOccluded.Value : m_DampingWhenOccluded.PrimitiveValue);
+                   m_DampingWhenOccludedAlertInit = target.m_DampingWhenOccluded - templateDict[m_DampingWhenOccluded.Id].Config.alertCurve.Evaluate(templateDict[m_DampingWhenOccluded.Id].CostTime / templateDict[m_DampingWhenOccluded.Id].Config.duration) * (targetValue - m_DampingWhenOccludedAlertInit);
                     m_DampingWhenOccluded.Remove(new MixItem<System.Single>(id, priority, source.m_DampingWhenOccluded.CalculatorExpression, source.m_DampingWhenOccluded.Value, source.m_DampingWhenOccluded.IsUse));
                 }
                 if(source.m_OptimalTargetDistance.IsUse)
                 {
-                    m_OptimalTargetDistanceAlertInit = target.m_OptimalTargetDistance;
+                   var targetValue = (m_OptimalTargetDistance.IsExpression ? m_OptimalTargetDistance.Value : m_OptimalTargetDistance.PrimitiveValue);
+                   m_OptimalTargetDistanceAlertInit = target.m_OptimalTargetDistance - templateDict[m_OptimalTargetDistance.Id].Config.alertCurve.Evaluate(templateDict[m_OptimalTargetDistance.Id].CostTime / templateDict[m_OptimalTargetDistance.Id].Config.duration) * (targetValue - m_OptimalTargetDistanceAlertInit);
                     m_OptimalTargetDistance.Remove(new MixItem<System.Single>(id, priority, source.m_OptimalTargetDistance.CalculatorExpression, source.m_OptimalTargetDistance.Value, source.m_OptimalTargetDistance.IsUse));
                 }
         }

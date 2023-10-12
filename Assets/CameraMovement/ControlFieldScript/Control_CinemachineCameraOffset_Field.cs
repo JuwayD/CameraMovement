@@ -15,7 +15,7 @@ namespace CameraMovement{
             public DataMixer <Cinemachine.CinemachineCore.Stage> m_ApplyAfter;
        [UnityEngine.TooltipAttribute("If applying offset after aim, re-adjust the aim to preserve the screen position of the LookAt target as much as possible")]
             public DataMixer <System.Boolean> m_PreserveComposition;
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref CinemachineCameraOffset target)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref CinemachineCameraOffset target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
@@ -33,7 +33,7 @@ namespace CameraMovement{
                     m_PreserveComposition.Add(new MixItem<System.Boolean>(id, priority, source.m_PreserveComposition.CalculatorExpression, source.m_PreserveComposition.Value, source.m_PreserveComposition.IsUse));
                 }
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref CinemachineCameraOffset target)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref CinemachineCameraOffset target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;

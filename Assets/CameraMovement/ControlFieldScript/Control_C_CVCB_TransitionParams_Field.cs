@@ -15,7 +15,7 @@ namespace CameraMovement{
             public DataMixer <System.Boolean> m_InheritPosition;
        [UnityEngine.TooltipAttribute("This event fires when the virtual camera goes Live")]
         public Control_C_CB_VcamActivatedEvent_Field m_OnCameraLive;
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineVirtualCameraBase.TransitionParams target)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineVirtualCameraBase.TransitionParams target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
@@ -29,9 +29,9 @@ namespace CameraMovement{
                     m_InheritPosition.Add(new MixItem<System.Boolean>(id, priority, source.m_InheritPosition.CalculatorExpression, source.m_InheritPosition.Value, source.m_InheritPosition.IsUse));
                 }
                 if(source.m_OnCameraLive != null && m_OnCameraLive == null) m_OnCameraLive = new Control_C_CB_VcamActivatedEvent_Field();
-            m_OnCameraLive?.AddByConfig(source.m_OnCameraLive, id, priority, ref target.m_OnCameraLive);
+            m_OnCameraLive?.AddByConfig(source.m_OnCameraLive, id, priority, ref target.m_OnCameraLive, templateDict);
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineVirtualCameraBase.TransitionParams target)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineVirtualCameraBase.TransitionParams target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
@@ -44,7 +44,7 @@ namespace CameraMovement{
                 {
                     m_InheritPosition.Remove(new MixItem<System.Boolean>(id, priority, source.m_InheritPosition.CalculatorExpression, source.m_InheritPosition.Value, source.m_InheritPosition.IsUse));
                 }
-            m_OnCameraLive?.RemoveByConfig(source.m_OnCameraLive, id, priority, ref target.m_OnCameraLive);
+            m_OnCameraLive?.RemoveByConfig(source.m_OnCameraLive, id, priority, ref target.m_OnCameraLive, templateDict);
         }
         public void RemoveAll()
         {

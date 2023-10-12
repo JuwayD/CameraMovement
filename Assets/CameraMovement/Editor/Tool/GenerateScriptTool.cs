@@ -262,7 +262,7 @@ namespace CameraMovement
 
             // 生成函数签名
             var methodPrefix = isRemove ? "Remove" : "Add";
-            codeBuilder.AppendLine($"        public void {methodPrefix}ByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref {autoGetArrayElementTypeFullName(cinemachineType)} target)");
+            codeBuilder.AppendLine($"        public void {methodPrefix}ByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref {autoGetArrayElementTypeFullName(cinemachineType)} target, Dictionary<int, RuntimeTemplate> templateDict)");
             codeBuilder.AppendLine("        {");
             codeBuilder.AppendLine($"            if(sourceConfig == null) return;");
             codeBuilder.AppendLine($"            if(sourceConfig.AttachControlField != AttachControlField) return;");
@@ -285,11 +285,19 @@ namespace CameraMovement
                             codeBuilder.AppendLine($"            {{");
                             codeBuilder.AppendLine($"                if(source.{sourceField.Name}.IsUse)");
                             codeBuilder.AppendLine($"                {{");
+                            if (!isRemove)
+                            {
+                                codeBuilder.AppendLine($"                    {targetField.Name}.{methodPrefix}(new MixItem<{getFullName(targetField.FieldType)}>(id, priority, source.{sourceField.Name}.CalculatorExpression, source.{sourceField.Name}.Value, source.{sourceField.Name}.IsUse));");
+                            }
                             if (sourceField.FieldType.GenericTypeArguments[0] == typeof(float) || sourceField.FieldType.GenericTypeArguments[0] == typeof(double))
                             {
-                                codeBuilder.AppendLine($"                    {targetField.Name}{CURVE_FIELD_POST_FIX_} = target.{targetField.Name};");
+                                codeBuilder.AppendLine($"                   var targetValue = ({targetField.Name}.IsExpression ? {targetField.Name}.Value : {targetField.Name}.PrimitiveValue);");
+                                codeBuilder.AppendLine($"                   {targetField.Name}{CURVE_FIELD_POST_FIX_} = target.{targetField.Name} - templateDict[{targetField.Name}.Id].Config.alertCurve.Evaluate(templateDict[{targetField.Name}.Id].CostTime / templateDict[{targetField.Name}.Id].Config.duration) * (targetValue - {targetField.Name}{CURVE_FIELD_POST_FIX_});");
                             }
-                            codeBuilder.AppendLine($"                    {targetField.Name}.{methodPrefix}(new MixItem<{getFullName(targetField.FieldType)}>(id, priority, source.{sourceField.Name}.CalculatorExpression, source.{sourceField.Name}.Value, source.{sourceField.Name}.IsUse));");
+                            if (isRemove)
+                            {
+                                codeBuilder.AppendLine($"                    {targetField.Name}.{methodPrefix}(new MixItem<{getFullName(targetField.FieldType)}>(id, priority, source.{sourceField.Name}.CalculatorExpression, source.{sourceField.Name}.Value, source.{sourceField.Name}.IsUse));");
+                            }
                             codeBuilder.AppendLine($"                }}");
                             codeBuilder.AppendLine($"            }}");
                         }
@@ -297,11 +305,19 @@ namespace CameraMovement
                         {
                             codeBuilder.AppendLine($"                if(source.{sourceField.Name}.IsUse)");
                             codeBuilder.AppendLine($"                {{");
+                            if (!isRemove)
+                            {
+                                codeBuilder.AppendLine($"                    {targetField.Name}.{methodPrefix}(new MixItem<{getFullName(targetField.FieldType)}>(id, priority, source.{sourceField.Name}.CalculatorExpression, source.{sourceField.Name}.Value, source.{sourceField.Name}.IsUse));");
+                            }
                             if (sourceField.FieldType.GenericTypeArguments[0] == typeof(float) || sourceField.FieldType.GenericTypeArguments[0] == typeof(double))
                             {
-                                codeBuilder.AppendLine($"                    {targetField.Name}{CURVE_FIELD_POST_FIX_} = target.{targetField.Name};");
+                                codeBuilder.AppendLine($"                   var targetValue = ({targetField.Name}.IsExpression ? {targetField.Name}.Value : {targetField.Name}.PrimitiveValue);");
+                                codeBuilder.AppendLine($"                   {targetField.Name}{CURVE_FIELD_POST_FIX_} = target.{targetField.Name} - templateDict[{targetField.Name}.Id].Config.alertCurve.Evaluate(templateDict[{targetField.Name}.Id].CostTime / templateDict[{targetField.Name}.Id].Config.duration) * (targetValue - {targetField.Name}{CURVE_FIELD_POST_FIX_});");
                             }
-                            codeBuilder.AppendLine($"                    {targetField.Name}.{methodPrefix}(new MixItem<{getFullName(targetField.FieldType)}>(id, priority, source.{sourceField.Name}.CalculatorExpression, source.{sourceField.Name}.Value, source.{sourceField.Name}.IsUse));");
+                            if (isRemove)
+                            {
+                                codeBuilder.AppendLine($"                    {targetField.Name}.{methodPrefix}(new MixItem<{getFullName(targetField.FieldType)}>(id, priority, source.{sourceField.Name}.CalculatorExpression, source.{sourceField.Name}.Value, source.{sourceField.Name}.IsUse));");
+                            }
                             codeBuilder.AppendLine($"                }}");
                         }
                     }
@@ -317,7 +333,7 @@ namespace CameraMovement
                                                    $"            {{\n" +
                                                    //如果不是移除就需要把字段先创建出来
                                                    (isRemove ? "" : $"                if(source.{sourceField.Name} != null && {targetField.Name} == null) {targetField.Name} = new {name}[source.{sourceField.Name}.Length];\n") +
-                                                   $"                {targetField.Name}?[i].{methodPrefix}ByConfig(source.{sourceField.Name}[i], id, priority, ref target.{sourceField.Name}[i]);" +
+                                                   $"                {targetField.Name}?[i].{methodPrefix}ByConfig(source.{sourceField.Name}[i], id, priority, ref target.{sourceField.Name}[i], templateDict);" +
                                                    $"            }}\n");
                         }
                         else
@@ -328,7 +344,7 @@ namespace CameraMovement
                                 name = prefix + simplifyTypeName(name) + postfix;
                                 codeBuilder.AppendLine($"                if(source.{sourceField.Name} != null && {targetField.Name} == null) {targetField.Name} = new {name}();");
                             }
-                            codeBuilder.AppendLine($"            {targetField.Name}?.{methodPrefix}ByConfig(source.{sourceField.Name}, id, priority, ref target.{sourceField.Name});");
+                            codeBuilder.AppendLine($"            {targetField.Name}?.{methodPrefix}ByConfig(source.{sourceField.Name}, id, priority, ref target.{sourceField.Name}, templateDict);");
                         }
                     }
                 }

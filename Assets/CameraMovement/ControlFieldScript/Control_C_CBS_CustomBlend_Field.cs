@@ -9,13 +9,13 @@ namespace CameraMovement{
     {
        public  Type AttachControlField => typeof(Cinemachine.CinemachineBlenderSettings.CustomBlend[]);
 
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineBlenderSettings.CustomBlend target)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineBlenderSettings.CustomBlend target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CBS_CustomBlend_Config source = (CameraMovement.Control_C_CBS_CustomBlend_Config)sourceConfig;
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineBlenderSettings.CustomBlend target)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineBlenderSettings.CustomBlend target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;

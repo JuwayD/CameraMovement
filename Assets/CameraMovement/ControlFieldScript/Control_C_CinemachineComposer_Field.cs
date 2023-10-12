@@ -51,7 +51,7 @@ namespace CameraMovement{
         public float m_BiasYAlertInit;
        [UnityEngine.TooltipAttribute("Force target to center of screen when this camera activates.  If false, will clamp target to the edges of the dead zone")]
             public DataMixer <System.Boolean> m_CenterOnActivate;
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineComposer target)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineComposer target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
@@ -62,13 +62,15 @@ namespace CameraMovement{
                 }
                 if(source.m_LookaheadTime.IsUse)
                 {
-                    m_LookaheadTimeAlertInit = target.m_LookaheadTime;
                     m_LookaheadTime.Add(new MixItem<System.Single>(id, priority, source.m_LookaheadTime.CalculatorExpression, source.m_LookaheadTime.Value, source.m_LookaheadTime.IsUse));
+                   var targetValue = (m_LookaheadTime.IsExpression ? m_LookaheadTime.Value : m_LookaheadTime.PrimitiveValue);
+                   m_LookaheadTimeAlertInit = target.m_LookaheadTime - templateDict[m_LookaheadTime.Id].Config.alertCurve.Evaluate(templateDict[m_LookaheadTime.Id].CostTime / templateDict[m_LookaheadTime.Id].Config.duration) * (targetValue - m_LookaheadTimeAlertInit);
                 }
                 if(source.m_LookaheadSmoothing.IsUse)
                 {
-                    m_LookaheadSmoothingAlertInit = target.m_LookaheadSmoothing;
                     m_LookaheadSmoothing.Add(new MixItem<System.Single>(id, priority, source.m_LookaheadSmoothing.CalculatorExpression, source.m_LookaheadSmoothing.Value, source.m_LookaheadSmoothing.IsUse));
+                   var targetValue = (m_LookaheadSmoothing.IsExpression ? m_LookaheadSmoothing.Value : m_LookaheadSmoothing.PrimitiveValue);
+                   m_LookaheadSmoothingAlertInit = target.m_LookaheadSmoothing - templateDict[m_LookaheadSmoothing.Id].Config.alertCurve.Evaluate(templateDict[m_LookaheadSmoothing.Id].CostTime / templateDict[m_LookaheadSmoothing.Id].Config.duration) * (targetValue - m_LookaheadSmoothingAlertInit);
                 }
                 if(source.m_LookaheadIgnoreY.IsUse)
                 {
@@ -76,60 +78,70 @@ namespace CameraMovement{
                 }
                 if(source.m_HorizontalDamping.IsUse)
                 {
-                    m_HorizontalDampingAlertInit = target.m_HorizontalDamping;
                     m_HorizontalDamping.Add(new MixItem<System.Single>(id, priority, source.m_HorizontalDamping.CalculatorExpression, source.m_HorizontalDamping.Value, source.m_HorizontalDamping.IsUse));
+                   var targetValue = (m_HorizontalDamping.IsExpression ? m_HorizontalDamping.Value : m_HorizontalDamping.PrimitiveValue);
+                   m_HorizontalDampingAlertInit = target.m_HorizontalDamping - templateDict[m_HorizontalDamping.Id].Config.alertCurve.Evaluate(templateDict[m_HorizontalDamping.Id].CostTime / templateDict[m_HorizontalDamping.Id].Config.duration) * (targetValue - m_HorizontalDampingAlertInit);
                 }
                 if(source.m_VerticalDamping.IsUse)
                 {
-                    m_VerticalDampingAlertInit = target.m_VerticalDamping;
                     m_VerticalDamping.Add(new MixItem<System.Single>(id, priority, source.m_VerticalDamping.CalculatorExpression, source.m_VerticalDamping.Value, source.m_VerticalDamping.IsUse));
+                   var targetValue = (m_VerticalDamping.IsExpression ? m_VerticalDamping.Value : m_VerticalDamping.PrimitiveValue);
+                   m_VerticalDampingAlertInit = target.m_VerticalDamping - templateDict[m_VerticalDamping.Id].Config.alertCurve.Evaluate(templateDict[m_VerticalDamping.Id].CostTime / templateDict[m_VerticalDamping.Id].Config.duration) * (targetValue - m_VerticalDampingAlertInit);
                 }
                 if(source.m_ScreenX.IsUse)
                 {
-                    m_ScreenXAlertInit = target.m_ScreenX;
                     m_ScreenX.Add(new MixItem<System.Single>(id, priority, source.m_ScreenX.CalculatorExpression, source.m_ScreenX.Value, source.m_ScreenX.IsUse));
+                   var targetValue = (m_ScreenX.IsExpression ? m_ScreenX.Value : m_ScreenX.PrimitiveValue);
+                   m_ScreenXAlertInit = target.m_ScreenX - templateDict[m_ScreenX.Id].Config.alertCurve.Evaluate(templateDict[m_ScreenX.Id].CostTime / templateDict[m_ScreenX.Id].Config.duration) * (targetValue - m_ScreenXAlertInit);
                 }
                 if(source.m_ScreenY.IsUse)
                 {
-                    m_ScreenYAlertInit = target.m_ScreenY;
                     m_ScreenY.Add(new MixItem<System.Single>(id, priority, source.m_ScreenY.CalculatorExpression, source.m_ScreenY.Value, source.m_ScreenY.IsUse));
+                   var targetValue = (m_ScreenY.IsExpression ? m_ScreenY.Value : m_ScreenY.PrimitiveValue);
+                   m_ScreenYAlertInit = target.m_ScreenY - templateDict[m_ScreenY.Id].Config.alertCurve.Evaluate(templateDict[m_ScreenY.Id].CostTime / templateDict[m_ScreenY.Id].Config.duration) * (targetValue - m_ScreenYAlertInit);
                 }
                 if(source.m_DeadZoneWidth.IsUse)
                 {
-                    m_DeadZoneWidthAlertInit = target.m_DeadZoneWidth;
                     m_DeadZoneWidth.Add(new MixItem<System.Single>(id, priority, source.m_DeadZoneWidth.CalculatorExpression, source.m_DeadZoneWidth.Value, source.m_DeadZoneWidth.IsUse));
+                   var targetValue = (m_DeadZoneWidth.IsExpression ? m_DeadZoneWidth.Value : m_DeadZoneWidth.PrimitiveValue);
+                   m_DeadZoneWidthAlertInit = target.m_DeadZoneWidth - templateDict[m_DeadZoneWidth.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneWidth.Id].CostTime / templateDict[m_DeadZoneWidth.Id].Config.duration) * (targetValue - m_DeadZoneWidthAlertInit);
                 }
                 if(source.m_DeadZoneHeight.IsUse)
                 {
-                    m_DeadZoneHeightAlertInit = target.m_DeadZoneHeight;
                     m_DeadZoneHeight.Add(new MixItem<System.Single>(id, priority, source.m_DeadZoneHeight.CalculatorExpression, source.m_DeadZoneHeight.Value, source.m_DeadZoneHeight.IsUse));
+                   var targetValue = (m_DeadZoneHeight.IsExpression ? m_DeadZoneHeight.Value : m_DeadZoneHeight.PrimitiveValue);
+                   m_DeadZoneHeightAlertInit = target.m_DeadZoneHeight - templateDict[m_DeadZoneHeight.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneHeight.Id].CostTime / templateDict[m_DeadZoneHeight.Id].Config.duration) * (targetValue - m_DeadZoneHeightAlertInit);
                 }
                 if(source.m_SoftZoneWidth.IsUse)
                 {
-                    m_SoftZoneWidthAlertInit = target.m_SoftZoneWidth;
                     m_SoftZoneWidth.Add(new MixItem<System.Single>(id, priority, source.m_SoftZoneWidth.CalculatorExpression, source.m_SoftZoneWidth.Value, source.m_SoftZoneWidth.IsUse));
+                   var targetValue = (m_SoftZoneWidth.IsExpression ? m_SoftZoneWidth.Value : m_SoftZoneWidth.PrimitiveValue);
+                   m_SoftZoneWidthAlertInit = target.m_SoftZoneWidth - templateDict[m_SoftZoneWidth.Id].Config.alertCurve.Evaluate(templateDict[m_SoftZoneWidth.Id].CostTime / templateDict[m_SoftZoneWidth.Id].Config.duration) * (targetValue - m_SoftZoneWidthAlertInit);
                 }
                 if(source.m_SoftZoneHeight.IsUse)
                 {
-                    m_SoftZoneHeightAlertInit = target.m_SoftZoneHeight;
                     m_SoftZoneHeight.Add(new MixItem<System.Single>(id, priority, source.m_SoftZoneHeight.CalculatorExpression, source.m_SoftZoneHeight.Value, source.m_SoftZoneHeight.IsUse));
+                   var targetValue = (m_SoftZoneHeight.IsExpression ? m_SoftZoneHeight.Value : m_SoftZoneHeight.PrimitiveValue);
+                   m_SoftZoneHeightAlertInit = target.m_SoftZoneHeight - templateDict[m_SoftZoneHeight.Id].Config.alertCurve.Evaluate(templateDict[m_SoftZoneHeight.Id].CostTime / templateDict[m_SoftZoneHeight.Id].Config.duration) * (targetValue - m_SoftZoneHeightAlertInit);
                 }
                 if(source.m_BiasX.IsUse)
                 {
-                    m_BiasXAlertInit = target.m_BiasX;
                     m_BiasX.Add(new MixItem<System.Single>(id, priority, source.m_BiasX.CalculatorExpression, source.m_BiasX.Value, source.m_BiasX.IsUse));
+                   var targetValue = (m_BiasX.IsExpression ? m_BiasX.Value : m_BiasX.PrimitiveValue);
+                   m_BiasXAlertInit = target.m_BiasX - templateDict[m_BiasX.Id].Config.alertCurve.Evaluate(templateDict[m_BiasX.Id].CostTime / templateDict[m_BiasX.Id].Config.duration) * (targetValue - m_BiasXAlertInit);
                 }
                 if(source.m_BiasY.IsUse)
                 {
-                    m_BiasYAlertInit = target.m_BiasY;
                     m_BiasY.Add(new MixItem<System.Single>(id, priority, source.m_BiasY.CalculatorExpression, source.m_BiasY.Value, source.m_BiasY.IsUse));
+                   var targetValue = (m_BiasY.IsExpression ? m_BiasY.Value : m_BiasY.PrimitiveValue);
+                   m_BiasYAlertInit = target.m_BiasY - templateDict[m_BiasY.Id].Config.alertCurve.Evaluate(templateDict[m_BiasY.Id].CostTime / templateDict[m_BiasY.Id].Config.duration) * (targetValue - m_BiasYAlertInit);
                 }
                 if(source.m_CenterOnActivate.IsUse)
                 {
                     m_CenterOnActivate.Add(new MixItem<System.Boolean>(id, priority, source.m_CenterOnActivate.CalculatorExpression, source.m_CenterOnActivate.Value, source.m_CenterOnActivate.IsUse));
                 }
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineComposer target)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineComposer target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
@@ -140,12 +152,14 @@ namespace CameraMovement{
                 }
                 if(source.m_LookaheadTime.IsUse)
                 {
-                    m_LookaheadTimeAlertInit = target.m_LookaheadTime;
+                   var targetValue = (m_LookaheadTime.IsExpression ? m_LookaheadTime.Value : m_LookaheadTime.PrimitiveValue);
+                   m_LookaheadTimeAlertInit = target.m_LookaheadTime - templateDict[m_LookaheadTime.Id].Config.alertCurve.Evaluate(templateDict[m_LookaheadTime.Id].CostTime / templateDict[m_LookaheadTime.Id].Config.duration) * (targetValue - m_LookaheadTimeAlertInit);
                     m_LookaheadTime.Remove(new MixItem<System.Single>(id, priority, source.m_LookaheadTime.CalculatorExpression, source.m_LookaheadTime.Value, source.m_LookaheadTime.IsUse));
                 }
                 if(source.m_LookaheadSmoothing.IsUse)
                 {
-                    m_LookaheadSmoothingAlertInit = target.m_LookaheadSmoothing;
+                   var targetValue = (m_LookaheadSmoothing.IsExpression ? m_LookaheadSmoothing.Value : m_LookaheadSmoothing.PrimitiveValue);
+                   m_LookaheadSmoothingAlertInit = target.m_LookaheadSmoothing - templateDict[m_LookaheadSmoothing.Id].Config.alertCurve.Evaluate(templateDict[m_LookaheadSmoothing.Id].CostTime / templateDict[m_LookaheadSmoothing.Id].Config.duration) * (targetValue - m_LookaheadSmoothingAlertInit);
                     m_LookaheadSmoothing.Remove(new MixItem<System.Single>(id, priority, source.m_LookaheadSmoothing.CalculatorExpression, source.m_LookaheadSmoothing.Value, source.m_LookaheadSmoothing.IsUse));
                 }
                 if(source.m_LookaheadIgnoreY.IsUse)
@@ -154,52 +168,62 @@ namespace CameraMovement{
                 }
                 if(source.m_HorizontalDamping.IsUse)
                 {
-                    m_HorizontalDampingAlertInit = target.m_HorizontalDamping;
+                   var targetValue = (m_HorizontalDamping.IsExpression ? m_HorizontalDamping.Value : m_HorizontalDamping.PrimitiveValue);
+                   m_HorizontalDampingAlertInit = target.m_HorizontalDamping - templateDict[m_HorizontalDamping.Id].Config.alertCurve.Evaluate(templateDict[m_HorizontalDamping.Id].CostTime / templateDict[m_HorizontalDamping.Id].Config.duration) * (targetValue - m_HorizontalDampingAlertInit);
                     m_HorizontalDamping.Remove(new MixItem<System.Single>(id, priority, source.m_HorizontalDamping.CalculatorExpression, source.m_HorizontalDamping.Value, source.m_HorizontalDamping.IsUse));
                 }
                 if(source.m_VerticalDamping.IsUse)
                 {
-                    m_VerticalDampingAlertInit = target.m_VerticalDamping;
+                   var targetValue = (m_VerticalDamping.IsExpression ? m_VerticalDamping.Value : m_VerticalDamping.PrimitiveValue);
+                   m_VerticalDampingAlertInit = target.m_VerticalDamping - templateDict[m_VerticalDamping.Id].Config.alertCurve.Evaluate(templateDict[m_VerticalDamping.Id].CostTime / templateDict[m_VerticalDamping.Id].Config.duration) * (targetValue - m_VerticalDampingAlertInit);
                     m_VerticalDamping.Remove(new MixItem<System.Single>(id, priority, source.m_VerticalDamping.CalculatorExpression, source.m_VerticalDamping.Value, source.m_VerticalDamping.IsUse));
                 }
                 if(source.m_ScreenX.IsUse)
                 {
-                    m_ScreenXAlertInit = target.m_ScreenX;
+                   var targetValue = (m_ScreenX.IsExpression ? m_ScreenX.Value : m_ScreenX.PrimitiveValue);
+                   m_ScreenXAlertInit = target.m_ScreenX - templateDict[m_ScreenX.Id].Config.alertCurve.Evaluate(templateDict[m_ScreenX.Id].CostTime / templateDict[m_ScreenX.Id].Config.duration) * (targetValue - m_ScreenXAlertInit);
                     m_ScreenX.Remove(new MixItem<System.Single>(id, priority, source.m_ScreenX.CalculatorExpression, source.m_ScreenX.Value, source.m_ScreenX.IsUse));
                 }
                 if(source.m_ScreenY.IsUse)
                 {
-                    m_ScreenYAlertInit = target.m_ScreenY;
+                   var targetValue = (m_ScreenY.IsExpression ? m_ScreenY.Value : m_ScreenY.PrimitiveValue);
+                   m_ScreenYAlertInit = target.m_ScreenY - templateDict[m_ScreenY.Id].Config.alertCurve.Evaluate(templateDict[m_ScreenY.Id].CostTime / templateDict[m_ScreenY.Id].Config.duration) * (targetValue - m_ScreenYAlertInit);
                     m_ScreenY.Remove(new MixItem<System.Single>(id, priority, source.m_ScreenY.CalculatorExpression, source.m_ScreenY.Value, source.m_ScreenY.IsUse));
                 }
                 if(source.m_DeadZoneWidth.IsUse)
                 {
-                    m_DeadZoneWidthAlertInit = target.m_DeadZoneWidth;
+                   var targetValue = (m_DeadZoneWidth.IsExpression ? m_DeadZoneWidth.Value : m_DeadZoneWidth.PrimitiveValue);
+                   m_DeadZoneWidthAlertInit = target.m_DeadZoneWidth - templateDict[m_DeadZoneWidth.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneWidth.Id].CostTime / templateDict[m_DeadZoneWidth.Id].Config.duration) * (targetValue - m_DeadZoneWidthAlertInit);
                     m_DeadZoneWidth.Remove(new MixItem<System.Single>(id, priority, source.m_DeadZoneWidth.CalculatorExpression, source.m_DeadZoneWidth.Value, source.m_DeadZoneWidth.IsUse));
                 }
                 if(source.m_DeadZoneHeight.IsUse)
                 {
-                    m_DeadZoneHeightAlertInit = target.m_DeadZoneHeight;
+                   var targetValue = (m_DeadZoneHeight.IsExpression ? m_DeadZoneHeight.Value : m_DeadZoneHeight.PrimitiveValue);
+                   m_DeadZoneHeightAlertInit = target.m_DeadZoneHeight - templateDict[m_DeadZoneHeight.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneHeight.Id].CostTime / templateDict[m_DeadZoneHeight.Id].Config.duration) * (targetValue - m_DeadZoneHeightAlertInit);
                     m_DeadZoneHeight.Remove(new MixItem<System.Single>(id, priority, source.m_DeadZoneHeight.CalculatorExpression, source.m_DeadZoneHeight.Value, source.m_DeadZoneHeight.IsUse));
                 }
                 if(source.m_SoftZoneWidth.IsUse)
                 {
-                    m_SoftZoneWidthAlertInit = target.m_SoftZoneWidth;
+                   var targetValue = (m_SoftZoneWidth.IsExpression ? m_SoftZoneWidth.Value : m_SoftZoneWidth.PrimitiveValue);
+                   m_SoftZoneWidthAlertInit = target.m_SoftZoneWidth - templateDict[m_SoftZoneWidth.Id].Config.alertCurve.Evaluate(templateDict[m_SoftZoneWidth.Id].CostTime / templateDict[m_SoftZoneWidth.Id].Config.duration) * (targetValue - m_SoftZoneWidthAlertInit);
                     m_SoftZoneWidth.Remove(new MixItem<System.Single>(id, priority, source.m_SoftZoneWidth.CalculatorExpression, source.m_SoftZoneWidth.Value, source.m_SoftZoneWidth.IsUse));
                 }
                 if(source.m_SoftZoneHeight.IsUse)
                 {
-                    m_SoftZoneHeightAlertInit = target.m_SoftZoneHeight;
+                   var targetValue = (m_SoftZoneHeight.IsExpression ? m_SoftZoneHeight.Value : m_SoftZoneHeight.PrimitiveValue);
+                   m_SoftZoneHeightAlertInit = target.m_SoftZoneHeight - templateDict[m_SoftZoneHeight.Id].Config.alertCurve.Evaluate(templateDict[m_SoftZoneHeight.Id].CostTime / templateDict[m_SoftZoneHeight.Id].Config.duration) * (targetValue - m_SoftZoneHeightAlertInit);
                     m_SoftZoneHeight.Remove(new MixItem<System.Single>(id, priority, source.m_SoftZoneHeight.CalculatorExpression, source.m_SoftZoneHeight.Value, source.m_SoftZoneHeight.IsUse));
                 }
                 if(source.m_BiasX.IsUse)
                 {
-                    m_BiasXAlertInit = target.m_BiasX;
+                   var targetValue = (m_BiasX.IsExpression ? m_BiasX.Value : m_BiasX.PrimitiveValue);
+                   m_BiasXAlertInit = target.m_BiasX - templateDict[m_BiasX.Id].Config.alertCurve.Evaluate(templateDict[m_BiasX.Id].CostTime / templateDict[m_BiasX.Id].Config.duration) * (targetValue - m_BiasXAlertInit);
                     m_BiasX.Remove(new MixItem<System.Single>(id, priority, source.m_BiasX.CalculatorExpression, source.m_BiasX.Value, source.m_BiasX.IsUse));
                 }
                 if(source.m_BiasY.IsUse)
                 {
-                    m_BiasYAlertInit = target.m_BiasY;
+                   var targetValue = (m_BiasY.IsExpression ? m_BiasY.Value : m_BiasY.PrimitiveValue);
+                   m_BiasYAlertInit = target.m_BiasY - templateDict[m_BiasY.Id].Config.alertCurve.Evaluate(templateDict[m_BiasY.Id].CostTime / templateDict[m_BiasY.Id].Config.duration) * (targetValue - m_BiasYAlertInit);
                     m_BiasY.Remove(new MixItem<System.Single>(id, priority, source.m_BiasY.CalculatorExpression, source.m_BiasY.Value, source.m_BiasY.IsUse));
                 }
                 if(source.m_CenterOnActivate.IsUse)

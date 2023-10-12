@@ -82,12 +82,13 @@ namespace CameraMovement
 
             foreach (var id in deleteList)
             {
-                OnTemplateRemove(id);
+                var config = runtimeTemplateDict_[id];
+                OnTemplateRemove(config.Config);
                 runtimeTemplateDict_.Remove(id);
             }
         }
 
-        protected abstract void OnTemplateRemove(int id);
+        protected abstract void OnTemplateRemove(CameraMovementConfig config);
 
         /// <summary>
         /// 处理补正
@@ -115,7 +116,7 @@ namespace CameraMovement
                     for (int j = 0; j < controlExtensionList_.Count; j++)
                     {
                         var extension = extensionList_[i];
-                        controlExtensionList_[i].AddByConfig(config.controlConfigBaseTemplate, config.id, config.priority, ref extension);
+                        controlExtensionList_[i].AddByConfig(config.controlConfigBaseTemplate, config.id, config.priority, ref extension, runtimeTemplateDict_);
                     }
                 }
             }

@@ -9,13 +9,13 @@ namespace CameraMovement{
     {
        public  Type AttachControlField => typeof(Cinemachine.CinemachineBrain.VcamActivatedEvent);
 
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineBrain.VcamActivatedEvent target)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineBrain.VcamActivatedEvent target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CB_VcamActivatedEvent_Config source = (CameraMovement.Control_C_CB_VcamActivatedEvent_Config)sourceConfig;
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineBrain.VcamActivatedEvent target)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineBrain.VcamActivatedEvent target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;

@@ -21,7 +21,7 @@ namespace CameraMovement
         /// <param name="source"></param>
         /// <param name="id"></param>
         /// <param name="priority"></param>
-        public void AddByConfig(CameraMovementControlConfigBase source,int id,int priority,ref T target);
+        public void AddByConfig(CameraMovementControlConfigBase source,int id,int priority,ref T target, Dictionary<int, RuntimeTemplate> templateDict);
 
         /// <summary>
         /// 移除配置数据
@@ -29,7 +29,7 @@ namespace CameraMovement
         /// <param name="source"></param>
         /// <param name="id"></param>
         /// <param name="priority"></param>
-        public void RemoveByConfig(CameraMovementControlConfigBase source,int id,int priority,ref T target);
+        public void RemoveByConfig(CameraMovementControlConfigBase source,int id,int priority,ref T target, Dictionary<int, RuntimeTemplate> templateDict);
 
         /// <summary>
         /// 移除所有控制数据

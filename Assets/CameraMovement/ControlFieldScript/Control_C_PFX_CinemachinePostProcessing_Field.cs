@@ -9,13 +9,13 @@ namespace CameraMovement{
     {
        public  Type AttachControlField => typeof(Cinemachine.PostFX.CinemachinePostProcessing);
 
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.PostFX.CinemachinePostProcessing target)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.PostFX.CinemachinePostProcessing target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_PFX_CinemachinePostProcessing_Config source = (CameraMovement.Control_C_PFX_CinemachinePostProcessing_Config)sourceConfig;
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.PostFX.CinemachinePostProcessing target)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.PostFX.CinemachinePostProcessing target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;

@@ -16,7 +16,7 @@ namespace CameraMovement{
        [UnityEngine.TooltipAttribute("Where the camera is placed when the X-axis value is zero.  This is a rotation in degrees around the Y axis.  When this value is 0, the camera will be placed behind the target.  Nonzero offsets will rotate the zero position around the target.")]
             public DataMixer <System.Single> m_Bias;
         public float m_BiasAlertInit;
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineOrbitalTransposer.Heading target)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineOrbitalTransposer.Heading target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
@@ -31,11 +31,12 @@ namespace CameraMovement{
                 }
                 if(source.m_Bias.IsUse)
                 {
-                    m_BiasAlertInit = target.m_Bias;
                     m_Bias.Add(new MixItem<System.Single>(id, priority, source.m_Bias.CalculatorExpression, source.m_Bias.Value, source.m_Bias.IsUse));
+                   var targetValue = (m_Bias.IsExpression ? m_Bias.Value : m_Bias.PrimitiveValue);
+                   m_BiasAlertInit = target.m_Bias - templateDict[m_Bias.Id].Config.alertCurve.Evaluate(templateDict[m_Bias.Id].CostTime / templateDict[m_Bias.Id].Config.duration) * (targetValue - m_BiasAlertInit);
                 }
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineOrbitalTransposer.Heading target)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineOrbitalTransposer.Heading target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
@@ -50,7 +51,8 @@ namespace CameraMovement{
                 }
                 if(source.m_Bias.IsUse)
                 {
-                    m_BiasAlertInit = target.m_Bias;
+                   var targetValue = (m_Bias.IsExpression ? m_Bias.Value : m_Bias.PrimitiveValue);
+                   m_BiasAlertInit = target.m_Bias - templateDict[m_Bias.Id].Config.alertCurve.Evaluate(templateDict[m_Bias.Id].CostTime / templateDict[m_Bias.Id].Config.duration) * (targetValue - m_BiasAlertInit);
                     m_Bias.Remove(new MixItem<System.Single>(id, priority, source.m_Bias.CalculatorExpression, source.m_Bias.Value, source.m_Bias.IsUse));
                 }
         }

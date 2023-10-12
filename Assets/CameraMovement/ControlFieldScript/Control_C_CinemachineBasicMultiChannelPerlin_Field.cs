@@ -17,7 +17,7 @@ namespace CameraMovement{
        [UnityEngine.TooltipAttribute("Scale factor to apply to the frequencies defined in the NoiseSettings asset.  1 is normal.  Larger magnitudes will make the noise shake more rapidly.")]
             public DataMixer <System.Single> m_FrequencyGain;
         public float m_FrequencyGainAlertInit;
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineBasicMultiChannelPerlin target)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineBasicMultiChannelPerlin target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
@@ -28,16 +28,18 @@ namespace CameraMovement{
                 }
                 if(source.m_AmplitudeGain.IsUse)
                 {
-                    m_AmplitudeGainAlertInit = target.m_AmplitudeGain;
                     m_AmplitudeGain.Add(new MixItem<System.Single>(id, priority, source.m_AmplitudeGain.CalculatorExpression, source.m_AmplitudeGain.Value, source.m_AmplitudeGain.IsUse));
+                   var targetValue = (m_AmplitudeGain.IsExpression ? m_AmplitudeGain.Value : m_AmplitudeGain.PrimitiveValue);
+                   m_AmplitudeGainAlertInit = target.m_AmplitudeGain - templateDict[m_AmplitudeGain.Id].Config.alertCurve.Evaluate(templateDict[m_AmplitudeGain.Id].CostTime / templateDict[m_AmplitudeGain.Id].Config.duration) * (targetValue - m_AmplitudeGainAlertInit);
                 }
                 if(source.m_FrequencyGain.IsUse)
                 {
-                    m_FrequencyGainAlertInit = target.m_FrequencyGain;
                     m_FrequencyGain.Add(new MixItem<System.Single>(id, priority, source.m_FrequencyGain.CalculatorExpression, source.m_FrequencyGain.Value, source.m_FrequencyGain.IsUse));
+                   var targetValue = (m_FrequencyGain.IsExpression ? m_FrequencyGain.Value : m_FrequencyGain.PrimitiveValue);
+                   m_FrequencyGainAlertInit = target.m_FrequencyGain - templateDict[m_FrequencyGain.Id].Config.alertCurve.Evaluate(templateDict[m_FrequencyGain.Id].CostTime / templateDict[m_FrequencyGain.Id].Config.duration) * (targetValue - m_FrequencyGainAlertInit);
                 }
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineBasicMultiChannelPerlin target)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineBasicMultiChannelPerlin target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
@@ -48,12 +50,14 @@ namespace CameraMovement{
                 }
                 if(source.m_AmplitudeGain.IsUse)
                 {
-                    m_AmplitudeGainAlertInit = target.m_AmplitudeGain;
+                   var targetValue = (m_AmplitudeGain.IsExpression ? m_AmplitudeGain.Value : m_AmplitudeGain.PrimitiveValue);
+                   m_AmplitudeGainAlertInit = target.m_AmplitudeGain - templateDict[m_AmplitudeGain.Id].Config.alertCurve.Evaluate(templateDict[m_AmplitudeGain.Id].CostTime / templateDict[m_AmplitudeGain.Id].Config.duration) * (targetValue - m_AmplitudeGainAlertInit);
                     m_AmplitudeGain.Remove(new MixItem<System.Single>(id, priority, source.m_AmplitudeGain.CalculatorExpression, source.m_AmplitudeGain.Value, source.m_AmplitudeGain.IsUse));
                 }
                 if(source.m_FrequencyGain.IsUse)
                 {
-                    m_FrequencyGainAlertInit = target.m_FrequencyGain;
+                   var targetValue = (m_FrequencyGain.IsExpression ? m_FrequencyGain.Value : m_FrequencyGain.PrimitiveValue);
+                   m_FrequencyGainAlertInit = target.m_FrequencyGain - templateDict[m_FrequencyGain.Id].Config.alertCurve.Evaluate(templateDict[m_FrequencyGain.Id].CostTime / templateDict[m_FrequencyGain.Id].Config.duration) * (targetValue - m_FrequencyGainAlertInit);
                     m_FrequencyGain.Remove(new MixItem<System.Single>(id, priority, source.m_FrequencyGain.CalculatorExpression, source.m_FrequencyGain.Value, source.m_FrequencyGain.IsUse));
                 }
         }

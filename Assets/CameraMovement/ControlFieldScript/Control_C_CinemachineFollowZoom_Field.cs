@@ -21,55 +21,63 @@ namespace CameraMovement{
        [UnityEngine.TooltipAttribute("Upper limit for the FOV that this behaviour will generate.")]
             public DataMixer <System.Single> m_MaxFOV;
         public float m_MaxFOVAlertInit;
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineFollowZoom target)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineFollowZoom target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachineFollowZoom_Config source = (CameraMovement.Control_C_CinemachineFollowZoom_Config)sourceConfig;
                 if(source.m_Width.IsUse)
                 {
-                    m_WidthAlertInit = target.m_Width;
                     m_Width.Add(new MixItem<System.Single>(id, priority, source.m_Width.CalculatorExpression, source.m_Width.Value, source.m_Width.IsUse));
+                   var targetValue = (m_Width.IsExpression ? m_Width.Value : m_Width.PrimitiveValue);
+                   m_WidthAlertInit = target.m_Width - templateDict[m_Width.Id].Config.alertCurve.Evaluate(templateDict[m_Width.Id].CostTime / templateDict[m_Width.Id].Config.duration) * (targetValue - m_WidthAlertInit);
                 }
                 if(source.m_Damping.IsUse)
                 {
-                    m_DampingAlertInit = target.m_Damping;
                     m_Damping.Add(new MixItem<System.Single>(id, priority, source.m_Damping.CalculatorExpression, source.m_Damping.Value, source.m_Damping.IsUse));
+                   var targetValue = (m_Damping.IsExpression ? m_Damping.Value : m_Damping.PrimitiveValue);
+                   m_DampingAlertInit = target.m_Damping - templateDict[m_Damping.Id].Config.alertCurve.Evaluate(templateDict[m_Damping.Id].CostTime / templateDict[m_Damping.Id].Config.duration) * (targetValue - m_DampingAlertInit);
                 }
                 if(source.m_MinFOV.IsUse)
                 {
-                    m_MinFOVAlertInit = target.m_MinFOV;
                     m_MinFOV.Add(new MixItem<System.Single>(id, priority, source.m_MinFOV.CalculatorExpression, source.m_MinFOV.Value, source.m_MinFOV.IsUse));
+                   var targetValue = (m_MinFOV.IsExpression ? m_MinFOV.Value : m_MinFOV.PrimitiveValue);
+                   m_MinFOVAlertInit = target.m_MinFOV - templateDict[m_MinFOV.Id].Config.alertCurve.Evaluate(templateDict[m_MinFOV.Id].CostTime / templateDict[m_MinFOV.Id].Config.duration) * (targetValue - m_MinFOVAlertInit);
                 }
                 if(source.m_MaxFOV.IsUse)
                 {
-                    m_MaxFOVAlertInit = target.m_MaxFOV;
                     m_MaxFOV.Add(new MixItem<System.Single>(id, priority, source.m_MaxFOV.CalculatorExpression, source.m_MaxFOV.Value, source.m_MaxFOV.IsUse));
+                   var targetValue = (m_MaxFOV.IsExpression ? m_MaxFOV.Value : m_MaxFOV.PrimitiveValue);
+                   m_MaxFOVAlertInit = target.m_MaxFOV - templateDict[m_MaxFOV.Id].Config.alertCurve.Evaluate(templateDict[m_MaxFOV.Id].CostTime / templateDict[m_MaxFOV.Id].Config.duration) * (targetValue - m_MaxFOVAlertInit);
                 }
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineFollowZoom target)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineFollowZoom target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachineFollowZoom_Config source = (CameraMovement.Control_C_CinemachineFollowZoom_Config)sourceConfig;
                 if(source.m_Width.IsUse)
                 {
-                    m_WidthAlertInit = target.m_Width;
+                   var targetValue = (m_Width.IsExpression ? m_Width.Value : m_Width.PrimitiveValue);
+                   m_WidthAlertInit = target.m_Width - templateDict[m_Width.Id].Config.alertCurve.Evaluate(templateDict[m_Width.Id].CostTime / templateDict[m_Width.Id].Config.duration) * (targetValue - m_WidthAlertInit);
                     m_Width.Remove(new MixItem<System.Single>(id, priority, source.m_Width.CalculatorExpression, source.m_Width.Value, source.m_Width.IsUse));
                 }
                 if(source.m_Damping.IsUse)
                 {
-                    m_DampingAlertInit = target.m_Damping;
+                   var targetValue = (m_Damping.IsExpression ? m_Damping.Value : m_Damping.PrimitiveValue);
+                   m_DampingAlertInit = target.m_Damping - templateDict[m_Damping.Id].Config.alertCurve.Evaluate(templateDict[m_Damping.Id].CostTime / templateDict[m_Damping.Id].Config.duration) * (targetValue - m_DampingAlertInit);
                     m_Damping.Remove(new MixItem<System.Single>(id, priority, source.m_Damping.CalculatorExpression, source.m_Damping.Value, source.m_Damping.IsUse));
                 }
                 if(source.m_MinFOV.IsUse)
                 {
-                    m_MinFOVAlertInit = target.m_MinFOV;
+                   var targetValue = (m_MinFOV.IsExpression ? m_MinFOV.Value : m_MinFOV.PrimitiveValue);
+                   m_MinFOVAlertInit = target.m_MinFOV - templateDict[m_MinFOV.Id].Config.alertCurve.Evaluate(templateDict[m_MinFOV.Id].CostTime / templateDict[m_MinFOV.Id].Config.duration) * (targetValue - m_MinFOVAlertInit);
                     m_MinFOV.Remove(new MixItem<System.Single>(id, priority, source.m_MinFOV.CalculatorExpression, source.m_MinFOV.Value, source.m_MinFOV.IsUse));
                 }
                 if(source.m_MaxFOV.IsUse)
                 {
-                    m_MaxFOVAlertInit = target.m_MaxFOV;
+                   var targetValue = (m_MaxFOV.IsExpression ? m_MaxFOV.Value : m_MaxFOV.PrimitiveValue);
+                   m_MaxFOVAlertInit = target.m_MaxFOV - templateDict[m_MaxFOV.Id].Config.alertCurve.Evaluate(templateDict[m_MaxFOV.Id].CostTime / templateDict[m_MaxFOV.Id].Config.duration) * (targetValue - m_MaxFOVAlertInit);
                     m_MaxFOV.Remove(new MixItem<System.Single>(id, priority, source.m_MaxFOV.CalculatorExpression, source.m_MaxFOV.Value, source.m_MaxFOV.IsUse));
                 }
         }

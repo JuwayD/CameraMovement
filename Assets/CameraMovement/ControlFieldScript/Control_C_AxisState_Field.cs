@@ -40,15 +40,16 @@ namespace CameraMovement{
             public DataMixer <System.Boolean> m_Wrap;
        [UnityEngine.TooltipAttribute("Automatic recentering to at-rest position")]
         public Control_C_AS_Recentering_Field m_Recentering;
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.AxisState target)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.AxisState target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_AxisState_Config source = (CameraMovement.Control_C_AxisState_Config)sourceConfig;
                 if(source.Value.IsUse)
                 {
-                    ValueAlertInit = target.Value;
                     Value.Add(new MixItem<System.Single>(id, priority, source.Value.CalculatorExpression, source.Value.Value, source.Value.IsUse));
+                   var targetValue = (Value.IsExpression ? Value.Value : Value.PrimitiveValue);
+                   ValueAlertInit = target.Value - templateDict[Value.Id].Config.alertCurve.Evaluate(templateDict[Value.Id].CostTime / templateDict[Value.Id].Config.duration) * (targetValue - ValueAlertInit);
                 }
                 if(source.m_SpeedMode.IsUse)
                 {
@@ -56,18 +57,21 @@ namespace CameraMovement{
                 }
                 if(source.m_MaxSpeed.IsUse)
                 {
-                    m_MaxSpeedAlertInit = target.m_MaxSpeed;
                     m_MaxSpeed.Add(new MixItem<System.Single>(id, priority, source.m_MaxSpeed.CalculatorExpression, source.m_MaxSpeed.Value, source.m_MaxSpeed.IsUse));
+                   var targetValue = (m_MaxSpeed.IsExpression ? m_MaxSpeed.Value : m_MaxSpeed.PrimitiveValue);
+                   m_MaxSpeedAlertInit = target.m_MaxSpeed - templateDict[m_MaxSpeed.Id].Config.alertCurve.Evaluate(templateDict[m_MaxSpeed.Id].CostTime / templateDict[m_MaxSpeed.Id].Config.duration) * (targetValue - m_MaxSpeedAlertInit);
                 }
                 if(source.m_AccelTime.IsUse)
                 {
-                    m_AccelTimeAlertInit = target.m_AccelTime;
                     m_AccelTime.Add(new MixItem<System.Single>(id, priority, source.m_AccelTime.CalculatorExpression, source.m_AccelTime.Value, source.m_AccelTime.IsUse));
+                   var targetValue = (m_AccelTime.IsExpression ? m_AccelTime.Value : m_AccelTime.PrimitiveValue);
+                   m_AccelTimeAlertInit = target.m_AccelTime - templateDict[m_AccelTime.Id].Config.alertCurve.Evaluate(templateDict[m_AccelTime.Id].CostTime / templateDict[m_AccelTime.Id].Config.duration) * (targetValue - m_AccelTimeAlertInit);
                 }
                 if(source.m_DecelTime.IsUse)
                 {
-                    m_DecelTimeAlertInit = target.m_DecelTime;
                     m_DecelTime.Add(new MixItem<System.Single>(id, priority, source.m_DecelTime.CalculatorExpression, source.m_DecelTime.Value, source.m_DecelTime.IsUse));
+                   var targetValue = (m_DecelTime.IsExpression ? m_DecelTime.Value : m_DecelTime.PrimitiveValue);
+                   m_DecelTimeAlertInit = target.m_DecelTime - templateDict[m_DecelTime.Id].Config.alertCurve.Evaluate(templateDict[m_DecelTime.Id].CostTime / templateDict[m_DecelTime.Id].Config.duration) * (targetValue - m_DecelTimeAlertInit);
                 }
                 if(source.m_InputAxisName.IsUse)
                 {
@@ -75,8 +79,9 @@ namespace CameraMovement{
                 }
                 if(source.m_InputAxisValue.IsUse)
                 {
-                    m_InputAxisValueAlertInit = target.m_InputAxisValue;
                     m_InputAxisValue.Add(new MixItem<System.Single>(id, priority, source.m_InputAxisValue.CalculatorExpression, source.m_InputAxisValue.Value, source.m_InputAxisValue.IsUse));
+                   var targetValue = (m_InputAxisValue.IsExpression ? m_InputAxisValue.Value : m_InputAxisValue.PrimitiveValue);
+                   m_InputAxisValueAlertInit = target.m_InputAxisValue - templateDict[m_InputAxisValue.Id].Config.alertCurve.Evaluate(templateDict[m_InputAxisValue.Id].CostTime / templateDict[m_InputAxisValue.Id].Config.duration) * (targetValue - m_InputAxisValueAlertInit);
                 }
                 if(source.m_InvertInput.IsUse)
                 {
@@ -84,29 +89,32 @@ namespace CameraMovement{
                 }
                 if(source.m_MinValue.IsUse)
                 {
-                    m_MinValueAlertInit = target.m_MinValue;
                     m_MinValue.Add(new MixItem<System.Single>(id, priority, source.m_MinValue.CalculatorExpression, source.m_MinValue.Value, source.m_MinValue.IsUse));
+                   var targetValue = (m_MinValue.IsExpression ? m_MinValue.Value : m_MinValue.PrimitiveValue);
+                   m_MinValueAlertInit = target.m_MinValue - templateDict[m_MinValue.Id].Config.alertCurve.Evaluate(templateDict[m_MinValue.Id].CostTime / templateDict[m_MinValue.Id].Config.duration) * (targetValue - m_MinValueAlertInit);
                 }
                 if(source.m_MaxValue.IsUse)
                 {
-                    m_MaxValueAlertInit = target.m_MaxValue;
                     m_MaxValue.Add(new MixItem<System.Single>(id, priority, source.m_MaxValue.CalculatorExpression, source.m_MaxValue.Value, source.m_MaxValue.IsUse));
+                   var targetValue = (m_MaxValue.IsExpression ? m_MaxValue.Value : m_MaxValue.PrimitiveValue);
+                   m_MaxValueAlertInit = target.m_MaxValue - templateDict[m_MaxValue.Id].Config.alertCurve.Evaluate(templateDict[m_MaxValue.Id].CostTime / templateDict[m_MaxValue.Id].Config.duration) * (targetValue - m_MaxValueAlertInit);
                 }
                 if(source.m_Wrap.IsUse)
                 {
                     m_Wrap.Add(new MixItem<System.Boolean>(id, priority, source.m_Wrap.CalculatorExpression, source.m_Wrap.Value, source.m_Wrap.IsUse));
                 }
                 if(source.m_Recentering != null && m_Recentering == null) m_Recentering = new Control_C_AS_Recentering_Field();
-            m_Recentering?.AddByConfig(source.m_Recentering, id, priority, ref target.m_Recentering);
+            m_Recentering?.AddByConfig(source.m_Recentering, id, priority, ref target.m_Recentering, templateDict);
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.AxisState target)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.AxisState target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_AxisState_Config source = (CameraMovement.Control_C_AxisState_Config)sourceConfig;
                 if(source.Value.IsUse)
                 {
-                    ValueAlertInit = target.Value;
+                   var targetValue = (Value.IsExpression ? Value.Value : Value.PrimitiveValue);
+                   ValueAlertInit = target.Value - templateDict[Value.Id].Config.alertCurve.Evaluate(templateDict[Value.Id].CostTime / templateDict[Value.Id].Config.duration) * (targetValue - ValueAlertInit);
                     Value.Remove(new MixItem<System.Single>(id, priority, source.Value.CalculatorExpression, source.Value.Value, source.Value.IsUse));
                 }
                 if(source.m_SpeedMode.IsUse)
@@ -115,17 +123,20 @@ namespace CameraMovement{
                 }
                 if(source.m_MaxSpeed.IsUse)
                 {
-                    m_MaxSpeedAlertInit = target.m_MaxSpeed;
+                   var targetValue = (m_MaxSpeed.IsExpression ? m_MaxSpeed.Value : m_MaxSpeed.PrimitiveValue);
+                   m_MaxSpeedAlertInit = target.m_MaxSpeed - templateDict[m_MaxSpeed.Id].Config.alertCurve.Evaluate(templateDict[m_MaxSpeed.Id].CostTime / templateDict[m_MaxSpeed.Id].Config.duration) * (targetValue - m_MaxSpeedAlertInit);
                     m_MaxSpeed.Remove(new MixItem<System.Single>(id, priority, source.m_MaxSpeed.CalculatorExpression, source.m_MaxSpeed.Value, source.m_MaxSpeed.IsUse));
                 }
                 if(source.m_AccelTime.IsUse)
                 {
-                    m_AccelTimeAlertInit = target.m_AccelTime;
+                   var targetValue = (m_AccelTime.IsExpression ? m_AccelTime.Value : m_AccelTime.PrimitiveValue);
+                   m_AccelTimeAlertInit = target.m_AccelTime - templateDict[m_AccelTime.Id].Config.alertCurve.Evaluate(templateDict[m_AccelTime.Id].CostTime / templateDict[m_AccelTime.Id].Config.duration) * (targetValue - m_AccelTimeAlertInit);
                     m_AccelTime.Remove(new MixItem<System.Single>(id, priority, source.m_AccelTime.CalculatorExpression, source.m_AccelTime.Value, source.m_AccelTime.IsUse));
                 }
                 if(source.m_DecelTime.IsUse)
                 {
-                    m_DecelTimeAlertInit = target.m_DecelTime;
+                   var targetValue = (m_DecelTime.IsExpression ? m_DecelTime.Value : m_DecelTime.PrimitiveValue);
+                   m_DecelTimeAlertInit = target.m_DecelTime - templateDict[m_DecelTime.Id].Config.alertCurve.Evaluate(templateDict[m_DecelTime.Id].CostTime / templateDict[m_DecelTime.Id].Config.duration) * (targetValue - m_DecelTimeAlertInit);
                     m_DecelTime.Remove(new MixItem<System.Single>(id, priority, source.m_DecelTime.CalculatorExpression, source.m_DecelTime.Value, source.m_DecelTime.IsUse));
                 }
                 if(source.m_InputAxisName.IsUse)
@@ -134,7 +145,8 @@ namespace CameraMovement{
                 }
                 if(source.m_InputAxisValue.IsUse)
                 {
-                    m_InputAxisValueAlertInit = target.m_InputAxisValue;
+                   var targetValue = (m_InputAxisValue.IsExpression ? m_InputAxisValue.Value : m_InputAxisValue.PrimitiveValue);
+                   m_InputAxisValueAlertInit = target.m_InputAxisValue - templateDict[m_InputAxisValue.Id].Config.alertCurve.Evaluate(templateDict[m_InputAxisValue.Id].CostTime / templateDict[m_InputAxisValue.Id].Config.duration) * (targetValue - m_InputAxisValueAlertInit);
                     m_InputAxisValue.Remove(new MixItem<System.Single>(id, priority, source.m_InputAxisValue.CalculatorExpression, source.m_InputAxisValue.Value, source.m_InputAxisValue.IsUse));
                 }
                 if(source.m_InvertInput.IsUse)
@@ -143,19 +155,21 @@ namespace CameraMovement{
                 }
                 if(source.m_MinValue.IsUse)
                 {
-                    m_MinValueAlertInit = target.m_MinValue;
+                   var targetValue = (m_MinValue.IsExpression ? m_MinValue.Value : m_MinValue.PrimitiveValue);
+                   m_MinValueAlertInit = target.m_MinValue - templateDict[m_MinValue.Id].Config.alertCurve.Evaluate(templateDict[m_MinValue.Id].CostTime / templateDict[m_MinValue.Id].Config.duration) * (targetValue - m_MinValueAlertInit);
                     m_MinValue.Remove(new MixItem<System.Single>(id, priority, source.m_MinValue.CalculatorExpression, source.m_MinValue.Value, source.m_MinValue.IsUse));
                 }
                 if(source.m_MaxValue.IsUse)
                 {
-                    m_MaxValueAlertInit = target.m_MaxValue;
+                   var targetValue = (m_MaxValue.IsExpression ? m_MaxValue.Value : m_MaxValue.PrimitiveValue);
+                   m_MaxValueAlertInit = target.m_MaxValue - templateDict[m_MaxValue.Id].Config.alertCurve.Evaluate(templateDict[m_MaxValue.Id].CostTime / templateDict[m_MaxValue.Id].Config.duration) * (targetValue - m_MaxValueAlertInit);
                     m_MaxValue.Remove(new MixItem<System.Single>(id, priority, source.m_MaxValue.CalculatorExpression, source.m_MaxValue.Value, source.m_MaxValue.IsUse));
                 }
                 if(source.m_Wrap.IsUse)
                 {
                     m_Wrap.Remove(new MixItem<System.Boolean>(id, priority, source.m_Wrap.CalculatorExpression, source.m_Wrap.Value, source.m_Wrap.IsUse));
                 }
-            m_Recentering?.RemoveByConfig(source.m_Recentering, id, priority, ref target.m_Recentering);
+            m_Recentering?.RemoveByConfig(source.m_Recentering, id, priority, ref target.m_Recentering, templateDict);
         }
         public void RemoveAll()
         {

@@ -9,13 +9,13 @@ namespace CameraMovement{
     {
        public  Type AttachControlField => typeof(System.String[]);
 
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref System.String target)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref System.String target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_S_String_Config source = (CameraMovement.Control_S_String_Config)sourceConfig;
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref System.String target)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref System.String target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;

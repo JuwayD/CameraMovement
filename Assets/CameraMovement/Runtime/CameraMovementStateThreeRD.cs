@@ -30,14 +30,14 @@ namespace CameraMovement
             extensionList_.Add(virtualCamera_.GetComponent<CinemachineCollider>());
         }
 
-        protected override void OnTemplateRemove(int id)
+        protected override void OnTemplateRemove(CameraMovementConfig config)
         {
-            controlVirtualCamera_.RemoveByConfig(runtimeTemplateDict_[id].Config.controlConfigBaseTemplate, id, runtimeTemplateDict_[id].Config.priority, ref virtualCamera_);
+            controlVirtualCamera_.RemoveByConfig(config.controlConfigBaseTemplate, config.id, config.priority, ref virtualCamera_, runtimeTemplateDict_);
         }
 
         protected override void AddConfig(CameraMovementConfig config)
         {
-            controlVirtualCamera_?.AddByConfig(config.controlConfigBaseTemplate, config.id, config.priority, ref virtualCamera_);
+            controlVirtualCamera_?.AddByConfig(config.controlConfigBaseTemplate, config.id, config.priority, ref virtualCamera_, runtimeTemplateDict_);
         }
 
         protected override void ControlCinemachine()

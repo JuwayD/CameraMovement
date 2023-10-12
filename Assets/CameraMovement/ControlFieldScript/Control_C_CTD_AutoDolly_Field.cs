@@ -18,7 +18,7 @@ namespace CameraMovement{
             public DataMixer <System.Int32> m_SearchRadius;
        [UnityEngine.TooltipAttribute("We search between waypoints by dividing the segment into this many straight pieces.  he higher the number, the more accurate the result, but performance is proportionally slower for higher numbers")]
             public DataMixer <System.Int32> m_SearchResolution;
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineTrackedDolly.AutoDolly target)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineTrackedDolly.AutoDolly target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
@@ -29,8 +29,9 @@ namespace CameraMovement{
                 }
                 if(source.m_PositionOffset.IsUse)
                 {
-                    m_PositionOffsetAlertInit = target.m_PositionOffset;
                     m_PositionOffset.Add(new MixItem<System.Single>(id, priority, source.m_PositionOffset.CalculatorExpression, source.m_PositionOffset.Value, source.m_PositionOffset.IsUse));
+                   var targetValue = (m_PositionOffset.IsExpression ? m_PositionOffset.Value : m_PositionOffset.PrimitiveValue);
+                   m_PositionOffsetAlertInit = target.m_PositionOffset - templateDict[m_PositionOffset.Id].Config.alertCurve.Evaluate(templateDict[m_PositionOffset.Id].CostTime / templateDict[m_PositionOffset.Id].Config.duration) * (targetValue - m_PositionOffsetAlertInit);
                 }
                 if(source.m_SearchRadius.IsUse)
                 {
@@ -41,7 +42,7 @@ namespace CameraMovement{
                     m_SearchResolution.Add(new MixItem<System.Int32>(id, priority, source.m_SearchResolution.CalculatorExpression, source.m_SearchResolution.Value, source.m_SearchResolution.IsUse));
                 }
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineTrackedDolly.AutoDolly target)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineTrackedDolly.AutoDolly target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
@@ -52,7 +53,8 @@ namespace CameraMovement{
                 }
                 if(source.m_PositionOffset.IsUse)
                 {
-                    m_PositionOffsetAlertInit = target.m_PositionOffset;
+                   var targetValue = (m_PositionOffset.IsExpression ? m_PositionOffset.Value : m_PositionOffset.PrimitiveValue);
+                   m_PositionOffsetAlertInit = target.m_PositionOffset - templateDict[m_PositionOffset.Id].Config.alertCurve.Evaluate(templateDict[m_PositionOffset.Id].CostTime / templateDict[m_PositionOffset.Id].Config.duration) * (targetValue - m_PositionOffsetAlertInit);
                     m_PositionOffset.Remove(new MixItem<System.Single>(id, priority, source.m_PositionOffset.CalculatorExpression, source.m_PositionOffset.Value, source.m_PositionOffset.IsUse));
                 }
                 if(source.m_SearchRadius.IsUse)

@@ -18,45 +18,51 @@ namespace CameraMovement{
        [UnityEngine.TooltipAttribute("How long the secondary reaction lasts.")]
             public DataMixer <System.Single> m_Duration;
         public float m_DurationAlertInit;
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineImpulseListener.ImpulseReaction target)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineImpulseListener.ImpulseReaction target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CIL_ImpulseReaction_Config source = (CameraMovement.Control_C_CIL_ImpulseReaction_Config)sourceConfig;
                 if(source.m_AmplitudeGain.IsUse)
                 {
-                    m_AmplitudeGainAlertInit = target.m_AmplitudeGain;
                     m_AmplitudeGain.Add(new MixItem<System.Single>(id, priority, source.m_AmplitudeGain.CalculatorExpression, source.m_AmplitudeGain.Value, source.m_AmplitudeGain.IsUse));
+                   var targetValue = (m_AmplitudeGain.IsExpression ? m_AmplitudeGain.Value : m_AmplitudeGain.PrimitiveValue);
+                   m_AmplitudeGainAlertInit = target.m_AmplitudeGain - templateDict[m_AmplitudeGain.Id].Config.alertCurve.Evaluate(templateDict[m_AmplitudeGain.Id].CostTime / templateDict[m_AmplitudeGain.Id].Config.duration) * (targetValue - m_AmplitudeGainAlertInit);
                 }
                 if(source.m_FrequencyGain.IsUse)
                 {
-                    m_FrequencyGainAlertInit = target.m_FrequencyGain;
                     m_FrequencyGain.Add(new MixItem<System.Single>(id, priority, source.m_FrequencyGain.CalculatorExpression, source.m_FrequencyGain.Value, source.m_FrequencyGain.IsUse));
+                   var targetValue = (m_FrequencyGain.IsExpression ? m_FrequencyGain.Value : m_FrequencyGain.PrimitiveValue);
+                   m_FrequencyGainAlertInit = target.m_FrequencyGain - templateDict[m_FrequencyGain.Id].Config.alertCurve.Evaluate(templateDict[m_FrequencyGain.Id].CostTime / templateDict[m_FrequencyGain.Id].Config.duration) * (targetValue - m_FrequencyGainAlertInit);
                 }
                 if(source.m_Duration.IsUse)
                 {
-                    m_DurationAlertInit = target.m_Duration;
                     m_Duration.Add(new MixItem<System.Single>(id, priority, source.m_Duration.CalculatorExpression, source.m_Duration.Value, source.m_Duration.IsUse));
+                   var targetValue = (m_Duration.IsExpression ? m_Duration.Value : m_Duration.PrimitiveValue);
+                   m_DurationAlertInit = target.m_Duration - templateDict[m_Duration.Id].Config.alertCurve.Evaluate(templateDict[m_Duration.Id].CostTime / templateDict[m_Duration.Id].Config.duration) * (targetValue - m_DurationAlertInit);
                 }
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineImpulseListener.ImpulseReaction target)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineImpulseListener.ImpulseReaction target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CIL_ImpulseReaction_Config source = (CameraMovement.Control_C_CIL_ImpulseReaction_Config)sourceConfig;
                 if(source.m_AmplitudeGain.IsUse)
                 {
-                    m_AmplitudeGainAlertInit = target.m_AmplitudeGain;
+                   var targetValue = (m_AmplitudeGain.IsExpression ? m_AmplitudeGain.Value : m_AmplitudeGain.PrimitiveValue);
+                   m_AmplitudeGainAlertInit = target.m_AmplitudeGain - templateDict[m_AmplitudeGain.Id].Config.alertCurve.Evaluate(templateDict[m_AmplitudeGain.Id].CostTime / templateDict[m_AmplitudeGain.Id].Config.duration) * (targetValue - m_AmplitudeGainAlertInit);
                     m_AmplitudeGain.Remove(new MixItem<System.Single>(id, priority, source.m_AmplitudeGain.CalculatorExpression, source.m_AmplitudeGain.Value, source.m_AmplitudeGain.IsUse));
                 }
                 if(source.m_FrequencyGain.IsUse)
                 {
-                    m_FrequencyGainAlertInit = target.m_FrequencyGain;
+                   var targetValue = (m_FrequencyGain.IsExpression ? m_FrequencyGain.Value : m_FrequencyGain.PrimitiveValue);
+                   m_FrequencyGainAlertInit = target.m_FrequencyGain - templateDict[m_FrequencyGain.Id].Config.alertCurve.Evaluate(templateDict[m_FrequencyGain.Id].CostTime / templateDict[m_FrequencyGain.Id].Config.duration) * (targetValue - m_FrequencyGainAlertInit);
                     m_FrequencyGain.Remove(new MixItem<System.Single>(id, priority, source.m_FrequencyGain.CalculatorExpression, source.m_FrequencyGain.Value, source.m_FrequencyGain.IsUse));
                 }
                 if(source.m_Duration.IsUse)
                 {
-                    m_DurationAlertInit = target.m_Duration;
+                   var targetValue = (m_Duration.IsExpression ? m_Duration.Value : m_Duration.PrimitiveValue);
+                   m_DurationAlertInit = target.m_Duration - templateDict[m_Duration.Id].Config.alertCurve.Evaluate(templateDict[m_Duration.Id].CostTime / templateDict[m_Duration.Id].Config.duration) * (targetValue - m_DurationAlertInit);
                     m_Duration.Remove(new MixItem<System.Single>(id, priority, source.m_Duration.CalculatorExpression, source.m_Duration.Value, source.m_Duration.IsUse));
                 }
         }

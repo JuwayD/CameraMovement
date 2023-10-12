@@ -14,7 +14,7 @@ namespace CameraMovement{
        [UnityEngine.TooltipAttribute("How far to project the object detection ray")]
             public DataMixer <System.Single> AimDistance;
         public float AimDistanceAlertInit;
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.Cinemachine3rdPersonAim target)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.Cinemachine3rdPersonAim target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
@@ -25,11 +25,12 @@ namespace CameraMovement{
                 }
                 if(source.AimDistance.IsUse)
                 {
-                    AimDistanceAlertInit = target.AimDistance;
                     AimDistance.Add(new MixItem<System.Single>(id, priority, source.AimDistance.CalculatorExpression, source.AimDistance.Value, source.AimDistance.IsUse));
+                   var targetValue = (AimDistance.IsExpression ? AimDistance.Value : AimDistance.PrimitiveValue);
+                   AimDistanceAlertInit = target.AimDistance - templateDict[AimDistance.Id].Config.alertCurve.Evaluate(templateDict[AimDistance.Id].CostTime / templateDict[AimDistance.Id].Config.duration) * (targetValue - AimDistanceAlertInit);
                 }
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.Cinemachine3rdPersonAim target)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.Cinemachine3rdPersonAim target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
@@ -40,7 +41,8 @@ namespace CameraMovement{
                 }
                 if(source.AimDistance.IsUse)
                 {
-                    AimDistanceAlertInit = target.AimDistance;
+                   var targetValue = (AimDistance.IsExpression ? AimDistance.Value : AimDistance.PrimitiveValue);
+                   AimDistanceAlertInit = target.AimDistance - templateDict[AimDistance.Id].Config.alertCurve.Evaluate(templateDict[AimDistance.Id].CostTime / templateDict[AimDistance.Id].Config.duration) * (targetValue - AimDistanceAlertInit);
                     AimDistance.Remove(new MixItem<System.Single>(id, priority, source.AimDistance.CalculatorExpression, source.AimDistance.Value, source.AimDistance.IsUse));
                 }
         }

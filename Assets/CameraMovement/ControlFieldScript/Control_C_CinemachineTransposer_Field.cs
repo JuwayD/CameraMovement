@@ -35,7 +35,7 @@ namespace CameraMovement{
        [UnityEngine.TooltipAttribute("How aggressively the camera tries to track the target's orientation.  Small numbers are more responsive.  Larger numbers give a more heavy slowly responding camera.")]
             public DataMixer <System.Single> m_AngularDamping;
         public float m_AngularDampingAlertInit;
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineTransposer target)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineTransposer target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
@@ -50,18 +50,21 @@ namespace CameraMovement{
                 }
                 if(source.m_XDamping.IsUse)
                 {
-                    m_XDampingAlertInit = target.m_XDamping;
                     m_XDamping.Add(new MixItem<System.Single>(id, priority, source.m_XDamping.CalculatorExpression, source.m_XDamping.Value, source.m_XDamping.IsUse));
+                   var targetValue = (m_XDamping.IsExpression ? m_XDamping.Value : m_XDamping.PrimitiveValue);
+                   m_XDampingAlertInit = target.m_XDamping - templateDict[m_XDamping.Id].Config.alertCurve.Evaluate(templateDict[m_XDamping.Id].CostTime / templateDict[m_XDamping.Id].Config.duration) * (targetValue - m_XDampingAlertInit);
                 }
                 if(source.m_YDamping.IsUse)
                 {
-                    m_YDampingAlertInit = target.m_YDamping;
                     m_YDamping.Add(new MixItem<System.Single>(id, priority, source.m_YDamping.CalculatorExpression, source.m_YDamping.Value, source.m_YDamping.IsUse));
+                   var targetValue = (m_YDamping.IsExpression ? m_YDamping.Value : m_YDamping.PrimitiveValue);
+                   m_YDampingAlertInit = target.m_YDamping - templateDict[m_YDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YDamping.Id].CostTime / templateDict[m_YDamping.Id].Config.duration) * (targetValue - m_YDampingAlertInit);
                 }
                 if(source.m_ZDamping.IsUse)
                 {
-                    m_ZDampingAlertInit = target.m_ZDamping;
                     m_ZDamping.Add(new MixItem<System.Single>(id, priority, source.m_ZDamping.CalculatorExpression, source.m_ZDamping.Value, source.m_ZDamping.IsUse));
+                   var targetValue = (m_ZDamping.IsExpression ? m_ZDamping.Value : m_ZDamping.PrimitiveValue);
+                   m_ZDampingAlertInit = target.m_ZDamping - templateDict[m_ZDamping.Id].Config.alertCurve.Evaluate(templateDict[m_ZDamping.Id].CostTime / templateDict[m_ZDamping.Id].Config.duration) * (targetValue - m_ZDampingAlertInit);
                 }
                 if(source.m_AngularDampingMode.IsUse)
                 {
@@ -69,26 +72,30 @@ namespace CameraMovement{
                 }
                 if(source.m_PitchDamping.IsUse)
                 {
-                    m_PitchDampingAlertInit = target.m_PitchDamping;
                     m_PitchDamping.Add(new MixItem<System.Single>(id, priority, source.m_PitchDamping.CalculatorExpression, source.m_PitchDamping.Value, source.m_PitchDamping.IsUse));
+                   var targetValue = (m_PitchDamping.IsExpression ? m_PitchDamping.Value : m_PitchDamping.PrimitiveValue);
+                   m_PitchDampingAlertInit = target.m_PitchDamping - templateDict[m_PitchDamping.Id].Config.alertCurve.Evaluate(templateDict[m_PitchDamping.Id].CostTime / templateDict[m_PitchDamping.Id].Config.duration) * (targetValue - m_PitchDampingAlertInit);
                 }
                 if(source.m_YawDamping.IsUse)
                 {
-                    m_YawDampingAlertInit = target.m_YawDamping;
                     m_YawDamping.Add(new MixItem<System.Single>(id, priority, source.m_YawDamping.CalculatorExpression, source.m_YawDamping.Value, source.m_YawDamping.IsUse));
+                   var targetValue = (m_YawDamping.IsExpression ? m_YawDamping.Value : m_YawDamping.PrimitiveValue);
+                   m_YawDampingAlertInit = target.m_YawDamping - templateDict[m_YawDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YawDamping.Id].CostTime / templateDict[m_YawDamping.Id].Config.duration) * (targetValue - m_YawDampingAlertInit);
                 }
                 if(source.m_RollDamping.IsUse)
                 {
-                    m_RollDampingAlertInit = target.m_RollDamping;
                     m_RollDamping.Add(new MixItem<System.Single>(id, priority, source.m_RollDamping.CalculatorExpression, source.m_RollDamping.Value, source.m_RollDamping.IsUse));
+                   var targetValue = (m_RollDamping.IsExpression ? m_RollDamping.Value : m_RollDamping.PrimitiveValue);
+                   m_RollDampingAlertInit = target.m_RollDamping - templateDict[m_RollDamping.Id].Config.alertCurve.Evaluate(templateDict[m_RollDamping.Id].CostTime / templateDict[m_RollDamping.Id].Config.duration) * (targetValue - m_RollDampingAlertInit);
                 }
                 if(source.m_AngularDamping.IsUse)
                 {
-                    m_AngularDampingAlertInit = target.m_AngularDamping;
                     m_AngularDamping.Add(new MixItem<System.Single>(id, priority, source.m_AngularDamping.CalculatorExpression, source.m_AngularDamping.Value, source.m_AngularDamping.IsUse));
+                   var targetValue = (m_AngularDamping.IsExpression ? m_AngularDamping.Value : m_AngularDamping.PrimitiveValue);
+                   m_AngularDampingAlertInit = target.m_AngularDamping - templateDict[m_AngularDamping.Id].Config.alertCurve.Evaluate(templateDict[m_AngularDamping.Id].CostTime / templateDict[m_AngularDamping.Id].Config.duration) * (targetValue - m_AngularDampingAlertInit);
                 }
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineTransposer target)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineTransposer target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
@@ -103,17 +110,20 @@ namespace CameraMovement{
                 }
                 if(source.m_XDamping.IsUse)
                 {
-                    m_XDampingAlertInit = target.m_XDamping;
+                   var targetValue = (m_XDamping.IsExpression ? m_XDamping.Value : m_XDamping.PrimitiveValue);
+                   m_XDampingAlertInit = target.m_XDamping - templateDict[m_XDamping.Id].Config.alertCurve.Evaluate(templateDict[m_XDamping.Id].CostTime / templateDict[m_XDamping.Id].Config.duration) * (targetValue - m_XDampingAlertInit);
                     m_XDamping.Remove(new MixItem<System.Single>(id, priority, source.m_XDamping.CalculatorExpression, source.m_XDamping.Value, source.m_XDamping.IsUse));
                 }
                 if(source.m_YDamping.IsUse)
                 {
-                    m_YDampingAlertInit = target.m_YDamping;
+                   var targetValue = (m_YDamping.IsExpression ? m_YDamping.Value : m_YDamping.PrimitiveValue);
+                   m_YDampingAlertInit = target.m_YDamping - templateDict[m_YDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YDamping.Id].CostTime / templateDict[m_YDamping.Id].Config.duration) * (targetValue - m_YDampingAlertInit);
                     m_YDamping.Remove(new MixItem<System.Single>(id, priority, source.m_YDamping.CalculatorExpression, source.m_YDamping.Value, source.m_YDamping.IsUse));
                 }
                 if(source.m_ZDamping.IsUse)
                 {
-                    m_ZDampingAlertInit = target.m_ZDamping;
+                   var targetValue = (m_ZDamping.IsExpression ? m_ZDamping.Value : m_ZDamping.PrimitiveValue);
+                   m_ZDampingAlertInit = target.m_ZDamping - templateDict[m_ZDamping.Id].Config.alertCurve.Evaluate(templateDict[m_ZDamping.Id].CostTime / templateDict[m_ZDamping.Id].Config.duration) * (targetValue - m_ZDampingAlertInit);
                     m_ZDamping.Remove(new MixItem<System.Single>(id, priority, source.m_ZDamping.CalculatorExpression, source.m_ZDamping.Value, source.m_ZDamping.IsUse));
                 }
                 if(source.m_AngularDampingMode.IsUse)
@@ -122,22 +132,26 @@ namespace CameraMovement{
                 }
                 if(source.m_PitchDamping.IsUse)
                 {
-                    m_PitchDampingAlertInit = target.m_PitchDamping;
+                   var targetValue = (m_PitchDamping.IsExpression ? m_PitchDamping.Value : m_PitchDamping.PrimitiveValue);
+                   m_PitchDampingAlertInit = target.m_PitchDamping - templateDict[m_PitchDamping.Id].Config.alertCurve.Evaluate(templateDict[m_PitchDamping.Id].CostTime / templateDict[m_PitchDamping.Id].Config.duration) * (targetValue - m_PitchDampingAlertInit);
                     m_PitchDamping.Remove(new MixItem<System.Single>(id, priority, source.m_PitchDamping.CalculatorExpression, source.m_PitchDamping.Value, source.m_PitchDamping.IsUse));
                 }
                 if(source.m_YawDamping.IsUse)
                 {
-                    m_YawDampingAlertInit = target.m_YawDamping;
+                   var targetValue = (m_YawDamping.IsExpression ? m_YawDamping.Value : m_YawDamping.PrimitiveValue);
+                   m_YawDampingAlertInit = target.m_YawDamping - templateDict[m_YawDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YawDamping.Id].CostTime / templateDict[m_YawDamping.Id].Config.duration) * (targetValue - m_YawDampingAlertInit);
                     m_YawDamping.Remove(new MixItem<System.Single>(id, priority, source.m_YawDamping.CalculatorExpression, source.m_YawDamping.Value, source.m_YawDamping.IsUse));
                 }
                 if(source.m_RollDamping.IsUse)
                 {
-                    m_RollDampingAlertInit = target.m_RollDamping;
+                   var targetValue = (m_RollDamping.IsExpression ? m_RollDamping.Value : m_RollDamping.PrimitiveValue);
+                   m_RollDampingAlertInit = target.m_RollDamping - templateDict[m_RollDamping.Id].Config.alertCurve.Evaluate(templateDict[m_RollDamping.Id].CostTime / templateDict[m_RollDamping.Id].Config.duration) * (targetValue - m_RollDampingAlertInit);
                     m_RollDamping.Remove(new MixItem<System.Single>(id, priority, source.m_RollDamping.CalculatorExpression, source.m_RollDamping.Value, source.m_RollDamping.IsUse));
                 }
                 if(source.m_AngularDamping.IsUse)
                 {
-                    m_AngularDampingAlertInit = target.m_AngularDamping;
+                   var targetValue = (m_AngularDamping.IsExpression ? m_AngularDamping.Value : m_AngularDamping.PrimitiveValue);
+                   m_AngularDampingAlertInit = target.m_AngularDamping - templateDict[m_AngularDamping.Id].Config.alertCurve.Evaluate(templateDict[m_AngularDamping.Id].CostTime / templateDict[m_AngularDamping.Id].Config.duration) * (targetValue - m_AngularDampingAlertInit);
                     m_AngularDamping.Remove(new MixItem<System.Single>(id, priority, source.m_AngularDamping.CalculatorExpression, source.m_AngularDamping.Value, source.m_AngularDamping.IsUse));
                 }
         }

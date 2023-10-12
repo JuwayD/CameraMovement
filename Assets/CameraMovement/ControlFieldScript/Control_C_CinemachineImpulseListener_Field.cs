@@ -22,7 +22,7 @@ namespace CameraMovement{
             public DataMixer <System.Boolean> m_UseCameraSpace;
        [UnityEngine.TooltipAttribute("This controls the secondary reaction of the listener to the incoming impulse.  The impulse might be for example a sharp shock, and the secondary reaction could be a vibration whose amplitude and duration is controlled by the size of the original impulse.  This allows different listeners to respond in different ways to the same impulse signal.")]
         public Control_C_CIL_ImpulseReaction_Field m_ReactionSettings;
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineImpulseListener target)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineImpulseListener target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
@@ -37,8 +37,9 @@ namespace CameraMovement{
                 }
                 if(source.m_Gain.IsUse)
                 {
-                    m_GainAlertInit = target.m_Gain;
                     m_Gain.Add(new MixItem<System.Single>(id, priority, source.m_Gain.CalculatorExpression, source.m_Gain.Value, source.m_Gain.IsUse));
+                   var targetValue = (m_Gain.IsExpression ? m_Gain.Value : m_Gain.PrimitiveValue);
+                   m_GainAlertInit = target.m_Gain - templateDict[m_Gain.Id].Config.alertCurve.Evaluate(templateDict[m_Gain.Id].CostTime / templateDict[m_Gain.Id].Config.duration) * (targetValue - m_GainAlertInit);
                 }
                 if(source.m_Use2DDistance.IsUse)
                 {
@@ -49,9 +50,9 @@ namespace CameraMovement{
                     m_UseCameraSpace.Add(new MixItem<System.Boolean>(id, priority, source.m_UseCameraSpace.CalculatorExpression, source.m_UseCameraSpace.Value, source.m_UseCameraSpace.IsUse));
                 }
                 if(source.m_ReactionSettings != null && m_ReactionSettings == null) m_ReactionSettings = new Control_C_CIL_ImpulseReaction_Field();
-            m_ReactionSettings?.AddByConfig(source.m_ReactionSettings, id, priority, ref target.m_ReactionSettings);
+            m_ReactionSettings?.AddByConfig(source.m_ReactionSettings, id, priority, ref target.m_ReactionSettings, templateDict);
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineImpulseListener target)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineImpulseListener target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
@@ -66,7 +67,8 @@ namespace CameraMovement{
                 }
                 if(source.m_Gain.IsUse)
                 {
-                    m_GainAlertInit = target.m_Gain;
+                   var targetValue = (m_Gain.IsExpression ? m_Gain.Value : m_Gain.PrimitiveValue);
+                   m_GainAlertInit = target.m_Gain - templateDict[m_Gain.Id].Config.alertCurve.Evaluate(templateDict[m_Gain.Id].CostTime / templateDict[m_Gain.Id].Config.duration) * (targetValue - m_GainAlertInit);
                     m_Gain.Remove(new MixItem<System.Single>(id, priority, source.m_Gain.CalculatorExpression, source.m_Gain.Value, source.m_Gain.IsUse));
                 }
                 if(source.m_Use2DDistance.IsUse)
@@ -77,7 +79,7 @@ namespace CameraMovement{
                 {
                     m_UseCameraSpace.Remove(new MixItem<System.Boolean>(id, priority, source.m_UseCameraSpace.CalculatorExpression, source.m_UseCameraSpace.Value, source.m_UseCameraSpace.IsUse));
                 }
-            m_ReactionSettings?.RemoveByConfig(source.m_ReactionSettings, id, priority, ref target.m_ReactionSettings);
+            m_ReactionSettings?.RemoveByConfig(source.m_ReactionSettings, id, priority, ref target.m_ReactionSettings, templateDict);
         }
         public void RemoveAll()
         {

@@ -26,24 +26,24 @@ namespace CameraMovement{
         public float LookAtTargetAttachmentAlertInit;
        [UnityEngine.TooltipAttribute("When the virtual camera is not live, this is how often the virtual camera will be updated.  Set this to tune for performance. Most of the time Never is fine, unless the virtual camera is doing shot evaluation.")]
             public DataMixer <Cinemachine.CinemachineVirtualCameraBase.StandbyUpdateMode> m_StandbyUpdate;
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineVirtualCamera target)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineVirtualCamera target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachineVirtualCamera_Config source = (CameraMovement.Control_C_CinemachineVirtualCamera_Config)sourceConfig;
                 if(source.m_Lens != null && m_Lens == null) m_Lens = new Control_C_LensSettings_Field();
-            m_Lens?.AddByConfig(source.m_Lens, id, priority, ref target.m_Lens);
+            m_Lens?.AddByConfig(source.m_Lens, id, priority, ref target.m_Lens, templateDict);
                 if(source.m_Transitions != null && m_Transitions == null) m_Transitions = new Control_C_CVCB_TransitionParams_Field();
-            m_Transitions?.AddByConfig(source.m_Transitions, id, priority, ref target.m_Transitions);
+            m_Transitions?.AddByConfig(source.m_Transitions, id, priority, ref target.m_Transitions, templateDict);
             for(int i = 0;i < (source.m_ExcludedPropertiesInInspector?.Length ?? 0);i++)
             {
                 if(source.m_ExcludedPropertiesInInspector != null && m_ExcludedPropertiesInInspector == null) m_ExcludedPropertiesInInspector = new Control_S_String_Field[source.m_ExcludedPropertiesInInspector.Length];
-                m_ExcludedPropertiesInInspector?[i].AddByConfig(source.m_ExcludedPropertiesInInspector[i], id, priority, ref target.m_ExcludedPropertiesInInspector[i]);            }
+                m_ExcludedPropertiesInInspector?[i].AddByConfig(source.m_ExcludedPropertiesInInspector[i], id, priority, ref target.m_ExcludedPropertiesInInspector[i], templateDict);            }
 
             for(int i = 0;i < (source.m_LockStageInInspector?.Length ?? 0);i++)
             {
                 if(source.m_LockStageInInspector != null && m_LockStageInInspector == null) m_LockStageInInspector = new Control_C_CC_Stage_Field[source.m_LockStageInInspector.Length];
-                m_LockStageInInspector?[i].AddByConfig(source.m_LockStageInInspector[i], id, priority, ref target.m_LockStageInInspector[i]);            }
+                m_LockStageInInspector?[i].AddByConfig(source.m_LockStageInInspector[i], id, priority, ref target.m_LockStageInInspector[i], templateDict);            }
 
                 if(source.m_Priority.IsUse)
                 {
@@ -51,33 +51,35 @@ namespace CameraMovement{
                 }
                 if(source.FollowTargetAttachment.IsUse)
                 {
-                    FollowTargetAttachmentAlertInit = target.FollowTargetAttachment;
                     FollowTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.CalculatorExpression, source.FollowTargetAttachment.Value, source.FollowTargetAttachment.IsUse));
+                   var targetValue = (FollowTargetAttachment.IsExpression ? FollowTargetAttachment.Value : FollowTargetAttachment.PrimitiveValue);
+                   FollowTargetAttachmentAlertInit = target.FollowTargetAttachment - templateDict[FollowTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[FollowTargetAttachment.Id].CostTime / templateDict[FollowTargetAttachment.Id].Config.duration) * (targetValue - FollowTargetAttachmentAlertInit);
                 }
                 if(source.LookAtTargetAttachment.IsUse)
                 {
-                    LookAtTargetAttachmentAlertInit = target.LookAtTargetAttachment;
                     LookAtTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.CalculatorExpression, source.LookAtTargetAttachment.Value, source.LookAtTargetAttachment.IsUse));
+                   var targetValue = (LookAtTargetAttachment.IsExpression ? LookAtTargetAttachment.Value : LookAtTargetAttachment.PrimitiveValue);
+                   LookAtTargetAttachmentAlertInit = target.LookAtTargetAttachment - templateDict[LookAtTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[LookAtTargetAttachment.Id].CostTime / templateDict[LookAtTargetAttachment.Id].Config.duration) * (targetValue - LookAtTargetAttachmentAlertInit);
                 }
                 if(source.m_StandbyUpdate.IsUse)
                 {
                     m_StandbyUpdate.Add(new MixItem<Cinemachine.CinemachineVirtualCameraBase.StandbyUpdateMode>(id, priority, source.m_StandbyUpdate.CalculatorExpression, source.m_StandbyUpdate.Value, source.m_StandbyUpdate.IsUse));
                 }
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineVirtualCamera target)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineVirtualCamera target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachineVirtualCamera_Config source = (CameraMovement.Control_C_CinemachineVirtualCamera_Config)sourceConfig;
-            m_Lens?.RemoveByConfig(source.m_Lens, id, priority, ref target.m_Lens);
-            m_Transitions?.RemoveByConfig(source.m_Transitions, id, priority, ref target.m_Transitions);
+            m_Lens?.RemoveByConfig(source.m_Lens, id, priority, ref target.m_Lens, templateDict);
+            m_Transitions?.RemoveByConfig(source.m_Transitions, id, priority, ref target.m_Transitions, templateDict);
             for(int i = 0;i < (source.m_ExcludedPropertiesInInspector?.Length ?? 0);i++)
             {
-                m_ExcludedPropertiesInInspector?[i].RemoveByConfig(source.m_ExcludedPropertiesInInspector[i], id, priority, ref target.m_ExcludedPropertiesInInspector[i]);            }
+                m_ExcludedPropertiesInInspector?[i].RemoveByConfig(source.m_ExcludedPropertiesInInspector[i], id, priority, ref target.m_ExcludedPropertiesInInspector[i], templateDict);            }
 
             for(int i = 0;i < (source.m_LockStageInInspector?.Length ?? 0);i++)
             {
-                m_LockStageInInspector?[i].RemoveByConfig(source.m_LockStageInInspector[i], id, priority, ref target.m_LockStageInInspector[i]);            }
+                m_LockStageInInspector?[i].RemoveByConfig(source.m_LockStageInInspector[i], id, priority, ref target.m_LockStageInInspector[i], templateDict);            }
 
                 if(source.m_Priority.IsUse)
                 {
@@ -85,12 +87,14 @@ namespace CameraMovement{
                 }
                 if(source.FollowTargetAttachment.IsUse)
                 {
-                    FollowTargetAttachmentAlertInit = target.FollowTargetAttachment;
+                   var targetValue = (FollowTargetAttachment.IsExpression ? FollowTargetAttachment.Value : FollowTargetAttachment.PrimitiveValue);
+                   FollowTargetAttachmentAlertInit = target.FollowTargetAttachment - templateDict[FollowTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[FollowTargetAttachment.Id].CostTime / templateDict[FollowTargetAttachment.Id].Config.duration) * (targetValue - FollowTargetAttachmentAlertInit);
                     FollowTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.CalculatorExpression, source.FollowTargetAttachment.Value, source.FollowTargetAttachment.IsUse));
                 }
                 if(source.LookAtTargetAttachment.IsUse)
                 {
-                    LookAtTargetAttachmentAlertInit = target.LookAtTargetAttachment;
+                   var targetValue = (LookAtTargetAttachment.IsExpression ? LookAtTargetAttachment.Value : LookAtTargetAttachment.PrimitiveValue);
+                   LookAtTargetAttachmentAlertInit = target.LookAtTargetAttachment - templateDict[LookAtTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[LookAtTargetAttachment.Id].CostTime / templateDict[LookAtTargetAttachment.Id].Config.duration) * (targetValue - LookAtTargetAttachmentAlertInit);
                     LookAtTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.CalculatorExpression, source.LookAtTargetAttachment.Value, source.LookAtTargetAttachment.IsUse));
                 }
                 if(source.m_StandbyUpdate.IsUse)
