@@ -5,7 +5,7 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-        public class Control_C_CVCB_TransitionParams_Field :ICameraMovementControlField<Cinemachine.CinemachineVirtualCameraBase.TransitionParams>
+    public class Control_C_CVCB_TransitionParams_Field :ICameraMovementControlField<Cinemachine.CinemachineVirtualCameraBase.TransitionParams>
     {
        public  Type AttachControlField => typeof(Cinemachine.CinemachineVirtualCameraBase.TransitionParams);
 
@@ -15,24 +15,36 @@ namespace CameraMovement{
             public DataMixer <System.Boolean> m_InheritPosition;
        [UnityEngine.TooltipAttribute("This event fires when the virtual camera goes Live")]
         public Control_C_CB_VcamActivatedEvent_Field m_OnCameraLive;
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineVirtualCameraBase.TransitionParams target)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CVCB_TransitionParams_Config source = (CameraMovement.Control_C_CVCB_TransitionParams_Config)sourceConfig;
-            if(source.m_BlendHint.IsUse) m_BlendHint.Add(new MixItem<Cinemachine.CinemachineVirtualCameraBase.BlendHint>(id, priority, source.m_BlendHint.CalculatorExpression, source.m_BlendHint.Value, source.m_BlendHint.IsUse));
-            if(source.m_InheritPosition.IsUse) m_InheritPosition.Add(new MixItem<System.Boolean>(id, priority, source.m_InheritPosition.CalculatorExpression, source.m_InheritPosition.Value, source.m_InheritPosition.IsUse));
+                if(source.m_BlendHint.IsUse)
+                {
+                    m_BlendHint.Add(new MixItem<Cinemachine.CinemachineVirtualCameraBase.BlendHint>(id, priority, source.m_BlendHint.CalculatorExpression, source.m_BlendHint.Value, source.m_BlendHint.IsUse));
+                }
+                if(source.m_InheritPosition.IsUse)
+                {
+                    m_InheritPosition.Add(new MixItem<System.Boolean>(id, priority, source.m_InheritPosition.CalculatorExpression, source.m_InheritPosition.Value, source.m_InheritPosition.IsUse));
+                }
                 if(source.m_OnCameraLive != null && m_OnCameraLive == null) m_OnCameraLive = new Control_C_CB_VcamActivatedEvent_Field();
-            m_OnCameraLive?.AddByConfig(source.m_OnCameraLive, id, priority);
+            m_OnCameraLive?.AddByConfig(source.m_OnCameraLive, id, priority, ref target.m_OnCameraLive);
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineVirtualCameraBase.TransitionParams target)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CVCB_TransitionParams_Config source = (CameraMovement.Control_C_CVCB_TransitionParams_Config)sourceConfig;
-            if(source.m_BlendHint.IsUse) m_BlendHint.Remove(new MixItem<Cinemachine.CinemachineVirtualCameraBase.BlendHint>(id, priority, source.m_BlendHint.CalculatorExpression, source.m_BlendHint.Value, source.m_BlendHint.IsUse));
-            if(source.m_InheritPosition.IsUse) m_InheritPosition.Remove(new MixItem<System.Boolean>(id, priority, source.m_InheritPosition.CalculatorExpression, source.m_InheritPosition.Value, source.m_InheritPosition.IsUse));
-            m_OnCameraLive?.RemoveByConfig(source.m_OnCameraLive, id, priority);
+                if(source.m_BlendHint.IsUse)
+                {
+                    m_BlendHint.Remove(new MixItem<Cinemachine.CinemachineVirtualCameraBase.BlendHint>(id, priority, source.m_BlendHint.CalculatorExpression, source.m_BlendHint.Value, source.m_BlendHint.IsUse));
+                }
+                if(source.m_InheritPosition.IsUse)
+                {
+                    m_InheritPosition.Remove(new MixItem<System.Boolean>(id, priority, source.m_InheritPosition.CalculatorExpression, source.m_InheritPosition.Value, source.m_InheritPosition.IsUse));
+                }
+            m_OnCameraLive?.RemoveByConfig(source.m_OnCameraLive, id, priority, ref target.m_OnCameraLive);
         }
         public void RemoveAll()
         {

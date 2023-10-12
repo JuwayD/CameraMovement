@@ -11,7 +11,7 @@ namespace CameraMovement
         /// 数据区
         /// </summary>
         /// <returns></returns>
-        protected ICameraMovementDataField dataField_;
+        protected CameraMovementDataField dataField_;
 
         /// <summary>
         /// 标志哪个相机事件被触发
@@ -33,13 +33,13 @@ namespace CameraMovement
             ContextEventBit = new BitArray((int)EContextEvent.Max);
             CameraEventParamDict = new Dictionary<EContextEvent, Dictionary<EEventParamType, float>>()
             {
-                { EContextEvent.Tick, new Dictionary<EEventParamType, float>() }
+                { EContextEvent.Tick, new Dictionary<EEventParamType, float>() },
+                { EContextEvent.Invoke, new Dictionary<EEventParamType, float>() }
             };
         }
         
         public void Tick()
         {
-            ContextEventBit.SetAll(false);
             ContextEventBit.Set((int)EContextEvent.Tick, true);
         }
 
@@ -47,12 +47,40 @@ namespace CameraMovement
 
         #region 外部函数
 
+        public void Invoke()
+        {
+            ContextEventBit.Set((int)EContextEvent.Invoke, true);
+        }
+
+        public void ResetEvent()
+        {
+            ContextEventBit.SetAll(false);
+        }
+        
         /// <summary>
         /// 更新数据区通过数据区配置
         /// </summary>
         /// <param name="dataConfigBase"></param>
-        public void UpdateDataField(CameraMovementDataConfigBase dataConfigBase)
+        public void AddConfigData(CameraMovementConfig dataConfigBase)
         {
+            dataField_.AddByConfig(dataConfigBase.DataConfigBaseTemplate, dataConfigBase.id, dataConfigBase.priority);
+        }
+
+        /// <summary>
+        /// 更新数据区通过数据区配置
+        /// </summary>
+        /// <param name="dataConfigBase"></param>
+        public void RemoveConfigData(CameraMovementConfig dataConfigBase)
+        {
+            dataField_.RemoveByConfig(dataConfigBase.DataConfigBaseTemplate, dataConfigBase.id, dataConfigBase.priority);
+        }
+
+        /// <summary>
+        /// 更新数据区通过数据区配置
+        /// </summary>
+        public void RemoveAllConfig()
+        {
+            dataField_.RemoveAll();
         }
 
         /// <summary>
@@ -66,36 +94,15 @@ namespace CameraMovement
                 switch (member)
                 {
                     case EContextMember.ZoomMax:
-                        return dataField.ZoomMax;
+                        return dataField.ZoomMax.IsExpression ? dataField.ZoomMax.Value : dataField.ZoomMax.PrimitiveValue;
                     case EContextMember.ZoomMin:
-                        return dataField.ZoomMin;
+                        return dataField.ZoomMin.IsExpression ? dataField.ZoomMin.Value : dataField.ZoomMin.PrimitiveValue;
                 }
             }
 
             return 0;
         }
         
-        /// <summary>
-        /// 获取上下文成员
-        /// </summary>
-        /// <param name="member"></param>
-        public void SetContextMember(EContextMember member,float value)
-        {
-            if (dataField_ is CameraMovementDataField dataField)
-            {
-                switch (member)
-                {
-                    case EContextMember.ZoomMax:
-                        dataField.ZoomMax = value;
-                        break;
-                    case EContextMember.ZoomMin:
-                        dataField.ZoomMin = value;
-                        break;
-                }
-            }
-
-        }
-
         #endregion
         
     }

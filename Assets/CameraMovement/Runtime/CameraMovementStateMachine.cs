@@ -78,6 +78,7 @@ namespace CameraMovement
             }
             
             currentState_.Tick();
+            context_.ResetEvent();//事件在state中被响应state后清理，保证一帧中所有事件可以被处理
         }
 
         /// <summary>

@@ -10,12 +10,18 @@ namespace CameraMovement
         None = 0, // 非法操作符
         LeftParenthesis,
         RightParenthesis,
-        And = 20,
+        Big = 40,
+        Small,
+        BigOrEqual,
+        SmallOrEqual,
+        Equal,
+        Unequal,
+        And = 60,
         Not,
         Or,
-        Add = 40,
+        Add = 100,
         Subtract,
-        Multiply = 60,
+        Multiply = 200,
         Divide,
     }
 
@@ -24,7 +30,7 @@ namespace CameraMovement
         /// <summary>
         /// 计算
         /// </summary>
-        /// <param name="list"></param>
+        /// <param name="expression"></param>
         /// <returns></returns>
         public static float Calculate(CalculatorItem[] expression)
         {
@@ -105,7 +111,42 @@ namespace CameraMovement
                         result.Value = !Mathf.Approximately(num1.Value, 0.0f) || !Mathf.Approximately(num2.Value, 0.0f)
                             ? 1.0f
                             : 0.0f;
-                        ;
+                    }
+                    else if (item.Operator == ECalculatorOperator.Equal)
+                    {
+                        result.Value = Mathf.Approximately(num1.Value, num2.Value)
+                            ? 1.0f
+                            : 0.0f;
+                    }
+                    else if (item.Operator == ECalculatorOperator.Unequal)
+                    {
+                        result.Value = !Mathf.Approximately(num1.Value, num2.Value)
+                            ? 1.0f
+                            : 0.0f;
+                    }
+                    else if (item.Operator == ECalculatorOperator.Big)
+                    {
+                        result.Value = num1.Value > num2.Value
+                            ? 1.0f
+                            : 0.0f;
+                    }
+                    else if (item.Operator == ECalculatorOperator.BigOrEqual)
+                    {
+                        result.Value = num1.Value >= num2.Value
+                            ? 1.0f
+                            : 0.0f;
+                    }
+                    else if (item.Operator == ECalculatorOperator.Small)
+                    {
+                        result.Value = num1.Value < num2.Value
+                            ? 1.0f
+                            : 0.0f;
+                    }
+                    else if (item.Operator == ECalculatorOperator.SmallOrEqual)
+                    {
+                        result.Value = num1.Value <= num2.Value
+                            ? 1.0f
+                            : 0.0f;
                     }
                     else
                     {
@@ -132,8 +173,9 @@ namespace CameraMovement
             Stack<CalculatorItem> stack = new Stack<CalculatorItem>();
 
             //循环遍历
-            suffixExpression.ForEach(item =>
+            for (int i = 0; i < suffixExpression.Count; i++)
             {
+                var item = suffixExpression[i];
                 //如果是上下文则获取上下文
                 if (item.Operator == ECalculatorOperator.None && item.ContextMember != EContextMember.None) //"\\d+"
                 {
@@ -157,7 +199,7 @@ namespace CameraMovement
                     {
                         result.Value = Mathf.Approximately(num1.Value, 0.0f) ? 1.0f : 0.0f;
                         stack.Push(result);
-                        return;
+                        continue;
                     }
 
                     CalculatorItem num2 = stack.Pop();
@@ -190,7 +232,42 @@ namespace CameraMovement
                         result.Value = !Mathf.Approximately(num1.Value, 0.0f) || !Mathf.Approximately(num2.Value, 0.0f)
                             ? 1.0f
                             : 0.0f;
-                        ;
+                    }
+                    else if (item.Operator == ECalculatorOperator.Equal)
+                    {
+                        result.Value = Mathf.Approximately(num1.Value, num2.Value)
+                            ? 1.0f
+                            : 0.0f;
+                    }
+                    else if (item.Operator == ECalculatorOperator.Unequal)
+                    {
+                        result.Value = !Mathf.Approximately(num1.Value, num2.Value)
+                            ? 1.0f
+                            : 0.0f;
+                    }
+                    else if (item.Operator == ECalculatorOperator.Big)
+                    {
+                        result.Value = num1.Value > num2.Value
+                            ? 1.0f
+                            : 0.0f;
+                    }
+                    else if (item.Operator == ECalculatorOperator.BigOrEqual)
+                    {
+                        result.Value = num1.Value >= num2.Value
+                            ? 1.0f
+                            : 0.0f;
+                    }
+                    else if (item.Operator == ECalculatorOperator.Small)
+                    {
+                        result.Value = num1.Value < num2.Value
+                            ? 1.0f
+                            : 0.0f;
+                    }
+                    else if (item.Operator == ECalculatorOperator.SmallOrEqual)
+                    {
+                        result.Value = num1.Value <= num2.Value
+                            ? 1.0f
+                            : 0.0f;
                     }
                     else
                     {
@@ -199,16 +276,16 @@ namespace CameraMovement
 
                     stack.Push(result);
                 }
-            });
+            }
 
             //最后把stack中数据返回
             return stack.Pop().Value;
         }
-
+        
         /// <summary>
         /// 中缀转后缀
         /// </summary>
-        /// <param name="expression"></param>
+        /// <param name="expressionList"></param>
         /// <returns></returns>
         public static List<CalculatorItem> ParseSuffixExpression(CalculatorItem[] expressionList)
         {
@@ -264,55 +341,7 @@ namespace CameraMovement
             return list;
         }
 
-        private static string GetRegex<T>()
-        {
-            string regex = "\\d+";
-            Type t = typeof(T);
-            if (t == typeof(Int16) || t == typeof(Int32) || t == typeof(Int64))
-            {
-                regex = "\\d+";
-            }
-            else if (t == typeof(float) || t == typeof(double) || t == typeof(decimal))
-            {
-                regex = "(\\d+\\.\\d+|\\d+)";
-            }
-
-            return regex;
-        }
     }
 
-    public class Operation
-    {
-        private static int ADD = 1;
-        private static int SUB = 1;
-        private static int MUL = 2;
-        private static int DIV = 2;
-
-        public static int GetValue(string operation)
-        {
-            int result = 0;
-
-            switch (operation)
-            {
-                case "+":
-                    result = ADD;
-                    break;
-                case "-":
-                    result = SUB;
-                    break;
-                case "*":
-                    result = MUL;
-                    break;
-                case "/":
-                    result = DIV;
-                    break;
-                default:
-                    // Console.WriteLine("不存在该运算符");
-                    break;
-            }
-
-            return result;
-        }
-    }
 
 }

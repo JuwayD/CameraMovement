@@ -82,9 +82,12 @@ namespace CameraMovement
 
             foreach (var id in deleteList)
             {
+                OnTemplateRemove(id);
                 runtimeTemplateDict_.Remove(id);
             }
         }
+
+        protected abstract void OnTemplateRemove(int id);
 
         /// <summary>
         /// 处理补正
@@ -96,19 +99,34 @@ namespace CameraMovement
             for (int i = 0; i < config_.ConfigList.Count; i++)
             {
                 var config = config_.ConfigList[i];
-                if (config.contextEvent == contextEvent)
+                if (config.contextEvent == contextEvent && checkCondition(config.Condition))
                 {
-                    machine_.Context.UpdateDataField(config.DataConfigBaseTemplate); 
-                    runtimeTemplateDict_.TryAdd(config.id, new RuntimeTemplate(){CostTime = Time.time, Config = config});
+                    machine_.Context.AddConfigData(config);
+                    if (runtimeTemplateDict_.ContainsKey(config.id))
+                    {
+                        runtimeTemplateDict_[config.id].CostTime = 0;
+                        runtimeTemplateDict_[config.id].Config = config;
+                    }
+                    else
+                    {
+                        runtimeTemplateDict_.Add(config.id, new RuntimeTemplate(){CostTime = 0, Config = config});
+                    }
                     AddConfig(config);
                     for (int j = 0; j < controlExtensionList_.Count; j++)
                     {
-                        controlExtensionList_[i].AddByConfig(config.controlConfigBaseTemplate, config.id, config.priority);
+                        var extension = extensionList_[i];
+                        controlExtensionList_[i].AddByConfig(config.controlConfigBaseTemplate, config.id, config.priority, ref extension);
                     }
                 }
             }
         }
 
+        private bool checkCondition(CalculatorItem[] expression)
+        {
+            return expression == null || expression.Length == 0 ||
+                   !Mathf.Approximately(Calculator.Calculate(expression), 0);
+        }
+        
         protected abstract void AddConfig(CameraMovementConfig config);
 
         /// <summary>

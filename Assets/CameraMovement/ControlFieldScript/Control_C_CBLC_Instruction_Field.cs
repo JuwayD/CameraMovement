@@ -5,17 +5,17 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-        public class Control_C_CBLC_Instruction_Field :ICameraMovementControlField<Cinemachine.CinemachineBlendListCamera.Instruction>
+    public class Control_C_CBLC_Instruction_Field :ICameraMovementControlField<Cinemachine.CinemachineBlendListCamera.Instruction>
     {
        public  Type AttachControlField => typeof(Cinemachine.CinemachineBlendListCamera.Instruction[]);
 
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineBlendListCamera.Instruction target)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CBLC_Instruction_Config source = (CameraMovement.Control_C_CBLC_Instruction_Config)sourceConfig;
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineBlendListCamera.Instruction target)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;

@@ -155,8 +155,8 @@ namespace CameraMovement
                     }
                     if (sourceType != null)
                     {
-                        code.Append(generateUpdateMethodCode(sourceType, fields, prefix + "_", "_" + (implementInterface.Contains("Field") ? "Field" : "Config")));
-                        code.Append(generateUpdateMethodCode(sourceType, fields, prefix + "_", "_" + (implementInterface.Contains("Field") ? "Field" : "Config"), true));
+                        code.Append(generateUpdateMethodCode(sourceType, type, fields, prefix + "_", "_" + (implementInterface.Contains("Field") ? "Field" : "Config")));
+                        code.Append(generateUpdateMethodCode(sourceType, type, fields, prefix + "_", "_" + (implementInterface.Contains("Field") ? "Field" : "Config"), true));
                         code.Append(generateRemoveAllMethodCode(sourceType, fields));
                     }
                 }
@@ -186,6 +186,10 @@ namespace CameraMovement
             return name;
         }
 
+        /// <summary>
+        /// 需要用曲线计算的字段的后缀
+        /// </summary>
+        const string CURVE_FIELD_POST_FIX_ = "AlertInit";
         private static string generateCodeForSerializableStructWithBool(FieldInfo field, bool useConfig = false)
         {
             //包装进容器
@@ -193,6 +197,10 @@ namespace CameraMovement
             string attributes = getCustomAttributesString(field);
             string code = $"";
             code += $"{attributes}        public {(useConfig ? "ConfigItem" : "DataMixer")} <{getFullName(field.FieldType)}> {field.Name};\n";
+            if (!useConfig && (field.FieldType == typeof(float) || field.FieldType == typeof(double)))//如果是控制区或者数据区字段为其生成用于存储曲线变化开始前的值，方便后续曲线运算
+            {
+                code += $"        public float {field.Name}{CURVE_FIELD_POST_FIX_};\n";
+            }
             return code;
         }
         
@@ -237,11 +245,13 @@ namespace CameraMovement
         /// 生成控制区数据更新方法的代码
         /// </summary>
         /// <param name="sourceType"></param>
+        /// <param name="cinemachineType"></param>
         /// <param name="targetFields"></param>
         /// <param name="prefix"></param>
         /// <param name="postfix"></param>
         /// <param name="isRemove"></param>
-        private static string generateUpdateMethodCode(Type sourceType, FieldInfo[] targetFields, string prefix,
+        private static string generateUpdateMethodCode(Type sourceType, Type cinemachineType, FieldInfo[] targetFields,
+            string prefix,
             string postfix,
             bool isRemove = false)
         {
@@ -252,7 +262,7 @@ namespace CameraMovement
 
             // 生成函数签名
             var methodPrefix = isRemove ? "Remove" : "Add";
-            codeBuilder.AppendLine($"        public void {methodPrefix}ByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)");
+            codeBuilder.AppendLine($"        public void {methodPrefix}ByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref {autoGetArrayElementTypeFullName(cinemachineType)} target)");
             codeBuilder.AppendLine("        {");
             codeBuilder.AppendLine($"            if(sourceConfig == null) return;");
             codeBuilder.AppendLine($"            if(sourceConfig.AttachControlField != AttachControlField) return;");
@@ -271,14 +281,28 @@ namespace CameraMovement
                         // 生成基元类型字段赋值语句
                         if (targetField.FieldType.IsArray)
                         {
-                            codeBuilder.AppendLine($"            for(int i = 0;i < source.{sourceField.Name}.Length;i++)\n" +
-                                                   $"            {{\n" +
-                                                   $"                if(source.{sourceField.Name}.IsUse) {targetField.Name}.{methodPrefix}(new MixItem<{getFullName(targetField.FieldType)}>(id, priority, source.{sourceField.Name}.CalculatorExpression, source.{sourceField.Name}.Value, source.{sourceField.Name}.IsUse));" +
-                                                   $"            }}\n");
+                            codeBuilder.AppendLine($"            for(int i = 0;i < source.{sourceField.Name}.Length;i++)");
+                            codeBuilder.AppendLine($"            {{");
+                            codeBuilder.AppendLine($"                if(source.{sourceField.Name}.IsUse)");
+                            codeBuilder.AppendLine($"                {{");
+                            if (sourceField.FieldType.GenericTypeArguments[0] == typeof(float) || sourceField.FieldType.GenericTypeArguments[0] == typeof(double))
+                            {
+                                codeBuilder.AppendLine($"                    {targetField.Name}{CURVE_FIELD_POST_FIX_} = target.{targetField.Name};");
+                            }
+                            codeBuilder.AppendLine($"                    {targetField.Name}.{methodPrefix}(new MixItem<{getFullName(targetField.FieldType)}>(id, priority, source.{sourceField.Name}.CalculatorExpression, source.{sourceField.Name}.Value, source.{sourceField.Name}.IsUse));");
+                            codeBuilder.AppendLine($"                }}");
+                            codeBuilder.AppendLine($"            }}");
                         }
                         else
                         {
-                            codeBuilder.AppendLine($"            if(source.{sourceField.Name}.IsUse) {targetField.Name}.{methodPrefix}(new MixItem<{getFullName(targetField.FieldType)}>(id, priority, source.{sourceField.Name}.CalculatorExpression, source.{sourceField.Name}.Value, source.{sourceField.Name}.IsUse));");
+                            codeBuilder.AppendLine($"                if(source.{sourceField.Name}.IsUse)");
+                            codeBuilder.AppendLine($"                {{");
+                            if (sourceField.FieldType.GenericTypeArguments[0] == typeof(float) || sourceField.FieldType.GenericTypeArguments[0] == typeof(double))
+                            {
+                                codeBuilder.AppendLine($"                    {targetField.Name}{CURVE_FIELD_POST_FIX_} = target.{targetField.Name};");
+                            }
+                            codeBuilder.AppendLine($"                    {targetField.Name}.{methodPrefix}(new MixItem<{getFullName(targetField.FieldType)}>(id, priority, source.{sourceField.Name}.CalculatorExpression, source.{sourceField.Name}.Value, source.{sourceField.Name}.IsUse));");
+                            codeBuilder.AppendLine($"                }}");
                         }
                     }
                     else
@@ -293,7 +317,7 @@ namespace CameraMovement
                                                    $"            {{\n" +
                                                    //如果不是移除就需要把字段先创建出来
                                                    (isRemove ? "" : $"                if(source.{sourceField.Name} != null && {targetField.Name} == null) {targetField.Name} = new {name}[source.{sourceField.Name}.Length];\n") +
-                                                   $"                {targetField.Name}?[i].{methodPrefix}ByConfig(source.{sourceField.Name}[i], id, priority);" +
+                                                   $"                {targetField.Name}?[i].{methodPrefix}ByConfig(source.{sourceField.Name}[i], id, priority, ref target.{sourceField.Name}[i]);" +
                                                    $"            }}\n");
                         }
                         else
@@ -304,7 +328,7 @@ namespace CameraMovement
                                 name = prefix + simplifyTypeName(name) + postfix;
                                 codeBuilder.AppendLine($"                if(source.{sourceField.Name} != null && {targetField.Name} == null) {targetField.Name} = new {name}();");
                             }
-                            codeBuilder.AppendLine($"            {targetField.Name}?.{methodPrefix}ByConfig(source.{sourceField.Name}, id, priority);");
+                            codeBuilder.AppendLine($"            {targetField.Name}?.{methodPrefix}ByConfig(source.{sourceField.Name}, id, priority, ref target.{sourceField.Name});");
                         }
                     }
                 }
@@ -402,7 +426,10 @@ namespace CameraMovement
                         if (field2.FieldType == typeof(float) || field2.FieldType == typeof(double))
                         {
                             code.AppendLine($"            if ({correspondingField.Name}.IsUse && templateDict.ContainsKey({correspondingField.Name}.Id))");
-                            code.AppendLine($"                target.{field2.Name} = Mathf.Approximately(0, templateDict[{correspondingField.Name}.Id].Config.duration) ? ({correspondingField.Name}.IsExpression ? {correspondingField.Name}.Value : {correspondingField.Name}.PrimitiveValue) : templateDict[{correspondingField.Name}.Id].Config.alertCurve.Evaluate(templateDict[{correspondingField.Name}.Id].CostTime / templateDict[{correspondingField.Name}.Id].Config.duration) * ({correspondingField.Name}.IsExpression ? {correspondingField.Name}.Value : {correspondingField.Name}.PrimitiveValue);");
+                            code.AppendLine($"            {{");
+                            code.AppendLine($"                var targetValue = ({correspondingField.Name}.IsExpression ? {correspondingField.Name}.Value : {correspondingField.Name}.PrimitiveValue);");
+                            code.AppendLine($"                target.{field2.Name} = Mathf.Approximately(0, templateDict[{correspondingField.Name}.Id].Config.duration) ? targetValue : {correspondingField.Name}{CURVE_FIELD_POST_FIX_} + templateDict[{correspondingField.Name}.Id].Config.alertCurve.Evaluate(templateDict[{correspondingField.Name}.Id].CostTime / templateDict[{correspondingField.Name}.Id].Config.duration) * (targetValue - {correspondingField.Name}{CURVE_FIELD_POST_FIX_});");
+                            code.AppendLine($"            }}");
                         }
                         else if (field2.FieldType == typeof(string))
                         {

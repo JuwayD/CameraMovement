@@ -5,17 +5,17 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-        public class Control_C_CinemachineHardLookAt_Field :ICameraMovementControlField<Cinemachine.CinemachineHardLookAt>
+    public class Control_C_CinemachineHardLookAt_Field :ICameraMovementControlField<Cinemachine.CinemachineHardLookAt>
     {
        public  Type AttachControlField => typeof(Cinemachine.CinemachineHardLookAt);
 
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineHardLookAt target)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachineHardLookAt_Config source = (CameraMovement.Control_C_CinemachineHardLookAt_Config)sourceConfig;
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineHardLookAt target)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;

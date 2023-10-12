@@ -5,7 +5,7 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-        public class Control_C_CinemachineBlendDefinition_Field :ICameraMovementControlField<Cinemachine.CinemachineBlendDefinition>
+    public class Control_C_CinemachineBlendDefinition_Field :ICameraMovementControlField<Cinemachine.CinemachineBlendDefinition>
     {
        public  Type AttachControlField => typeof(Cinemachine.CinemachineBlendDefinition);
 
@@ -13,24 +13,45 @@ namespace CameraMovement{
             public DataMixer <Cinemachine.CinemachineBlendDefinition.Style> m_Style;
        [UnityEngine.TooltipAttribute("Duration of the blend, in seconds")]
             public DataMixer <System.Single> m_Time;
+        public float m_TimeAlertInit;
         public DataMixer <UnityEngine.AnimationCurve> m_CustomCurve;
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineBlendDefinition target)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachineBlendDefinition_Config source = (CameraMovement.Control_C_CinemachineBlendDefinition_Config)sourceConfig;
-            if(source.m_Style.IsUse) m_Style.Add(new MixItem<Cinemachine.CinemachineBlendDefinition.Style>(id, priority, source.m_Style.CalculatorExpression, source.m_Style.Value, source.m_Style.IsUse));
-            if(source.m_Time.IsUse) m_Time.Add(new MixItem<System.Single>(id, priority, source.m_Time.CalculatorExpression, source.m_Time.Value, source.m_Time.IsUse));
-            if(source.m_CustomCurve.IsUse) m_CustomCurve.Add(new MixItem<UnityEngine.AnimationCurve>(id, priority, source.m_CustomCurve.CalculatorExpression, source.m_CustomCurve.Value, source.m_CustomCurve.IsUse));
+                if(source.m_Style.IsUse)
+                {
+                    m_Style.Add(new MixItem<Cinemachine.CinemachineBlendDefinition.Style>(id, priority, source.m_Style.CalculatorExpression, source.m_Style.Value, source.m_Style.IsUse));
+                }
+                if(source.m_Time.IsUse)
+                {
+                    m_TimeAlertInit = target.m_Time;
+                    m_Time.Add(new MixItem<System.Single>(id, priority, source.m_Time.CalculatorExpression, source.m_Time.Value, source.m_Time.IsUse));
+                }
+                if(source.m_CustomCurve.IsUse)
+                {
+                    m_CustomCurve.Add(new MixItem<UnityEngine.AnimationCurve>(id, priority, source.m_CustomCurve.CalculatorExpression, source.m_CustomCurve.Value, source.m_CustomCurve.IsUse));
+                }
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineBlendDefinition target)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachineBlendDefinition_Config source = (CameraMovement.Control_C_CinemachineBlendDefinition_Config)sourceConfig;
-            if(source.m_Style.IsUse) m_Style.Remove(new MixItem<Cinemachine.CinemachineBlendDefinition.Style>(id, priority, source.m_Style.CalculatorExpression, source.m_Style.Value, source.m_Style.IsUse));
-            if(source.m_Time.IsUse) m_Time.Remove(new MixItem<System.Single>(id, priority, source.m_Time.CalculatorExpression, source.m_Time.Value, source.m_Time.IsUse));
-            if(source.m_CustomCurve.IsUse) m_CustomCurve.Remove(new MixItem<UnityEngine.AnimationCurve>(id, priority, source.m_CustomCurve.CalculatorExpression, source.m_CustomCurve.Value, source.m_CustomCurve.IsUse));
+                if(source.m_Style.IsUse)
+                {
+                    m_Style.Remove(new MixItem<Cinemachine.CinemachineBlendDefinition.Style>(id, priority, source.m_Style.CalculatorExpression, source.m_Style.Value, source.m_Style.IsUse));
+                }
+                if(source.m_Time.IsUse)
+                {
+                    m_TimeAlertInit = target.m_Time;
+                    m_Time.Remove(new MixItem<System.Single>(id, priority, source.m_Time.CalculatorExpression, source.m_Time.Value, source.m_Time.IsUse));
+                }
+                if(source.m_CustomCurve.IsUse)
+                {
+                    m_CustomCurve.Remove(new MixItem<UnityEngine.AnimationCurve>(id, priority, source.m_CustomCurve.CalculatorExpression, source.m_CustomCurve.Value, source.m_CustomCurve.IsUse));
+                }
         }
         public void RemoveAll()
         {
@@ -42,7 +63,10 @@ namespace CameraMovement{
         {
             if (m_Style.IsUse) target.m_Style = m_Style.IsExpression ? (Cinemachine.CinemachineBlendDefinition.Style)m_Style.Value :m_Style.PrimitiveValue;
             if (m_Time.IsUse && templateDict.ContainsKey(m_Time.Id))
-                target.m_Time = Mathf.Approximately(0, templateDict[m_Time.Id].Config.duration) ? (m_Time.IsExpression ? m_Time.Value : m_Time.PrimitiveValue) : templateDict[m_Time.Id].Config.alertCurve.Evaluate(templateDict[m_Time.Id].CostTime / templateDict[m_Time.Id].Config.duration) * (m_Time.IsExpression ? m_Time.Value : m_Time.PrimitiveValue);
+            {
+                var targetValue = (m_Time.IsExpression ? m_Time.Value : m_Time.PrimitiveValue);
+                target.m_Time = Mathf.Approximately(0, templateDict[m_Time.Id].Config.duration) ? targetValue : m_TimeAlertInit + templateDict[m_Time.Id].Config.alertCurve.Evaluate(templateDict[m_Time.Id].CostTime / templateDict[m_Time.Id].Config.duration) * (targetValue - m_TimeAlertInit);
+            }
         }
     }
 }

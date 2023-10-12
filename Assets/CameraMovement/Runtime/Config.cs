@@ -39,6 +39,7 @@ namespace CameraMovement
         public int priority;
         public int id;
         public AnimationCurve alertCurve;
+        public CalculatorItem[] Condition;
         public CameraMovementDataConfigBase DataConfigBaseTemplate;
         public CameraMovementControlConfigBase controlConfigBaseTemplate;
     }

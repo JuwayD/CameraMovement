@@ -31,8 +31,12 @@ namespace CameraMovement
         /// </summary>
         Tick,
         /// <summary>
-        /// 最大个数
+        /// 手动触发
         /// </summary>
+        Invoke,
+        /// &lt;summary&gt;
+        /// 最大个数
+        /// &lt;/summary&gt;
         Max,
     }
 
@@ -81,10 +85,25 @@ namespace CameraMovement
     public interface ICameraMovementDataField
     {
         /// <summary>
-        /// 解析配置数据
+        /// 添加配置数据
         /// </summary>
-        /// <param name="configBase"></param>
-        public void UpdateByConfig(CameraMovementDataConfigBase configBase);
+        /// <param name="source"></param>
+        /// <param name="id"></param>
+        /// <param name="priority"></param>
+        public void AddByConfig(CameraMovementDataConfigBase source,int id,int priority);
+
+        /// <summary>
+        /// 移除配置数据
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="id"></param>
+        /// <param name="priority"></param>
+        public void RemoveByConfig(CameraMovementDataConfigBase source,int id,int priority);
+
+        /// <summary>
+        /// 移除所有控制数据
+        /// </summary>
+        public void RemoveAll();
     }
     
     /// <summary>
@@ -105,15 +124,29 @@ namespace CameraMovement
     public class CameraMovementDataField : ICameraMovementDataField
     {
         [ContextDescription(EContextMember.ZoomMax, false, "牛逼")]
-        public float ZoomMax = 6f;
+        public DataMixer<float> ZoomMax;
         [ContextDescription(EContextMember.ZoomMin, true, "牛逼")]
-        public float ZoomMin = 5f;
+        public DataMixer<float> ZoomMin;
         [ContextDescription(EContextMember.ZoomMin, false, "牛逼")]
-        protected float curZoom_ = 3f;
+        public DataMixer<float> curZoom;
 
-        public void UpdateByConfig(CameraMovementDataConfigBase configBase)
+        public void AddByConfig(CameraMovementDataConfigBase source, int id, int priority)
         {
-            throw new NotImplementedException();
+            if(source == null) return;
+            var dataConfig = (Data_CM_CameraMovementDataField_Config)source;
+            if(dataConfig.ZoomMax.IsUse) ZoomMax.Add(new MixItem<float>(id, priority, dataConfig.ZoomMax.CalculatorExpression, dataConfig.ZoomMax.Value, dataConfig.ZoomMax.IsUse));
+        }
+
+        public void RemoveByConfig(CameraMovementDataConfigBase source, int id, int priority)
+        {
+            if(source == null) return;
+            var dataConfig = (Data_CM_CameraMovementDataField_Config)source;
+            ZoomMax.Remove(new MixItem<float>(id, priority, dataConfig.ZoomMax.CalculatorExpression, dataConfig.ZoomMax.Value, dataConfig.ZoomMax.IsUse));
+        }
+
+        public void RemoveAll()
+        {
+            ZoomMax.RemoveAll();
         }
     }
 }
