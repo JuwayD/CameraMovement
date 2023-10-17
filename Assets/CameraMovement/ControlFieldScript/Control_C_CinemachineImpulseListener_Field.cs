@@ -16,6 +16,7 @@ namespace CameraMovement{
        [UnityEngine.TooltipAttribute("Gain to apply to the Impulse signal.  1 is normal strength.  Setting this to 0 completely mutes the signal.")]
             public DataMixer <System.Single> m_Gain;
         public float m_GainAlertInit;
+        public float m_GainDiff;
        [UnityEngine.TooltipAttribute("Enable this to perform distance calculation in 2D (ignore Z)")]
             public DataMixer <System.Boolean> m_Use2DDistance;
        [UnityEngine.TooltipAttribute("Enable this to process all impulse signals in camera space")]
@@ -27,29 +28,30 @@ namespace CameraMovement{
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachineImpulseListener_Config source = (CameraMovement.Control_C_CinemachineImpulseListener_Config)sourceConfig;
-                if(source.m_ApplyAfter.IsUse)
-                {
-                    m_ApplyAfter.Add(new MixItem<Cinemachine.CinemachineCore.Stage>(id, priority, source.m_ApplyAfter.CalculatorExpression, source.m_ApplyAfter.Value, source.m_ApplyAfter.IsUse));
-                }
-                if(source.m_ChannelMask.IsUse)
-                {
-                    m_ChannelMask.Add(new MixItem<System.Int32>(id, priority, source.m_ChannelMask.CalculatorExpression, source.m_ChannelMask.Value, source.m_ChannelMask.IsUse));
-                }
-                if(source.m_Gain.IsUse)
-                {
-                    m_Gain.Add(new MixItem<System.Single>(id, priority, source.m_Gain.CalculatorExpression, source.m_Gain.Value, source.m_Gain.IsUse));
-                   var targetValue = (m_Gain.IsExpression ? m_Gain.Value : m_Gain.PrimitiveValue);
-                   m_GainAlertInit = target.m_Gain - templateDict[m_Gain.Id].Config.alertCurve.Evaluate(templateDict[m_Gain.Id].CostTime / templateDict[m_Gain.Id].Config.duration) * (targetValue - m_GainAlertInit);
-                }
-                if(source.m_Use2DDistance.IsUse)
-                {
-                    m_Use2DDistance.Add(new MixItem<System.Boolean>(id, priority, source.m_Use2DDistance.CalculatorExpression, source.m_Use2DDistance.Value, source.m_Use2DDistance.IsUse));
-                }
-                if(source.m_UseCameraSpace.IsUse)
-                {
-                    m_UseCameraSpace.Add(new MixItem<System.Boolean>(id, priority, source.m_UseCameraSpace.CalculatorExpression, source.m_UseCameraSpace.Value, source.m_UseCameraSpace.IsUse));
-                }
-                if(source.m_ReactionSettings != null && m_ReactionSettings == null) m_ReactionSettings = new Control_C_CIL_ImpulseReaction_Field();
+            if(source.m_ApplyAfter.IsUse)
+            {
+                m_ApplyAfter.Add(new MixItem<Cinemachine.CinemachineCore.Stage>(id, priority, source.m_ApplyAfter.CalculatorExpression, source.m_ApplyAfter.Value, source.m_ApplyAfter.IsUse));
+            }
+            if(source.m_ChannelMask.IsUse)
+            {
+                m_ChannelMask.Add(new MixItem<System.Int32>(id, priority, source.m_ChannelMask.CalculatorExpression, source.m_ChannelMask.Value, source.m_ChannelMask.IsUse));
+            }
+            if(source.m_Gain.IsUse)
+            {
+                m_Gain.Add(new MixItem<System.Single>(id, priority, source.m_Gain.CalculatorExpression, source.m_Gain.Value, source.m_Gain.IsUse));
+               var targetValue = (m_Gain.IsExpression ? m_Gain.Value : m_Gain.PrimitiveValue);
+               m_GainDiff = targetValue - target.m_Gain;
+               m_GainAlertInit = target.m_Gain - templateDict[m_Gain.Id].Config.alertCurve.Evaluate(templateDict[m_Gain.Id].CostTime / templateDict[m_Gain.Id].Config.duration) * (m_GainDiff);
+            }
+            if(source.m_Use2DDistance.IsUse)
+            {
+                m_Use2DDistance.Add(new MixItem<System.Boolean>(id, priority, source.m_Use2DDistance.CalculatorExpression, source.m_Use2DDistance.Value, source.m_Use2DDistance.IsUse));
+            }
+            if(source.m_UseCameraSpace.IsUse)
+            {
+                m_UseCameraSpace.Add(new MixItem<System.Boolean>(id, priority, source.m_UseCameraSpace.CalculatorExpression, source.m_UseCameraSpace.Value, source.m_UseCameraSpace.IsUse));
+            }
+            if(source.m_ReactionSettings != null && m_ReactionSettings == null) m_ReactionSettings = new Control_C_CIL_ImpulseReaction_Field();
             m_ReactionSettings?.AddByConfig(source.m_ReactionSettings, id, priority, ref target.m_ReactionSettings, templateDict);
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineImpulseListener target, Dictionary<int, RuntimeTemplate> templateDict)
@@ -57,28 +59,29 @@ namespace CameraMovement{
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CinemachineImpulseListener_Config source = (CameraMovement.Control_C_CinemachineImpulseListener_Config)sourceConfig;
-                if(source.m_ApplyAfter.IsUse)
-                {
-                    m_ApplyAfter.Remove(new MixItem<Cinemachine.CinemachineCore.Stage>(id, priority, source.m_ApplyAfter.CalculatorExpression, source.m_ApplyAfter.Value, source.m_ApplyAfter.IsUse));
-                }
-                if(source.m_ChannelMask.IsUse)
-                {
-                    m_ChannelMask.Remove(new MixItem<System.Int32>(id, priority, source.m_ChannelMask.CalculatorExpression, source.m_ChannelMask.Value, source.m_ChannelMask.IsUse));
-                }
-                if(source.m_Gain.IsUse)
-                {
-                   var targetValue = (m_Gain.IsExpression ? m_Gain.Value : m_Gain.PrimitiveValue);
-                   m_GainAlertInit = target.m_Gain - templateDict[m_Gain.Id].Config.alertCurve.Evaluate(templateDict[m_Gain.Id].CostTime / templateDict[m_Gain.Id].Config.duration) * (targetValue - m_GainAlertInit);
-                    m_Gain.Remove(new MixItem<System.Single>(id, priority, source.m_Gain.CalculatorExpression, source.m_Gain.Value, source.m_Gain.IsUse));
-                }
-                if(source.m_Use2DDistance.IsUse)
-                {
-                    m_Use2DDistance.Remove(new MixItem<System.Boolean>(id, priority, source.m_Use2DDistance.CalculatorExpression, source.m_Use2DDistance.Value, source.m_Use2DDistance.IsUse));
-                }
-                if(source.m_UseCameraSpace.IsUse)
-                {
-                    m_UseCameraSpace.Remove(new MixItem<System.Boolean>(id, priority, source.m_UseCameraSpace.CalculatorExpression, source.m_UseCameraSpace.Value, source.m_UseCameraSpace.IsUse));
-                }
+            if(source.m_ApplyAfter.IsUse)
+            {
+                m_ApplyAfter.Remove(new MixItem<Cinemachine.CinemachineCore.Stage>(id, priority, source.m_ApplyAfter.CalculatorExpression, source.m_ApplyAfter.Value, source.m_ApplyAfter.IsUse));
+            }
+            if(source.m_ChannelMask.IsUse)
+            {
+                m_ChannelMask.Remove(new MixItem<System.Int32>(id, priority, source.m_ChannelMask.CalculatorExpression, source.m_ChannelMask.Value, source.m_ChannelMask.IsUse));
+            }
+            if(source.m_Gain.IsUse)
+            {
+                m_Gain.Remove(new MixItem<System.Single>(id, priority, source.m_Gain.CalculatorExpression, source.m_Gain.Value, source.m_Gain.IsUse));
+               var targetValue = (m_Gain.IsExpression ? m_Gain.Value : m_Gain.PrimitiveValue);
+               m_GainDiff = targetValue - target.m_Gain;
+               m_GainAlertInit = target.m_Gain - templateDict[m_Gain.Id].Config.alertCurve.Evaluate(templateDict[m_Gain.Id].CostTime / templateDict[m_Gain.Id].Config.duration) * (m_GainDiff);
+            }
+            if(source.m_Use2DDistance.IsUse)
+            {
+                m_Use2DDistance.Remove(new MixItem<System.Boolean>(id, priority, source.m_Use2DDistance.CalculatorExpression, source.m_Use2DDistance.Value, source.m_Use2DDistance.IsUse));
+            }
+            if(source.m_UseCameraSpace.IsUse)
+            {
+                m_UseCameraSpace.Remove(new MixItem<System.Boolean>(id, priority, source.m_UseCameraSpace.CalculatorExpression, source.m_UseCameraSpace.Value, source.m_UseCameraSpace.IsUse));
+            }
             m_ReactionSettings?.RemoveByConfig(source.m_ReactionSettings, id, priority, ref target.m_ReactionSettings, templateDict);
         }
         public void RemoveAll()
@@ -88,7 +91,7 @@ namespace CameraMovement{
             m_Gain.RemoveAll();
             m_Use2DDistance.RemoveAll();
             m_UseCameraSpace.RemoveAll();
-            m_ReactionSettings?.RemoveAll();
+            m_ReactionSettings.RemoveAll();
         }
         public void ControlCinemachine(ref Cinemachine.CinemachineImpulseListener target, Dictionary<int, RuntimeTemplate> templateDict)
         {
@@ -97,7 +100,7 @@ namespace CameraMovement{
             if (m_Gain.IsUse && templateDict.ContainsKey(m_Gain.Id))
             {
                 var targetValue = (m_Gain.IsExpression ? m_Gain.Value : m_Gain.PrimitiveValue);
-                target.m_Gain = Mathf.Approximately(0, templateDict[m_Gain.Id].Config.duration) ? targetValue : m_GainAlertInit + templateDict[m_Gain.Id].Config.alertCurve.Evaluate(templateDict[m_Gain.Id].CostTime / templateDict[m_Gain.Id].Config.duration) * (targetValue - m_GainAlertInit);
+                target.m_Gain = Mathf.Approximately(0, templateDict[m_Gain.Id].Config.duration) ? targetValue : m_GainAlertInit + templateDict[m_Gain.Id].Config.alertCurve.Evaluate(templateDict[m_Gain.Id].CostTime / templateDict[m_Gain.Id].Config.duration) * m_GainDiff;
             }
             if (m_Use2DDistance.IsUse) target.m_Use2DDistance = m_Use2DDistance.IsExpression ? !Mathf.Approximately(m_Use2DDistance.Value, 0) : m_Use2DDistance.PrimitiveValue;
             if (m_UseCameraSpace.IsUse) target.m_UseCameraSpace = m_UseCameraSpace.IsExpression ? !Mathf.Approximately(m_UseCameraSpace.Value, 0) : m_UseCameraSpace.PrimitiveValue;

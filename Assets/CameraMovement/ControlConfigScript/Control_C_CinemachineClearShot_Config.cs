@@ -22,9 +22,9 @@ namespace CameraMovement{
        [UnityEngine.HideInInspector]
         public Control_C_CinemachineBlenderSettings_Config m_CustomBlends;
        [UnityEngine.HideInInspector]
-        public Control_S_String_Config[] m_ExcludedPropertiesInInspector;
+            public ConfigItem<System.String>[] m_ExcludedPropertiesInInspector;
        [UnityEngine.HideInInspector]
-        public Control_C_CC_Stage_Config[] m_LockStageInInspector;
+            public ConfigItem<Cinemachine.CinemachineCore.Stage>[] m_LockStageInInspector;
        [UnityEngine.TooltipAttribute("The priority will determine which camera becomes active based on the state of other cameras and this camera.  Higher numbers have greater priority.")]
             public ConfigItem <System.Int32> m_Priority;
        [System.NonSerializedAttribute]

@@ -5,9 +5,9 @@ using UnityEditor;
 using CameraMovement;
 
 namespace CameraMovement{
-    public class Control_C_CinemachineCollider_Field :ICameraMovementControlField<Cinemachine.CinemachineCollider>
+    public class Control_C_SphereCastCollider_Field :ICameraMovementControlField<Cinemachine.SphereCastCollider>
     {
-       public  Type AttachControlField => typeof(Cinemachine.CinemachineCollider);
+       public  Type AttachControlField => typeof(Cinemachine.SphereCastCollider);
 
        [UnityEngine.TooltipAttribute("Obstacles with this tag will be ignored.  It is a good idea to set this field to the target's tag")]
             public DataMixer <System.String> m_IgnoreTag;
@@ -30,7 +30,7 @@ namespace CameraMovement{
         public float m_CameraRadiusAlertInit;
         public float m_CameraRadiusDiff;
        [UnityEngine.TooltipAttribute("The way in which the Collider will attempt to preserve sight of the target.")]
-            public DataMixer <Cinemachine.CinemachineCollider.ResolutionStrategy> m_Strategy;
+            public DataMixer <Cinemachine.SphereCastCollider.ResolutionStrategy> m_Strategy;
        [UnityEngine.TooltipAttribute("Upper limit on how many obstacle hits to process.  Higher numbers may impact performance.  In most environments, 4 is enough.")]
             public DataMixer <System.Int32> m_MaximumEffort;
        [UnityEngine.TooltipAttribute("Smoothing to apply to obstruction resolution.  Nearest camera point is held for at least this long")]
@@ -50,11 +50,11 @@ namespace CameraMovement{
             public DataMixer <System.Single> m_OptimalTargetDistance;
         public float m_OptimalTargetDistanceAlertInit;
         public float m_OptimalTargetDistanceDiff;
-        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineCollider target, Dictionary<int, RuntimeTemplate> templateDict)
+        public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.SphereCastCollider target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
-            CameraMovement.Control_C_CinemachineCollider_Config source = (CameraMovement.Control_C_CinemachineCollider_Config)sourceConfig;
+            CameraMovement.Control_C_SphereCastCollider_Config source = (CameraMovement.Control_C_SphereCastCollider_Config)sourceConfig;
             if(source.m_IgnoreTag.IsUse)
             {
                 m_IgnoreTag.Add(new MixItem<System.String>(id, priority, source.m_IgnoreTag.CalculatorExpression, source.m_IgnoreTag.Value, source.m_IgnoreTag.IsUse));
@@ -93,7 +93,7 @@ namespace CameraMovement{
             }
             if(source.m_Strategy.IsUse)
             {
-                m_Strategy.Add(new MixItem<Cinemachine.CinemachineCollider.ResolutionStrategy>(id, priority, source.m_Strategy.CalculatorExpression, source.m_Strategy.Value, source.m_Strategy.IsUse));
+                m_Strategy.Add(new MixItem<Cinemachine.SphereCastCollider.ResolutionStrategy>(id, priority, source.m_Strategy.CalculatorExpression, source.m_Strategy.Value, source.m_Strategy.IsUse));
             }
             if(source.m_MaximumEffort.IsUse)
             {
@@ -128,11 +128,11 @@ namespace CameraMovement{
                m_OptimalTargetDistanceAlertInit = target.m_OptimalTargetDistance - templateDict[m_OptimalTargetDistance.Id].Config.alertCurve.Evaluate(templateDict[m_OptimalTargetDistance.Id].CostTime / templateDict[m_OptimalTargetDistance.Id].Config.duration) * (m_OptimalTargetDistanceDiff);
             }
         }
-        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineCollider target, Dictionary<int, RuntimeTemplate> templateDict)
+        public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.SphereCastCollider target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
-            CameraMovement.Control_C_CinemachineCollider_Config source = (CameraMovement.Control_C_CinemachineCollider_Config)sourceConfig;
+            CameraMovement.Control_C_SphereCastCollider_Config source = (CameraMovement.Control_C_SphereCastCollider_Config)sourceConfig;
             if(source.m_IgnoreTag.IsUse)
             {
                 m_IgnoreTag.Remove(new MixItem<System.String>(id, priority, source.m_IgnoreTag.CalculatorExpression, source.m_IgnoreTag.Value, source.m_IgnoreTag.IsUse));
@@ -171,7 +171,7 @@ namespace CameraMovement{
             }
             if(source.m_Strategy.IsUse)
             {
-                m_Strategy.Remove(new MixItem<Cinemachine.CinemachineCollider.ResolutionStrategy>(id, priority, source.m_Strategy.CalculatorExpression, source.m_Strategy.Value, source.m_Strategy.IsUse));
+                m_Strategy.Remove(new MixItem<Cinemachine.SphereCastCollider.ResolutionStrategy>(id, priority, source.m_Strategy.CalculatorExpression, source.m_Strategy.Value, source.m_Strategy.IsUse));
             }
             if(source.m_MaximumEffort.IsUse)
             {
@@ -221,7 +221,7 @@ namespace CameraMovement{
             m_DampingWhenOccluded.RemoveAll();
             m_OptimalTargetDistance.RemoveAll();
         }
-        public void ControlCinemachine(ref Cinemachine.CinemachineCollider target, Dictionary<int, RuntimeTemplate> templateDict)
+        public void ControlCinemachine(ref Cinemachine.SphereCastCollider target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if (m_IgnoreTag.IsUse) target.m_IgnoreTag = m_IgnoreTag.PrimitiveValue;
             if (m_MinimumDistanceFromTarget.IsUse && templateDict.ContainsKey(m_MinimumDistanceFromTarget.Id))
@@ -245,7 +245,7 @@ namespace CameraMovement{
                 var targetValue = (m_CameraRadius.IsExpression ? m_CameraRadius.Value : m_CameraRadius.PrimitiveValue);
                 target.m_CameraRadius = Mathf.Approximately(0, templateDict[m_CameraRadius.Id].Config.duration) ? targetValue : m_CameraRadiusAlertInit + templateDict[m_CameraRadius.Id].Config.alertCurve.Evaluate(templateDict[m_CameraRadius.Id].CostTime / templateDict[m_CameraRadius.Id].Config.duration) * m_CameraRadiusDiff;
             }
-            if (m_Strategy.IsUse) target.m_Strategy = m_Strategy.IsExpression ? (Cinemachine.CinemachineCollider.ResolutionStrategy)m_Strategy.Value :m_Strategy.PrimitiveValue;
+            if (m_Strategy.IsUse) target.m_Strategy = m_Strategy.IsExpression ? (Cinemachine.SphereCastCollider.ResolutionStrategy)m_Strategy.Value :m_Strategy.PrimitiveValue;
             if (m_MaximumEffort.IsUse) target.m_MaximumEffort = m_MaximumEffort.IsExpression ? (System.Int32)m_MaximumEffort.Value :m_MaximumEffort.PrimitiveValue;
             if (m_SmoothingTime.IsUse && templateDict.ContainsKey(m_SmoothingTime.Id))
             {

@@ -20,36 +20,36 @@ namespace CameraMovement{
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_CinemachineCameraOffset_Config source = (CameraMovement.Control_CinemachineCameraOffset_Config)sourceConfig;
-                if(source.m_Offset.IsUse)
-                {
-                    m_Offset.Add(new MixItem<UnityEngine.Vector3>(id, priority, source.m_Offset.CalculatorExpression, source.m_Offset.Value, source.m_Offset.IsUse));
-                }
-                if(source.m_ApplyAfter.IsUse)
-                {
-                    m_ApplyAfter.Add(new MixItem<Cinemachine.CinemachineCore.Stage>(id, priority, source.m_ApplyAfter.CalculatorExpression, source.m_ApplyAfter.Value, source.m_ApplyAfter.IsUse));
-                }
-                if(source.m_PreserveComposition.IsUse)
-                {
-                    m_PreserveComposition.Add(new MixItem<System.Boolean>(id, priority, source.m_PreserveComposition.CalculatorExpression, source.m_PreserveComposition.Value, source.m_PreserveComposition.IsUse));
-                }
+            if(source.m_Offset.IsUse)
+            {
+                m_Offset.Add(new MixItem<UnityEngine.Vector3>(id, priority, source.m_Offset.CalculatorExpression, source.m_Offset.Value, source.m_Offset.IsUse));
+            }
+            if(source.m_ApplyAfter.IsUse)
+            {
+                m_ApplyAfter.Add(new MixItem<Cinemachine.CinemachineCore.Stage>(id, priority, source.m_ApplyAfter.CalculatorExpression, source.m_ApplyAfter.Value, source.m_ApplyAfter.IsUse));
+            }
+            if(source.m_PreserveComposition.IsUse)
+            {
+                m_PreserveComposition.Add(new MixItem<System.Boolean>(id, priority, source.m_PreserveComposition.CalculatorExpression, source.m_PreserveComposition.Value, source.m_PreserveComposition.IsUse));
+            }
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref CinemachineCameraOffset target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_CinemachineCameraOffset_Config source = (CameraMovement.Control_CinemachineCameraOffset_Config)sourceConfig;
-                if(source.m_Offset.IsUse)
-                {
-                    m_Offset.Remove(new MixItem<UnityEngine.Vector3>(id, priority, source.m_Offset.CalculatorExpression, source.m_Offset.Value, source.m_Offset.IsUse));
-                }
-                if(source.m_ApplyAfter.IsUse)
-                {
-                    m_ApplyAfter.Remove(new MixItem<Cinemachine.CinemachineCore.Stage>(id, priority, source.m_ApplyAfter.CalculatorExpression, source.m_ApplyAfter.Value, source.m_ApplyAfter.IsUse));
-                }
-                if(source.m_PreserveComposition.IsUse)
-                {
-                    m_PreserveComposition.Remove(new MixItem<System.Boolean>(id, priority, source.m_PreserveComposition.CalculatorExpression, source.m_PreserveComposition.Value, source.m_PreserveComposition.IsUse));
-                }
+            if(source.m_Offset.IsUse)
+            {
+                m_Offset.Remove(new MixItem<UnityEngine.Vector3>(id, priority, source.m_Offset.CalculatorExpression, source.m_Offset.Value, source.m_Offset.IsUse));
+            }
+            if(source.m_ApplyAfter.IsUse)
+            {
+                m_ApplyAfter.Remove(new MixItem<Cinemachine.CinemachineCore.Stage>(id, priority, source.m_ApplyAfter.CalculatorExpression, source.m_ApplyAfter.Value, source.m_ApplyAfter.IsUse));
+            }
+            if(source.m_PreserveComposition.IsUse)
+            {
+                m_PreserveComposition.Remove(new MixItem<System.Boolean>(id, priority, source.m_PreserveComposition.CalculatorExpression, source.m_PreserveComposition.Value, source.m_PreserveComposition.IsUse));
+            }
         }
         public void RemoveAll()
         {

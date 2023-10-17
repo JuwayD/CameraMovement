@@ -14,52 +14,58 @@ namespace CameraMovement{
        [UnityEngine.TooltipAttribute("If no user input has been detected on the axis, the axis will wait this long in seconds before recentering.")]
             public DataMixer <System.Single> m_WaitTime;
         public float m_WaitTimeAlertInit;
+        public float m_WaitTimeDiff;
        [UnityEngine.TooltipAttribute("How long it takes to reach destination once recentering has started.")]
             public DataMixer <System.Single> m_RecenteringTime;
         public float m_RecenteringTimeAlertInit;
+        public float m_RecenteringTimeDiff;
         public void AddByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.AxisState.Recentering target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_AS_Recentering_Config source = (CameraMovement.Control_C_AS_Recentering_Config)sourceConfig;
-                if(source.m_enabled.IsUse)
-                {
-                    m_enabled.Add(new MixItem<System.Boolean>(id, priority, source.m_enabled.CalculatorExpression, source.m_enabled.Value, source.m_enabled.IsUse));
-                }
-                if(source.m_WaitTime.IsUse)
-                {
-                    m_WaitTime.Add(new MixItem<System.Single>(id, priority, source.m_WaitTime.CalculatorExpression, source.m_WaitTime.Value, source.m_WaitTime.IsUse));
-                   var targetValue = (m_WaitTime.IsExpression ? m_WaitTime.Value : m_WaitTime.PrimitiveValue);
-                   m_WaitTimeAlertInit = target.m_WaitTime - templateDict[m_WaitTime.Id].Config.alertCurve.Evaluate(templateDict[m_WaitTime.Id].CostTime / templateDict[m_WaitTime.Id].Config.duration) * (targetValue - m_WaitTimeAlertInit);
-                }
-                if(source.m_RecenteringTime.IsUse)
-                {
-                    m_RecenteringTime.Add(new MixItem<System.Single>(id, priority, source.m_RecenteringTime.CalculatorExpression, source.m_RecenteringTime.Value, source.m_RecenteringTime.IsUse));
-                   var targetValue = (m_RecenteringTime.IsExpression ? m_RecenteringTime.Value : m_RecenteringTime.PrimitiveValue);
-                   m_RecenteringTimeAlertInit = target.m_RecenteringTime - templateDict[m_RecenteringTime.Id].Config.alertCurve.Evaluate(templateDict[m_RecenteringTime.Id].CostTime / templateDict[m_RecenteringTime.Id].Config.duration) * (targetValue - m_RecenteringTimeAlertInit);
-                }
+            if(source.m_enabled.IsUse)
+            {
+                m_enabled.Add(new MixItem<System.Boolean>(id, priority, source.m_enabled.CalculatorExpression, source.m_enabled.Value, source.m_enabled.IsUse));
+            }
+            if(source.m_WaitTime.IsUse)
+            {
+                m_WaitTime.Add(new MixItem<System.Single>(id, priority, source.m_WaitTime.CalculatorExpression, source.m_WaitTime.Value, source.m_WaitTime.IsUse));
+               var targetValue = (m_WaitTime.IsExpression ? m_WaitTime.Value : m_WaitTime.PrimitiveValue);
+               m_WaitTimeDiff = targetValue - target.m_WaitTime;
+               m_WaitTimeAlertInit = target.m_WaitTime - templateDict[m_WaitTime.Id].Config.alertCurve.Evaluate(templateDict[m_WaitTime.Id].CostTime / templateDict[m_WaitTime.Id].Config.duration) * (m_WaitTimeDiff);
+            }
+            if(source.m_RecenteringTime.IsUse)
+            {
+                m_RecenteringTime.Add(new MixItem<System.Single>(id, priority, source.m_RecenteringTime.CalculatorExpression, source.m_RecenteringTime.Value, source.m_RecenteringTime.IsUse));
+               var targetValue = (m_RecenteringTime.IsExpression ? m_RecenteringTime.Value : m_RecenteringTime.PrimitiveValue);
+               m_RecenteringTimeDiff = targetValue - target.m_RecenteringTime;
+               m_RecenteringTimeAlertInit = target.m_RecenteringTime - templateDict[m_RecenteringTime.Id].Config.alertCurve.Evaluate(templateDict[m_RecenteringTime.Id].CostTime / templateDict[m_RecenteringTime.Id].Config.duration) * (m_RecenteringTimeDiff);
+            }
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.AxisState.Recentering target, Dictionary<int, RuntimeTemplate> templateDict)
         {
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_AS_Recentering_Config source = (CameraMovement.Control_C_AS_Recentering_Config)sourceConfig;
-                if(source.m_enabled.IsUse)
-                {
-                    m_enabled.Remove(new MixItem<System.Boolean>(id, priority, source.m_enabled.CalculatorExpression, source.m_enabled.Value, source.m_enabled.IsUse));
-                }
-                if(source.m_WaitTime.IsUse)
-                {
-                   var targetValue = (m_WaitTime.IsExpression ? m_WaitTime.Value : m_WaitTime.PrimitiveValue);
-                   m_WaitTimeAlertInit = target.m_WaitTime - templateDict[m_WaitTime.Id].Config.alertCurve.Evaluate(templateDict[m_WaitTime.Id].CostTime / templateDict[m_WaitTime.Id].Config.duration) * (targetValue - m_WaitTimeAlertInit);
-                    m_WaitTime.Remove(new MixItem<System.Single>(id, priority, source.m_WaitTime.CalculatorExpression, source.m_WaitTime.Value, source.m_WaitTime.IsUse));
-                }
-                if(source.m_RecenteringTime.IsUse)
-                {
-                   var targetValue = (m_RecenteringTime.IsExpression ? m_RecenteringTime.Value : m_RecenteringTime.PrimitiveValue);
-                   m_RecenteringTimeAlertInit = target.m_RecenteringTime - templateDict[m_RecenteringTime.Id].Config.alertCurve.Evaluate(templateDict[m_RecenteringTime.Id].CostTime / templateDict[m_RecenteringTime.Id].Config.duration) * (targetValue - m_RecenteringTimeAlertInit);
-                    m_RecenteringTime.Remove(new MixItem<System.Single>(id, priority, source.m_RecenteringTime.CalculatorExpression, source.m_RecenteringTime.Value, source.m_RecenteringTime.IsUse));
-                }
+            if(source.m_enabled.IsUse)
+            {
+                m_enabled.Remove(new MixItem<System.Boolean>(id, priority, source.m_enabled.CalculatorExpression, source.m_enabled.Value, source.m_enabled.IsUse));
+            }
+            if(source.m_WaitTime.IsUse)
+            {
+                m_WaitTime.Remove(new MixItem<System.Single>(id, priority, source.m_WaitTime.CalculatorExpression, source.m_WaitTime.Value, source.m_WaitTime.IsUse));
+               var targetValue = (m_WaitTime.IsExpression ? m_WaitTime.Value : m_WaitTime.PrimitiveValue);
+               m_WaitTimeDiff = targetValue - target.m_WaitTime;
+               m_WaitTimeAlertInit = target.m_WaitTime - templateDict[m_WaitTime.Id].Config.alertCurve.Evaluate(templateDict[m_WaitTime.Id].CostTime / templateDict[m_WaitTime.Id].Config.duration) * (m_WaitTimeDiff);
+            }
+            if(source.m_RecenteringTime.IsUse)
+            {
+                m_RecenteringTime.Remove(new MixItem<System.Single>(id, priority, source.m_RecenteringTime.CalculatorExpression, source.m_RecenteringTime.Value, source.m_RecenteringTime.IsUse));
+               var targetValue = (m_RecenteringTime.IsExpression ? m_RecenteringTime.Value : m_RecenteringTime.PrimitiveValue);
+               m_RecenteringTimeDiff = targetValue - target.m_RecenteringTime;
+               m_RecenteringTimeAlertInit = target.m_RecenteringTime - templateDict[m_RecenteringTime.Id].Config.alertCurve.Evaluate(templateDict[m_RecenteringTime.Id].CostTime / templateDict[m_RecenteringTime.Id].Config.duration) * (m_RecenteringTimeDiff);
+            }
         }
         public void RemoveAll()
         {
@@ -73,12 +79,12 @@ namespace CameraMovement{
             if (m_WaitTime.IsUse && templateDict.ContainsKey(m_WaitTime.Id))
             {
                 var targetValue = (m_WaitTime.IsExpression ? m_WaitTime.Value : m_WaitTime.PrimitiveValue);
-                target.m_WaitTime = Mathf.Approximately(0, templateDict[m_WaitTime.Id].Config.duration) ? targetValue : m_WaitTimeAlertInit + templateDict[m_WaitTime.Id].Config.alertCurve.Evaluate(templateDict[m_WaitTime.Id].CostTime / templateDict[m_WaitTime.Id].Config.duration) * (targetValue - m_WaitTimeAlertInit);
+                target.m_WaitTime = Mathf.Approximately(0, templateDict[m_WaitTime.Id].Config.duration) ? targetValue : m_WaitTimeAlertInit + templateDict[m_WaitTime.Id].Config.alertCurve.Evaluate(templateDict[m_WaitTime.Id].CostTime / templateDict[m_WaitTime.Id].Config.duration) * m_WaitTimeDiff;
             }
             if (m_RecenteringTime.IsUse && templateDict.ContainsKey(m_RecenteringTime.Id))
             {
                 var targetValue = (m_RecenteringTime.IsExpression ? m_RecenteringTime.Value : m_RecenteringTime.PrimitiveValue);
-                target.m_RecenteringTime = Mathf.Approximately(0, templateDict[m_RecenteringTime.Id].Config.duration) ? targetValue : m_RecenteringTimeAlertInit + templateDict[m_RecenteringTime.Id].Config.alertCurve.Evaluate(templateDict[m_RecenteringTime.Id].CostTime / templateDict[m_RecenteringTime.Id].Config.duration) * (targetValue - m_RecenteringTimeAlertInit);
+                target.m_RecenteringTime = Mathf.Approximately(0, templateDict[m_RecenteringTime.Id].Config.duration) ? targetValue : m_RecenteringTimeAlertInit + templateDict[m_RecenteringTime.Id].Config.alertCurve.Evaluate(templateDict[m_RecenteringTime.Id].CostTime / templateDict[m_RecenteringTime.Id].Config.duration) * m_RecenteringTimeDiff;
             }
         }
     }

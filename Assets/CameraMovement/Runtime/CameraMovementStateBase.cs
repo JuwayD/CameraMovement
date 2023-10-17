@@ -30,10 +30,19 @@ namespace CameraMovement
         protected readonly Type noiseCompType_;
         protected readonly Type finalizeCompType_;
         protected readonly List<Type> extensionTypeList_;
+        /// <summary>
+        /// 控制的cinemachine扩展
+        /// </summary>
         protected List<CinemachineExtension> extensionList_ = new List<CinemachineExtension>();
+        /// <summary>
+        /// 控制的扩展控制区
+        /// </summary>
         protected List<ICameraMovementControlField<CinemachineExtension>> controlExtensionList_ = new List<ICameraMovementControlField<CinemachineExtension>>();
         protected CameraMovementStateMachine machine_;
         protected CameraMovementConfigState config_;
+        /// <summary>
+        /// 运行中的模板字典
+        /// </summary>
         protected Dictionary<int, RuntimeTemplate> runtimeTemplateDict_ = new Dictionary<int, RuntimeTemplate>();
 
         #endregion
@@ -112,7 +121,7 @@ namespace CameraMovement
                     {
                         runtimeTemplateDict_.Add(config.id, new RuntimeTemplate(){CostTime = 0, Config = config});
                     }
-                    AddConfig(config);
+                    AddRecenter(config);
                     for (int j = 0; j < controlExtensionList_.Count; j++)
                     {
                         var extension = extensionList_[i];
@@ -128,7 +137,7 @@ namespace CameraMovement
                    !Mathf.Approximately(Calculator.Calculate(expression), 0);
         }
         
-        protected abstract void AddConfig(CameraMovementConfig config);
+        protected abstract void AddRecenter(CameraMovementConfig config);
 
         /// <summary>
         /// 控制cinemachine的数据
@@ -184,6 +193,7 @@ namespace CameraMovement
             config_ = null;
             machine_ = null;
             extensionList_.Clear();
+            controlExtensionList_.Clear();
         }
         
         public abstract void OnUnInit();

@@ -7,7 +7,13 @@ using CameraMovement;
 namespace CameraMovement{
     public class Control_C_CBS_CustomBlend_Config :CameraMovementControlConfigBase
     {
-       public override Type AttachControlField => typeof(Cinemachine.CinemachineBlenderSettings.CustomBlend[]);
+       public override Type AttachControlField => typeof(Cinemachine.CinemachineBlenderSettings.CustomBlend);
 
+       [UnityEngine.TooltipAttribute("When blending from this camera")]
+            public ConfigItem <System.String> m_From;
+       [UnityEngine.TooltipAttribute("When blending to this camera")]
+            public ConfigItem <System.String> m_To;
+       [UnityEngine.TooltipAttribute("Blend curve definition")]
+        public Control_C_CinemachineBlendDefinition_Config m_Blend;
     }
 }

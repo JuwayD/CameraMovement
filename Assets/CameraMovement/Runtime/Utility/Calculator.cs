@@ -247,25 +247,25 @@ namespace CameraMovement
                     }
                     else if (item.Operator == ECalculatorOperator.Big)
                     {
-                        result.Value = num1.Value > num2.Value
+                        result.Value = num2.Value > num1.Value
                             ? 1.0f
                             : 0.0f;
                     }
                     else if (item.Operator == ECalculatorOperator.BigOrEqual)
                     {
-                        result.Value = num1.Value >= num2.Value
+                        result.Value = num2.Value >= num1.Value 
                             ? 1.0f
                             : 0.0f;
                     }
                     else if (item.Operator == ECalculatorOperator.Small)
                     {
-                        result.Value = num1.Value < num2.Value
+                        result.Value = num2.Value < num1.Value
                             ? 1.0f
                             : 0.0f;
                     }
                     else if (item.Operator == ECalculatorOperator.SmallOrEqual)
                     {
-                        result.Value = num1.Value <= num2.Value
+                        result.Value = num2.Value <= num1.Value
                             ? 1.0f
                             : 0.0f;
                     }

@@ -35,7 +35,7 @@ namespace CameraMovement
             controlVirtualCamera_.RemoveByConfig(config.controlConfigBaseTemplate, config.id, config.priority, ref virtualCamera_, runtimeTemplateDict_);
         }
 
-        protected override void AddConfig(CameraMovementConfig config)
+        protected override void AddRecenter(CameraMovementConfig config)
         {
             controlVirtualCamera_?.AddByConfig(config.controlConfigBaseTemplate, config.id, config.priority, ref virtualCamera_, runtimeTemplateDict_);
         }

@@ -20,15 +20,15 @@ namespace CameraMovement{
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CVCB_TransitionParams_Config source = (CameraMovement.Control_C_CVCB_TransitionParams_Config)sourceConfig;
-                if(source.m_BlendHint.IsUse)
-                {
-                    m_BlendHint.Add(new MixItem<Cinemachine.CinemachineVirtualCameraBase.BlendHint>(id, priority, source.m_BlendHint.CalculatorExpression, source.m_BlendHint.Value, source.m_BlendHint.IsUse));
-                }
-                if(source.m_InheritPosition.IsUse)
-                {
-                    m_InheritPosition.Add(new MixItem<System.Boolean>(id, priority, source.m_InheritPosition.CalculatorExpression, source.m_InheritPosition.Value, source.m_InheritPosition.IsUse));
-                }
-                if(source.m_OnCameraLive != null && m_OnCameraLive == null) m_OnCameraLive = new Control_C_CB_VcamActivatedEvent_Field();
+            if(source.m_BlendHint.IsUse)
+            {
+                m_BlendHint.Add(new MixItem<Cinemachine.CinemachineVirtualCameraBase.BlendHint>(id, priority, source.m_BlendHint.CalculatorExpression, source.m_BlendHint.Value, source.m_BlendHint.IsUse));
+            }
+            if(source.m_InheritPosition.IsUse)
+            {
+                m_InheritPosition.Add(new MixItem<System.Boolean>(id, priority, source.m_InheritPosition.CalculatorExpression, source.m_InheritPosition.Value, source.m_InheritPosition.IsUse));
+            }
+            if(source.m_OnCameraLive != null && m_OnCameraLive == null) m_OnCameraLive = new Control_C_CB_VcamActivatedEvent_Field();
             m_OnCameraLive?.AddByConfig(source.m_OnCameraLive, id, priority, ref target.m_OnCameraLive, templateDict);
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineVirtualCameraBase.TransitionParams target, Dictionary<int, RuntimeTemplate> templateDict)
@@ -36,21 +36,21 @@ namespace CameraMovement{
             if(sourceConfig == null) return;
             if(sourceConfig.AttachControlField != AttachControlField) return;
             CameraMovement.Control_C_CVCB_TransitionParams_Config source = (CameraMovement.Control_C_CVCB_TransitionParams_Config)sourceConfig;
-                if(source.m_BlendHint.IsUse)
-                {
-                    m_BlendHint.Remove(new MixItem<Cinemachine.CinemachineVirtualCameraBase.BlendHint>(id, priority, source.m_BlendHint.CalculatorExpression, source.m_BlendHint.Value, source.m_BlendHint.IsUse));
-                }
-                if(source.m_InheritPosition.IsUse)
-                {
-                    m_InheritPosition.Remove(new MixItem<System.Boolean>(id, priority, source.m_InheritPosition.CalculatorExpression, source.m_InheritPosition.Value, source.m_InheritPosition.IsUse));
-                }
+            if(source.m_BlendHint.IsUse)
+            {
+                m_BlendHint.Remove(new MixItem<Cinemachine.CinemachineVirtualCameraBase.BlendHint>(id, priority, source.m_BlendHint.CalculatorExpression, source.m_BlendHint.Value, source.m_BlendHint.IsUse));
+            }
+            if(source.m_InheritPosition.IsUse)
+            {
+                m_InheritPosition.Remove(new MixItem<System.Boolean>(id, priority, source.m_InheritPosition.CalculatorExpression, source.m_InheritPosition.Value, source.m_InheritPosition.IsUse));
+            }
             m_OnCameraLive?.RemoveByConfig(source.m_OnCameraLive, id, priority, ref target.m_OnCameraLive, templateDict);
         }
         public void RemoveAll()
         {
             m_BlendHint.RemoveAll();
             m_InheritPosition.RemoveAll();
-            m_OnCameraLive?.RemoveAll();
+            m_OnCameraLive.RemoveAll();
         }
         public void ControlCinemachine(ref Cinemachine.CinemachineVirtualCameraBase.TransitionParams target, Dictionary<int, RuntimeTemplate> templateDict)
         {
