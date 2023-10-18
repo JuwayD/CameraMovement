@@ -60,7 +60,7 @@ namespace CameraMovement
             CodeGenerator.GenerateTypeList.Clear();
             foreach (var type in implementingTypes)
             {
-                CodeGenerator.GenerateCodeForSerializableType(type, "Data", $"{Application.dataPath}/CameraMovement/DataConfigScript", checkSerializable: false, needClass: true, implementInterface: "CameraMovementDataConfigBase", memberCheck: info => !info.GetCustomAttribute<ContextDescriptionAttribute>().isReadOnly);
+                CodeGenerator.GenerateCodeForSerializableType(type, "Data", $"{Application.dataPath}/CameraMovement/DataConfigScript", checkSerializable: false, needClass: true, implementInterface: "CameraMovementDataConfigBase", memberCheck: info => !info.GetCustomAttribute<ContextDescriptionAttribute>()?.isReadOnly ?? false);
             }
             AssetDatabase.Refresh();
         }
