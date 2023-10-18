@@ -134,14 +134,14 @@ namespace CameraMovement
         {
             if(source == null) return;
             var dataConfig = (Data_CM_CameraMovementDataField_Config)source;
-            if(dataConfig.ZoomMax.IsUse) ZoomMax.Add(new MixItem<float>(id, priority, dataConfig.ZoomMax.CalculatorExpression, dataConfig.ZoomMax.Value, dataConfig.ZoomMax.IsUse));
+            // if(dataConfig.ZoomMax.IsUse) ZoomMax.Add(new MixItem<float>(id, priority, dataConfig.ZoomMax.CalculatorExpression, dataConfig.ZoomMax.Value, dataConfig.ZoomMax.IsUse));
         }
 
         public void RemoveByConfig(CameraMovementDataConfigBase source, int id, int priority)
         {
             if(source == null) return;
             var dataConfig = (Data_CM_CameraMovementDataField_Config)source;
-            ZoomMax.Remove(new MixItem<float>(id, priority, dataConfig.ZoomMax.CalculatorExpression, dataConfig.ZoomMax.Value, dataConfig.ZoomMax.IsUse));
+            // ZoomMax.Remove(new MixItem<float>(id, priority, dataConfig.ZoomMax.CalculatorExpression, dataConfig.ZoomMax.Value, dataConfig.ZoomMax.IsUse));
         }
 
         public void RemoveAll()

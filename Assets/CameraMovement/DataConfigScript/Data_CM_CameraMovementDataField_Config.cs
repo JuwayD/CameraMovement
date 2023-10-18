@@ -11,5 +11,7 @@ namespace CameraMovement{
 
        [UnityEngine.TooltipAttribute("牛逼")]
             public ConfigItem <System.Single> ZoomMax;
+       [UnityEngine.TooltipAttribute("牛逼")]
+            public ConfigItem <System.Single> curZoom;
     }
 }

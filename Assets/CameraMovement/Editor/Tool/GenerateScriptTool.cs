@@ -118,7 +118,7 @@ namespace CameraMovement
                     if (fieldType.IsArray)
                     {
                         Type elementType = field.FieldType.GetElementType();
-                        if (mapTypeCheck(elementType) && (memberCheck?.Invoke(field) ?? true))
+                        if ((elementType.FullName.Contains("DataMixer") && elementType.FullName.Contains("CameraMovement") && mapTypeCheck(elementType.GenericTypeArguments[0]) || mapTypeCheck(elementType)) && (memberCheck?.Invoke(field) ?? true))
                         {
                             // 如果字段是基元类型，为它进行封装
                             code.Append(generateCodeForSerializableStructWithBool(field, implementInterface.Contains("Config"), fieldType.IsArray));
@@ -136,7 +136,7 @@ namespace CameraMovement
                     }
                     else
                     {
-                        if (mapTypeCheck(fieldType) && (memberCheck?.Invoke(field) ?? true))
+                        if ((fieldType.FullName.Contains("DataMixer") && fieldType.FullName.Contains("CameraMovement") && mapTypeCheck(fieldType.GenericTypeArguments[0]) || mapTypeCheck(fieldType)) && (memberCheck?.Invoke(field) ?? true))
                         {
                             // 如果字段是基元类型，为它进行封装
                             code.Append(generateCodeForSerializableStructWithBool(field, implementInterface.Contains("Config"), fieldType.IsArray));
@@ -225,9 +225,12 @@ namespace CameraMovement
 
             if (IsArray)
             {
+                var fieldType = field.FieldType.FullName.Contains("DataMixer") && field.FieldType.FullName.Contains("CameraMovement")
+                    ? field.FieldType.GetElementType().GenericTypeArguments[0]
+                    : field.FieldType.GetElementType();
                 string attributes = getCustomAttributesString(field);
                 string code = $"";
-                code += $"{attributes}        public {(useConfig ? "ConfigItem" : "DataMixer")}<{getFullName(field.FieldType.GetElementType())}>[] {field.Name};\n";
+                code += $"{attributes}        public {(useConfig ? "ConfigItem" : "DataMixer")}<{getFullName(fieldType)}>[] {field.Name};\n";
                 if (!useConfig && (field.FieldType == typeof(float) || field.FieldType == typeof(double)))//如果是控制区或者数据区字段为其生成用于存储曲线变化开始前的值，方便后续曲线运算
                 {
                     code += $"        public float[] {field.Name}{CURVE_FIELD_POST_FIX_};\n";
@@ -237,9 +240,12 @@ namespace CameraMovement
             }
             else
             {
+                var fieldType = field.FieldType.FullName.Contains("DataMixer") && field.FieldType.FullName.Contains("CameraMovement")
+                    ? field.FieldType.GenericTypeArguments[0]
+                    : field.FieldType;
                 string attributes = getCustomAttributesString(field);
                 string code = $"";
-                code += $"{attributes}        public {(useConfig ? "ConfigItem" : "DataMixer")} <{getFullName(field.FieldType)}> {field.Name};\n";
+                code += $"{attributes}        public {(useConfig ? "ConfigItem" : "DataMixer")} <{getFullName(fieldType)}> {field.Name};\n";
                 if (!useConfig && (field.FieldType == typeof(float) || field.FieldType == typeof(double)))//如果是控制区或者数据区字段为其生成用于存储曲线变化开始前的值，方便后续曲线运算
                 {
                     code += $"        public float {field.Name}{CURVE_FIELD_POST_FIX_};\n";
