@@ -133,14 +133,14 @@ namespace CameraMovement{
                 m_LookaheadTime.Add(new MixItem<System.Single>(id, priority, source.m_LookaheadTime.CalculatorExpression, source.m_LookaheadTime.Value, source.m_LookaheadTime.IsUse));
                var targetValue = (m_LookaheadTime.IsExpression ? m_LookaheadTime.Value : m_LookaheadTime.PrimitiveValue);
                m_LookaheadTimeDiff = targetValue - target.m_LookaheadTime;
-               m_LookaheadTimeAlertInit = target.m_LookaheadTime - templateDict[m_LookaheadTime.Id].Config.alertCurve.Evaluate(templateDict[m_LookaheadTime.Id].CostTime / templateDict[m_LookaheadTime.Id].Config.duration) * (m_LookaheadTimeDiff);
+               if(templateDict[m_LookaheadTime.Id].Config.alertCurve != null) m_LookaheadTimeAlertInit = target.m_LookaheadTime - templateDict[m_LookaheadTime.Id].Config.alertCurve.Evaluate(templateDict[m_LookaheadTime.Id].CostTime / templateDict[m_LookaheadTime.Id].Config.duration) * (m_LookaheadTimeDiff);
             }
             if(source.m_LookaheadSmoothing.IsUse)
             {
                 m_LookaheadSmoothing.Add(new MixItem<System.Single>(id, priority, source.m_LookaheadSmoothing.CalculatorExpression, source.m_LookaheadSmoothing.Value, source.m_LookaheadSmoothing.IsUse));
                var targetValue = (m_LookaheadSmoothing.IsExpression ? m_LookaheadSmoothing.Value : m_LookaheadSmoothing.PrimitiveValue);
                m_LookaheadSmoothingDiff = targetValue - target.m_LookaheadSmoothing;
-               m_LookaheadSmoothingAlertInit = target.m_LookaheadSmoothing - templateDict[m_LookaheadSmoothing.Id].Config.alertCurve.Evaluate(templateDict[m_LookaheadSmoothing.Id].CostTime / templateDict[m_LookaheadSmoothing.Id].Config.duration) * (m_LookaheadSmoothingDiff);
+               if(templateDict[m_LookaheadSmoothing.Id].Config.alertCurve != null) m_LookaheadSmoothingAlertInit = target.m_LookaheadSmoothing - templateDict[m_LookaheadSmoothing.Id].Config.alertCurve.Evaluate(templateDict[m_LookaheadSmoothing.Id].CostTime / templateDict[m_LookaheadSmoothing.Id].Config.duration) * (m_LookaheadSmoothingDiff);
             }
             if(source.m_LookaheadIgnoreY.IsUse)
             {
@@ -151,21 +151,21 @@ namespace CameraMovement{
                 m_XDamping.Add(new MixItem<System.Single>(id, priority, source.m_XDamping.CalculatorExpression, source.m_XDamping.Value, source.m_XDamping.IsUse));
                var targetValue = (m_XDamping.IsExpression ? m_XDamping.Value : m_XDamping.PrimitiveValue);
                m_XDampingDiff = targetValue - target.m_XDamping;
-               m_XDampingAlertInit = target.m_XDamping - templateDict[m_XDamping.Id].Config.alertCurve.Evaluate(templateDict[m_XDamping.Id].CostTime / templateDict[m_XDamping.Id].Config.duration) * (m_XDampingDiff);
+               if(templateDict[m_XDamping.Id].Config.alertCurve != null) m_XDampingAlertInit = target.m_XDamping - templateDict[m_XDamping.Id].Config.alertCurve.Evaluate(templateDict[m_XDamping.Id].CostTime / templateDict[m_XDamping.Id].Config.duration) * (m_XDampingDiff);
             }
             if(source.m_YDamping.IsUse)
             {
                 m_YDamping.Add(new MixItem<System.Single>(id, priority, source.m_YDamping.CalculatorExpression, source.m_YDamping.Value, source.m_YDamping.IsUse));
                var targetValue = (m_YDamping.IsExpression ? m_YDamping.Value : m_YDamping.PrimitiveValue);
                m_YDampingDiff = targetValue - target.m_YDamping;
-               m_YDampingAlertInit = target.m_YDamping - templateDict[m_YDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YDamping.Id].CostTime / templateDict[m_YDamping.Id].Config.duration) * (m_YDampingDiff);
+               if(templateDict[m_YDamping.Id].Config.alertCurve != null) m_YDampingAlertInit = target.m_YDamping - templateDict[m_YDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YDamping.Id].CostTime / templateDict[m_YDamping.Id].Config.duration) * (m_YDampingDiff);
             }
             if(source.m_ZDamping.IsUse)
             {
                 m_ZDamping.Add(new MixItem<System.Single>(id, priority, source.m_ZDamping.CalculatorExpression, source.m_ZDamping.Value, source.m_ZDamping.IsUse));
                var targetValue = (m_ZDamping.IsExpression ? m_ZDamping.Value : m_ZDamping.PrimitiveValue);
                m_ZDampingDiff = targetValue - target.m_ZDamping;
-               m_ZDampingAlertInit = target.m_ZDamping - templateDict[m_ZDamping.Id].Config.alertCurve.Evaluate(templateDict[m_ZDamping.Id].CostTime / templateDict[m_ZDamping.Id].Config.duration) * (m_ZDampingDiff);
+               if(templateDict[m_ZDamping.Id].Config.alertCurve != null) m_ZDampingAlertInit = target.m_ZDamping - templateDict[m_ZDamping.Id].Config.alertCurve.Evaluate(templateDict[m_ZDamping.Id].CostTime / templateDict[m_ZDamping.Id].Config.duration) * (m_ZDampingDiff);
             }
             if(source.m_TargetMovementOnly.IsUse)
             {
@@ -176,42 +176,42 @@ namespace CameraMovement{
                 m_ScreenX.Add(new MixItem<System.Single>(id, priority, source.m_ScreenX.CalculatorExpression, source.m_ScreenX.Value, source.m_ScreenX.IsUse));
                var targetValue = (m_ScreenX.IsExpression ? m_ScreenX.Value : m_ScreenX.PrimitiveValue);
                m_ScreenXDiff = targetValue - target.m_ScreenX;
-               m_ScreenXAlertInit = target.m_ScreenX - templateDict[m_ScreenX.Id].Config.alertCurve.Evaluate(templateDict[m_ScreenX.Id].CostTime / templateDict[m_ScreenX.Id].Config.duration) * (m_ScreenXDiff);
+               if(templateDict[m_ScreenX.Id].Config.alertCurve != null) m_ScreenXAlertInit = target.m_ScreenX - templateDict[m_ScreenX.Id].Config.alertCurve.Evaluate(templateDict[m_ScreenX.Id].CostTime / templateDict[m_ScreenX.Id].Config.duration) * (m_ScreenXDiff);
             }
             if(source.m_ScreenY.IsUse)
             {
                 m_ScreenY.Add(new MixItem<System.Single>(id, priority, source.m_ScreenY.CalculatorExpression, source.m_ScreenY.Value, source.m_ScreenY.IsUse));
                var targetValue = (m_ScreenY.IsExpression ? m_ScreenY.Value : m_ScreenY.PrimitiveValue);
                m_ScreenYDiff = targetValue - target.m_ScreenY;
-               m_ScreenYAlertInit = target.m_ScreenY - templateDict[m_ScreenY.Id].Config.alertCurve.Evaluate(templateDict[m_ScreenY.Id].CostTime / templateDict[m_ScreenY.Id].Config.duration) * (m_ScreenYDiff);
+               if(templateDict[m_ScreenY.Id].Config.alertCurve != null) m_ScreenYAlertInit = target.m_ScreenY - templateDict[m_ScreenY.Id].Config.alertCurve.Evaluate(templateDict[m_ScreenY.Id].CostTime / templateDict[m_ScreenY.Id].Config.duration) * (m_ScreenYDiff);
             }
             if(source.m_CameraDistance.IsUse)
             {
                 m_CameraDistance.Add(new MixItem<System.Single>(id, priority, source.m_CameraDistance.CalculatorExpression, source.m_CameraDistance.Value, source.m_CameraDistance.IsUse));
                var targetValue = (m_CameraDistance.IsExpression ? m_CameraDistance.Value : m_CameraDistance.PrimitiveValue);
                m_CameraDistanceDiff = targetValue - target.m_CameraDistance;
-               m_CameraDistanceAlertInit = target.m_CameraDistance - templateDict[m_CameraDistance.Id].Config.alertCurve.Evaluate(templateDict[m_CameraDistance.Id].CostTime / templateDict[m_CameraDistance.Id].Config.duration) * (m_CameraDistanceDiff);
+               if(templateDict[m_CameraDistance.Id].Config.alertCurve != null) m_CameraDistanceAlertInit = target.m_CameraDistance - templateDict[m_CameraDistance.Id].Config.alertCurve.Evaluate(templateDict[m_CameraDistance.Id].CostTime / templateDict[m_CameraDistance.Id].Config.duration) * (m_CameraDistanceDiff);
             }
             if(source.m_DeadZoneWidth.IsUse)
             {
                 m_DeadZoneWidth.Add(new MixItem<System.Single>(id, priority, source.m_DeadZoneWidth.CalculatorExpression, source.m_DeadZoneWidth.Value, source.m_DeadZoneWidth.IsUse));
                var targetValue = (m_DeadZoneWidth.IsExpression ? m_DeadZoneWidth.Value : m_DeadZoneWidth.PrimitiveValue);
                m_DeadZoneWidthDiff = targetValue - target.m_DeadZoneWidth;
-               m_DeadZoneWidthAlertInit = target.m_DeadZoneWidth - templateDict[m_DeadZoneWidth.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneWidth.Id].CostTime / templateDict[m_DeadZoneWidth.Id].Config.duration) * (m_DeadZoneWidthDiff);
+               if(templateDict[m_DeadZoneWidth.Id].Config.alertCurve != null) m_DeadZoneWidthAlertInit = target.m_DeadZoneWidth - templateDict[m_DeadZoneWidth.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneWidth.Id].CostTime / templateDict[m_DeadZoneWidth.Id].Config.duration) * (m_DeadZoneWidthDiff);
             }
             if(source.m_DeadZoneHeight.IsUse)
             {
                 m_DeadZoneHeight.Add(new MixItem<System.Single>(id, priority, source.m_DeadZoneHeight.CalculatorExpression, source.m_DeadZoneHeight.Value, source.m_DeadZoneHeight.IsUse));
                var targetValue = (m_DeadZoneHeight.IsExpression ? m_DeadZoneHeight.Value : m_DeadZoneHeight.PrimitiveValue);
                m_DeadZoneHeightDiff = targetValue - target.m_DeadZoneHeight;
-               m_DeadZoneHeightAlertInit = target.m_DeadZoneHeight - templateDict[m_DeadZoneHeight.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneHeight.Id].CostTime / templateDict[m_DeadZoneHeight.Id].Config.duration) * (m_DeadZoneHeightDiff);
+               if(templateDict[m_DeadZoneHeight.Id].Config.alertCurve != null) m_DeadZoneHeightAlertInit = target.m_DeadZoneHeight - templateDict[m_DeadZoneHeight.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneHeight.Id].CostTime / templateDict[m_DeadZoneHeight.Id].Config.duration) * (m_DeadZoneHeightDiff);
             }
             if(source.m_DeadZoneDepth.IsUse)
             {
                 m_DeadZoneDepth.Add(new MixItem<System.Single>(id, priority, source.m_DeadZoneDepth.CalculatorExpression, source.m_DeadZoneDepth.Value, source.m_DeadZoneDepth.IsUse));
                var targetValue = (m_DeadZoneDepth.IsExpression ? m_DeadZoneDepth.Value : m_DeadZoneDepth.PrimitiveValue);
                m_DeadZoneDepthDiff = targetValue - target.m_DeadZoneDepth;
-               m_DeadZoneDepthAlertInit = target.m_DeadZoneDepth - templateDict[m_DeadZoneDepth.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneDepth.Id].CostTime / templateDict[m_DeadZoneDepth.Id].Config.duration) * (m_DeadZoneDepthDiff);
+               if(templateDict[m_DeadZoneDepth.Id].Config.alertCurve != null) m_DeadZoneDepthAlertInit = target.m_DeadZoneDepth - templateDict[m_DeadZoneDepth.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneDepth.Id].CostTime / templateDict[m_DeadZoneDepth.Id].Config.duration) * (m_DeadZoneDepthDiff);
             }
             if(source.m_UnlimitedSoftZone.IsUse)
             {
@@ -222,28 +222,28 @@ namespace CameraMovement{
                 m_SoftZoneWidth.Add(new MixItem<System.Single>(id, priority, source.m_SoftZoneWidth.CalculatorExpression, source.m_SoftZoneWidth.Value, source.m_SoftZoneWidth.IsUse));
                var targetValue = (m_SoftZoneWidth.IsExpression ? m_SoftZoneWidth.Value : m_SoftZoneWidth.PrimitiveValue);
                m_SoftZoneWidthDiff = targetValue - target.m_SoftZoneWidth;
-               m_SoftZoneWidthAlertInit = target.m_SoftZoneWidth - templateDict[m_SoftZoneWidth.Id].Config.alertCurve.Evaluate(templateDict[m_SoftZoneWidth.Id].CostTime / templateDict[m_SoftZoneWidth.Id].Config.duration) * (m_SoftZoneWidthDiff);
+               if(templateDict[m_SoftZoneWidth.Id].Config.alertCurve != null) m_SoftZoneWidthAlertInit = target.m_SoftZoneWidth - templateDict[m_SoftZoneWidth.Id].Config.alertCurve.Evaluate(templateDict[m_SoftZoneWidth.Id].CostTime / templateDict[m_SoftZoneWidth.Id].Config.duration) * (m_SoftZoneWidthDiff);
             }
             if(source.m_SoftZoneHeight.IsUse)
             {
                 m_SoftZoneHeight.Add(new MixItem<System.Single>(id, priority, source.m_SoftZoneHeight.CalculatorExpression, source.m_SoftZoneHeight.Value, source.m_SoftZoneHeight.IsUse));
                var targetValue = (m_SoftZoneHeight.IsExpression ? m_SoftZoneHeight.Value : m_SoftZoneHeight.PrimitiveValue);
                m_SoftZoneHeightDiff = targetValue - target.m_SoftZoneHeight;
-               m_SoftZoneHeightAlertInit = target.m_SoftZoneHeight - templateDict[m_SoftZoneHeight.Id].Config.alertCurve.Evaluate(templateDict[m_SoftZoneHeight.Id].CostTime / templateDict[m_SoftZoneHeight.Id].Config.duration) * (m_SoftZoneHeightDiff);
+               if(templateDict[m_SoftZoneHeight.Id].Config.alertCurve != null) m_SoftZoneHeightAlertInit = target.m_SoftZoneHeight - templateDict[m_SoftZoneHeight.Id].Config.alertCurve.Evaluate(templateDict[m_SoftZoneHeight.Id].CostTime / templateDict[m_SoftZoneHeight.Id].Config.duration) * (m_SoftZoneHeightDiff);
             }
             if(source.m_BiasX.IsUse)
             {
                 m_BiasX.Add(new MixItem<System.Single>(id, priority, source.m_BiasX.CalculatorExpression, source.m_BiasX.Value, source.m_BiasX.IsUse));
                var targetValue = (m_BiasX.IsExpression ? m_BiasX.Value : m_BiasX.PrimitiveValue);
                m_BiasXDiff = targetValue - target.m_BiasX;
-               m_BiasXAlertInit = target.m_BiasX - templateDict[m_BiasX.Id].Config.alertCurve.Evaluate(templateDict[m_BiasX.Id].CostTime / templateDict[m_BiasX.Id].Config.duration) * (m_BiasXDiff);
+               if(templateDict[m_BiasX.Id].Config.alertCurve != null) m_BiasXAlertInit = target.m_BiasX - templateDict[m_BiasX.Id].Config.alertCurve.Evaluate(templateDict[m_BiasX.Id].CostTime / templateDict[m_BiasX.Id].Config.duration) * (m_BiasXDiff);
             }
             if(source.m_BiasY.IsUse)
             {
                 m_BiasY.Add(new MixItem<System.Single>(id, priority, source.m_BiasY.CalculatorExpression, source.m_BiasY.Value, source.m_BiasY.IsUse));
                var targetValue = (m_BiasY.IsExpression ? m_BiasY.Value : m_BiasY.PrimitiveValue);
                m_BiasYDiff = targetValue - target.m_BiasY;
-               m_BiasYAlertInit = target.m_BiasY - templateDict[m_BiasY.Id].Config.alertCurve.Evaluate(templateDict[m_BiasY.Id].CostTime / templateDict[m_BiasY.Id].Config.duration) * (m_BiasYDiff);
+               if(templateDict[m_BiasY.Id].Config.alertCurve != null) m_BiasYAlertInit = target.m_BiasY - templateDict[m_BiasY.Id].Config.alertCurve.Evaluate(templateDict[m_BiasY.Id].CostTime / templateDict[m_BiasY.Id].Config.duration) * (m_BiasYDiff);
             }
             if(source.m_CenterOnActivate.IsUse)
             {
@@ -262,63 +262,63 @@ namespace CameraMovement{
                 m_GroupFramingSize.Add(new MixItem<System.Single>(id, priority, source.m_GroupFramingSize.CalculatorExpression, source.m_GroupFramingSize.Value, source.m_GroupFramingSize.IsUse));
                var targetValue = (m_GroupFramingSize.IsExpression ? m_GroupFramingSize.Value : m_GroupFramingSize.PrimitiveValue);
                m_GroupFramingSizeDiff = targetValue - target.m_GroupFramingSize;
-               m_GroupFramingSizeAlertInit = target.m_GroupFramingSize - templateDict[m_GroupFramingSize.Id].Config.alertCurve.Evaluate(templateDict[m_GroupFramingSize.Id].CostTime / templateDict[m_GroupFramingSize.Id].Config.duration) * (m_GroupFramingSizeDiff);
+               if(templateDict[m_GroupFramingSize.Id].Config.alertCurve != null) m_GroupFramingSizeAlertInit = target.m_GroupFramingSize - templateDict[m_GroupFramingSize.Id].Config.alertCurve.Evaluate(templateDict[m_GroupFramingSize.Id].CostTime / templateDict[m_GroupFramingSize.Id].Config.duration) * (m_GroupFramingSizeDiff);
             }
             if(source.m_MaxDollyIn.IsUse)
             {
                 m_MaxDollyIn.Add(new MixItem<System.Single>(id, priority, source.m_MaxDollyIn.CalculatorExpression, source.m_MaxDollyIn.Value, source.m_MaxDollyIn.IsUse));
                var targetValue = (m_MaxDollyIn.IsExpression ? m_MaxDollyIn.Value : m_MaxDollyIn.PrimitiveValue);
                m_MaxDollyInDiff = targetValue - target.m_MaxDollyIn;
-               m_MaxDollyInAlertInit = target.m_MaxDollyIn - templateDict[m_MaxDollyIn.Id].Config.alertCurve.Evaluate(templateDict[m_MaxDollyIn.Id].CostTime / templateDict[m_MaxDollyIn.Id].Config.duration) * (m_MaxDollyInDiff);
+               if(templateDict[m_MaxDollyIn.Id].Config.alertCurve != null) m_MaxDollyInAlertInit = target.m_MaxDollyIn - templateDict[m_MaxDollyIn.Id].Config.alertCurve.Evaluate(templateDict[m_MaxDollyIn.Id].CostTime / templateDict[m_MaxDollyIn.Id].Config.duration) * (m_MaxDollyInDiff);
             }
             if(source.m_MaxDollyOut.IsUse)
             {
                 m_MaxDollyOut.Add(new MixItem<System.Single>(id, priority, source.m_MaxDollyOut.CalculatorExpression, source.m_MaxDollyOut.Value, source.m_MaxDollyOut.IsUse));
                var targetValue = (m_MaxDollyOut.IsExpression ? m_MaxDollyOut.Value : m_MaxDollyOut.PrimitiveValue);
                m_MaxDollyOutDiff = targetValue - target.m_MaxDollyOut;
-               m_MaxDollyOutAlertInit = target.m_MaxDollyOut - templateDict[m_MaxDollyOut.Id].Config.alertCurve.Evaluate(templateDict[m_MaxDollyOut.Id].CostTime / templateDict[m_MaxDollyOut.Id].Config.duration) * (m_MaxDollyOutDiff);
+               if(templateDict[m_MaxDollyOut.Id].Config.alertCurve != null) m_MaxDollyOutAlertInit = target.m_MaxDollyOut - templateDict[m_MaxDollyOut.Id].Config.alertCurve.Evaluate(templateDict[m_MaxDollyOut.Id].CostTime / templateDict[m_MaxDollyOut.Id].Config.duration) * (m_MaxDollyOutDiff);
             }
             if(source.m_MinimumDistance.IsUse)
             {
                 m_MinimumDistance.Add(new MixItem<System.Single>(id, priority, source.m_MinimumDistance.CalculatorExpression, source.m_MinimumDistance.Value, source.m_MinimumDistance.IsUse));
                var targetValue = (m_MinimumDistance.IsExpression ? m_MinimumDistance.Value : m_MinimumDistance.PrimitiveValue);
                m_MinimumDistanceDiff = targetValue - target.m_MinimumDistance;
-               m_MinimumDistanceAlertInit = target.m_MinimumDistance - templateDict[m_MinimumDistance.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumDistance.Id].CostTime / templateDict[m_MinimumDistance.Id].Config.duration) * (m_MinimumDistanceDiff);
+               if(templateDict[m_MinimumDistance.Id].Config.alertCurve != null) m_MinimumDistanceAlertInit = target.m_MinimumDistance - templateDict[m_MinimumDistance.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumDistance.Id].CostTime / templateDict[m_MinimumDistance.Id].Config.duration) * (m_MinimumDistanceDiff);
             }
             if(source.m_MaximumDistance.IsUse)
             {
                 m_MaximumDistance.Add(new MixItem<System.Single>(id, priority, source.m_MaximumDistance.CalculatorExpression, source.m_MaximumDistance.Value, source.m_MaximumDistance.IsUse));
                var targetValue = (m_MaximumDistance.IsExpression ? m_MaximumDistance.Value : m_MaximumDistance.PrimitiveValue);
                m_MaximumDistanceDiff = targetValue - target.m_MaximumDistance;
-               m_MaximumDistanceAlertInit = target.m_MaximumDistance - templateDict[m_MaximumDistance.Id].Config.alertCurve.Evaluate(templateDict[m_MaximumDistance.Id].CostTime / templateDict[m_MaximumDistance.Id].Config.duration) * (m_MaximumDistanceDiff);
+               if(templateDict[m_MaximumDistance.Id].Config.alertCurve != null) m_MaximumDistanceAlertInit = target.m_MaximumDistance - templateDict[m_MaximumDistance.Id].Config.alertCurve.Evaluate(templateDict[m_MaximumDistance.Id].CostTime / templateDict[m_MaximumDistance.Id].Config.duration) * (m_MaximumDistanceDiff);
             }
             if(source.m_MinimumFOV.IsUse)
             {
                 m_MinimumFOV.Add(new MixItem<System.Single>(id, priority, source.m_MinimumFOV.CalculatorExpression, source.m_MinimumFOV.Value, source.m_MinimumFOV.IsUse));
                var targetValue = (m_MinimumFOV.IsExpression ? m_MinimumFOV.Value : m_MinimumFOV.PrimitiveValue);
                m_MinimumFOVDiff = targetValue - target.m_MinimumFOV;
-               m_MinimumFOVAlertInit = target.m_MinimumFOV - templateDict[m_MinimumFOV.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumFOV.Id].CostTime / templateDict[m_MinimumFOV.Id].Config.duration) * (m_MinimumFOVDiff);
+               if(templateDict[m_MinimumFOV.Id].Config.alertCurve != null) m_MinimumFOVAlertInit = target.m_MinimumFOV - templateDict[m_MinimumFOV.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumFOV.Id].CostTime / templateDict[m_MinimumFOV.Id].Config.duration) * (m_MinimumFOVDiff);
             }
             if(source.m_MaximumFOV.IsUse)
             {
                 m_MaximumFOV.Add(new MixItem<System.Single>(id, priority, source.m_MaximumFOV.CalculatorExpression, source.m_MaximumFOV.Value, source.m_MaximumFOV.IsUse));
                var targetValue = (m_MaximumFOV.IsExpression ? m_MaximumFOV.Value : m_MaximumFOV.PrimitiveValue);
                m_MaximumFOVDiff = targetValue - target.m_MaximumFOV;
-               m_MaximumFOVAlertInit = target.m_MaximumFOV - templateDict[m_MaximumFOV.Id].Config.alertCurve.Evaluate(templateDict[m_MaximumFOV.Id].CostTime / templateDict[m_MaximumFOV.Id].Config.duration) * (m_MaximumFOVDiff);
+               if(templateDict[m_MaximumFOV.Id].Config.alertCurve != null) m_MaximumFOVAlertInit = target.m_MaximumFOV - templateDict[m_MaximumFOV.Id].Config.alertCurve.Evaluate(templateDict[m_MaximumFOV.Id].CostTime / templateDict[m_MaximumFOV.Id].Config.duration) * (m_MaximumFOVDiff);
             }
             if(source.m_MinimumOrthoSize.IsUse)
             {
                 m_MinimumOrthoSize.Add(new MixItem<System.Single>(id, priority, source.m_MinimumOrthoSize.CalculatorExpression, source.m_MinimumOrthoSize.Value, source.m_MinimumOrthoSize.IsUse));
                var targetValue = (m_MinimumOrthoSize.IsExpression ? m_MinimumOrthoSize.Value : m_MinimumOrthoSize.PrimitiveValue);
                m_MinimumOrthoSizeDiff = targetValue - target.m_MinimumOrthoSize;
-               m_MinimumOrthoSizeAlertInit = target.m_MinimumOrthoSize - templateDict[m_MinimumOrthoSize.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumOrthoSize.Id].CostTime / templateDict[m_MinimumOrthoSize.Id].Config.duration) * (m_MinimumOrthoSizeDiff);
+               if(templateDict[m_MinimumOrthoSize.Id].Config.alertCurve != null) m_MinimumOrthoSizeAlertInit = target.m_MinimumOrthoSize - templateDict[m_MinimumOrthoSize.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumOrthoSize.Id].CostTime / templateDict[m_MinimumOrthoSize.Id].Config.duration) * (m_MinimumOrthoSizeDiff);
             }
             if(source.m_MaximumOrthoSize.IsUse)
             {
                 m_MaximumOrthoSize.Add(new MixItem<System.Single>(id, priority, source.m_MaximumOrthoSize.CalculatorExpression, source.m_MaximumOrthoSize.Value, source.m_MaximumOrthoSize.IsUse));
                var targetValue = (m_MaximumOrthoSize.IsExpression ? m_MaximumOrthoSize.Value : m_MaximumOrthoSize.PrimitiveValue);
                m_MaximumOrthoSizeDiff = targetValue - target.m_MaximumOrthoSize;
-               m_MaximumOrthoSizeAlertInit = target.m_MaximumOrthoSize - templateDict[m_MaximumOrthoSize.Id].Config.alertCurve.Evaluate(templateDict[m_MaximumOrthoSize.Id].CostTime / templateDict[m_MaximumOrthoSize.Id].Config.duration) * (m_MaximumOrthoSizeDiff);
+               if(templateDict[m_MaximumOrthoSize.Id].Config.alertCurve != null) m_MaximumOrthoSizeAlertInit = target.m_MaximumOrthoSize - templateDict[m_MaximumOrthoSize.Id].Config.alertCurve.Evaluate(templateDict[m_MaximumOrthoSize.Id].CostTime / templateDict[m_MaximumOrthoSize.Id].Config.duration) * (m_MaximumOrthoSizeDiff);
             }
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineFramingTransposer target, Dictionary<int, RuntimeTemplate> templateDict)
@@ -335,14 +335,14 @@ namespace CameraMovement{
                 m_LookaheadTime.Remove(new MixItem<System.Single>(id, priority, source.m_LookaheadTime.CalculatorExpression, source.m_LookaheadTime.Value, source.m_LookaheadTime.IsUse));
                var targetValue = (m_LookaheadTime.IsExpression ? m_LookaheadTime.Value : m_LookaheadTime.PrimitiveValue);
                m_LookaheadTimeDiff = targetValue - target.m_LookaheadTime;
-               m_LookaheadTimeAlertInit = target.m_LookaheadTime - templateDict[m_LookaheadTime.Id].Config.alertCurve.Evaluate(templateDict[m_LookaheadTime.Id].CostTime / templateDict[m_LookaheadTime.Id].Config.duration) * (m_LookaheadTimeDiff);
+               if(templateDict[m_LookaheadTime.Id].Config.alertCurve != null) m_LookaheadTimeAlertInit = target.m_LookaheadTime - templateDict[m_LookaheadTime.Id].Config.alertCurve.Evaluate(templateDict[m_LookaheadTime.Id].CostTime / templateDict[m_LookaheadTime.Id].Config.duration) * (m_LookaheadTimeDiff);
             }
             if(source.m_LookaheadSmoothing.IsUse)
             {
                 m_LookaheadSmoothing.Remove(new MixItem<System.Single>(id, priority, source.m_LookaheadSmoothing.CalculatorExpression, source.m_LookaheadSmoothing.Value, source.m_LookaheadSmoothing.IsUse));
                var targetValue = (m_LookaheadSmoothing.IsExpression ? m_LookaheadSmoothing.Value : m_LookaheadSmoothing.PrimitiveValue);
                m_LookaheadSmoothingDiff = targetValue - target.m_LookaheadSmoothing;
-               m_LookaheadSmoothingAlertInit = target.m_LookaheadSmoothing - templateDict[m_LookaheadSmoothing.Id].Config.alertCurve.Evaluate(templateDict[m_LookaheadSmoothing.Id].CostTime / templateDict[m_LookaheadSmoothing.Id].Config.duration) * (m_LookaheadSmoothingDiff);
+               if(templateDict[m_LookaheadSmoothing.Id].Config.alertCurve != null) m_LookaheadSmoothingAlertInit = target.m_LookaheadSmoothing - templateDict[m_LookaheadSmoothing.Id].Config.alertCurve.Evaluate(templateDict[m_LookaheadSmoothing.Id].CostTime / templateDict[m_LookaheadSmoothing.Id].Config.duration) * (m_LookaheadSmoothingDiff);
             }
             if(source.m_LookaheadIgnoreY.IsUse)
             {
@@ -353,21 +353,21 @@ namespace CameraMovement{
                 m_XDamping.Remove(new MixItem<System.Single>(id, priority, source.m_XDamping.CalculatorExpression, source.m_XDamping.Value, source.m_XDamping.IsUse));
                var targetValue = (m_XDamping.IsExpression ? m_XDamping.Value : m_XDamping.PrimitiveValue);
                m_XDampingDiff = targetValue - target.m_XDamping;
-               m_XDampingAlertInit = target.m_XDamping - templateDict[m_XDamping.Id].Config.alertCurve.Evaluate(templateDict[m_XDamping.Id].CostTime / templateDict[m_XDamping.Id].Config.duration) * (m_XDampingDiff);
+               if(templateDict[m_XDamping.Id].Config.alertCurve != null) m_XDampingAlertInit = target.m_XDamping - templateDict[m_XDamping.Id].Config.alertCurve.Evaluate(templateDict[m_XDamping.Id].CostTime / templateDict[m_XDamping.Id].Config.duration) * (m_XDampingDiff);
             }
             if(source.m_YDamping.IsUse)
             {
                 m_YDamping.Remove(new MixItem<System.Single>(id, priority, source.m_YDamping.CalculatorExpression, source.m_YDamping.Value, source.m_YDamping.IsUse));
                var targetValue = (m_YDamping.IsExpression ? m_YDamping.Value : m_YDamping.PrimitiveValue);
                m_YDampingDiff = targetValue - target.m_YDamping;
-               m_YDampingAlertInit = target.m_YDamping - templateDict[m_YDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YDamping.Id].CostTime / templateDict[m_YDamping.Id].Config.duration) * (m_YDampingDiff);
+               if(templateDict[m_YDamping.Id].Config.alertCurve != null) m_YDampingAlertInit = target.m_YDamping - templateDict[m_YDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YDamping.Id].CostTime / templateDict[m_YDamping.Id].Config.duration) * (m_YDampingDiff);
             }
             if(source.m_ZDamping.IsUse)
             {
                 m_ZDamping.Remove(new MixItem<System.Single>(id, priority, source.m_ZDamping.CalculatorExpression, source.m_ZDamping.Value, source.m_ZDamping.IsUse));
                var targetValue = (m_ZDamping.IsExpression ? m_ZDamping.Value : m_ZDamping.PrimitiveValue);
                m_ZDampingDiff = targetValue - target.m_ZDamping;
-               m_ZDampingAlertInit = target.m_ZDamping - templateDict[m_ZDamping.Id].Config.alertCurve.Evaluate(templateDict[m_ZDamping.Id].CostTime / templateDict[m_ZDamping.Id].Config.duration) * (m_ZDampingDiff);
+               if(templateDict[m_ZDamping.Id].Config.alertCurve != null) m_ZDampingAlertInit = target.m_ZDamping - templateDict[m_ZDamping.Id].Config.alertCurve.Evaluate(templateDict[m_ZDamping.Id].CostTime / templateDict[m_ZDamping.Id].Config.duration) * (m_ZDampingDiff);
             }
             if(source.m_TargetMovementOnly.IsUse)
             {
@@ -378,42 +378,42 @@ namespace CameraMovement{
                 m_ScreenX.Remove(new MixItem<System.Single>(id, priority, source.m_ScreenX.CalculatorExpression, source.m_ScreenX.Value, source.m_ScreenX.IsUse));
                var targetValue = (m_ScreenX.IsExpression ? m_ScreenX.Value : m_ScreenX.PrimitiveValue);
                m_ScreenXDiff = targetValue - target.m_ScreenX;
-               m_ScreenXAlertInit = target.m_ScreenX - templateDict[m_ScreenX.Id].Config.alertCurve.Evaluate(templateDict[m_ScreenX.Id].CostTime / templateDict[m_ScreenX.Id].Config.duration) * (m_ScreenXDiff);
+               if(templateDict[m_ScreenX.Id].Config.alertCurve != null) m_ScreenXAlertInit = target.m_ScreenX - templateDict[m_ScreenX.Id].Config.alertCurve.Evaluate(templateDict[m_ScreenX.Id].CostTime / templateDict[m_ScreenX.Id].Config.duration) * (m_ScreenXDiff);
             }
             if(source.m_ScreenY.IsUse)
             {
                 m_ScreenY.Remove(new MixItem<System.Single>(id, priority, source.m_ScreenY.CalculatorExpression, source.m_ScreenY.Value, source.m_ScreenY.IsUse));
                var targetValue = (m_ScreenY.IsExpression ? m_ScreenY.Value : m_ScreenY.PrimitiveValue);
                m_ScreenYDiff = targetValue - target.m_ScreenY;
-               m_ScreenYAlertInit = target.m_ScreenY - templateDict[m_ScreenY.Id].Config.alertCurve.Evaluate(templateDict[m_ScreenY.Id].CostTime / templateDict[m_ScreenY.Id].Config.duration) * (m_ScreenYDiff);
+               if(templateDict[m_ScreenY.Id].Config.alertCurve != null) m_ScreenYAlertInit = target.m_ScreenY - templateDict[m_ScreenY.Id].Config.alertCurve.Evaluate(templateDict[m_ScreenY.Id].CostTime / templateDict[m_ScreenY.Id].Config.duration) * (m_ScreenYDiff);
             }
             if(source.m_CameraDistance.IsUse)
             {
                 m_CameraDistance.Remove(new MixItem<System.Single>(id, priority, source.m_CameraDistance.CalculatorExpression, source.m_CameraDistance.Value, source.m_CameraDistance.IsUse));
                var targetValue = (m_CameraDistance.IsExpression ? m_CameraDistance.Value : m_CameraDistance.PrimitiveValue);
                m_CameraDistanceDiff = targetValue - target.m_CameraDistance;
-               m_CameraDistanceAlertInit = target.m_CameraDistance - templateDict[m_CameraDistance.Id].Config.alertCurve.Evaluate(templateDict[m_CameraDistance.Id].CostTime / templateDict[m_CameraDistance.Id].Config.duration) * (m_CameraDistanceDiff);
+               if(templateDict[m_CameraDistance.Id].Config.alertCurve != null) m_CameraDistanceAlertInit = target.m_CameraDistance - templateDict[m_CameraDistance.Id].Config.alertCurve.Evaluate(templateDict[m_CameraDistance.Id].CostTime / templateDict[m_CameraDistance.Id].Config.duration) * (m_CameraDistanceDiff);
             }
             if(source.m_DeadZoneWidth.IsUse)
             {
                 m_DeadZoneWidth.Remove(new MixItem<System.Single>(id, priority, source.m_DeadZoneWidth.CalculatorExpression, source.m_DeadZoneWidth.Value, source.m_DeadZoneWidth.IsUse));
                var targetValue = (m_DeadZoneWidth.IsExpression ? m_DeadZoneWidth.Value : m_DeadZoneWidth.PrimitiveValue);
                m_DeadZoneWidthDiff = targetValue - target.m_DeadZoneWidth;
-               m_DeadZoneWidthAlertInit = target.m_DeadZoneWidth - templateDict[m_DeadZoneWidth.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneWidth.Id].CostTime / templateDict[m_DeadZoneWidth.Id].Config.duration) * (m_DeadZoneWidthDiff);
+               if(templateDict[m_DeadZoneWidth.Id].Config.alertCurve != null) m_DeadZoneWidthAlertInit = target.m_DeadZoneWidth - templateDict[m_DeadZoneWidth.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneWidth.Id].CostTime / templateDict[m_DeadZoneWidth.Id].Config.duration) * (m_DeadZoneWidthDiff);
             }
             if(source.m_DeadZoneHeight.IsUse)
             {
                 m_DeadZoneHeight.Remove(new MixItem<System.Single>(id, priority, source.m_DeadZoneHeight.CalculatorExpression, source.m_DeadZoneHeight.Value, source.m_DeadZoneHeight.IsUse));
                var targetValue = (m_DeadZoneHeight.IsExpression ? m_DeadZoneHeight.Value : m_DeadZoneHeight.PrimitiveValue);
                m_DeadZoneHeightDiff = targetValue - target.m_DeadZoneHeight;
-               m_DeadZoneHeightAlertInit = target.m_DeadZoneHeight - templateDict[m_DeadZoneHeight.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneHeight.Id].CostTime / templateDict[m_DeadZoneHeight.Id].Config.duration) * (m_DeadZoneHeightDiff);
+               if(templateDict[m_DeadZoneHeight.Id].Config.alertCurve != null) m_DeadZoneHeightAlertInit = target.m_DeadZoneHeight - templateDict[m_DeadZoneHeight.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneHeight.Id].CostTime / templateDict[m_DeadZoneHeight.Id].Config.duration) * (m_DeadZoneHeightDiff);
             }
             if(source.m_DeadZoneDepth.IsUse)
             {
                 m_DeadZoneDepth.Remove(new MixItem<System.Single>(id, priority, source.m_DeadZoneDepth.CalculatorExpression, source.m_DeadZoneDepth.Value, source.m_DeadZoneDepth.IsUse));
                var targetValue = (m_DeadZoneDepth.IsExpression ? m_DeadZoneDepth.Value : m_DeadZoneDepth.PrimitiveValue);
                m_DeadZoneDepthDiff = targetValue - target.m_DeadZoneDepth;
-               m_DeadZoneDepthAlertInit = target.m_DeadZoneDepth - templateDict[m_DeadZoneDepth.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneDepth.Id].CostTime / templateDict[m_DeadZoneDepth.Id].Config.duration) * (m_DeadZoneDepthDiff);
+               if(templateDict[m_DeadZoneDepth.Id].Config.alertCurve != null) m_DeadZoneDepthAlertInit = target.m_DeadZoneDepth - templateDict[m_DeadZoneDepth.Id].Config.alertCurve.Evaluate(templateDict[m_DeadZoneDepth.Id].CostTime / templateDict[m_DeadZoneDepth.Id].Config.duration) * (m_DeadZoneDepthDiff);
             }
             if(source.m_UnlimitedSoftZone.IsUse)
             {
@@ -424,28 +424,28 @@ namespace CameraMovement{
                 m_SoftZoneWidth.Remove(new MixItem<System.Single>(id, priority, source.m_SoftZoneWidth.CalculatorExpression, source.m_SoftZoneWidth.Value, source.m_SoftZoneWidth.IsUse));
                var targetValue = (m_SoftZoneWidth.IsExpression ? m_SoftZoneWidth.Value : m_SoftZoneWidth.PrimitiveValue);
                m_SoftZoneWidthDiff = targetValue - target.m_SoftZoneWidth;
-               m_SoftZoneWidthAlertInit = target.m_SoftZoneWidth - templateDict[m_SoftZoneWidth.Id].Config.alertCurve.Evaluate(templateDict[m_SoftZoneWidth.Id].CostTime / templateDict[m_SoftZoneWidth.Id].Config.duration) * (m_SoftZoneWidthDiff);
+               if(templateDict[m_SoftZoneWidth.Id].Config.alertCurve != null) m_SoftZoneWidthAlertInit = target.m_SoftZoneWidth - templateDict[m_SoftZoneWidth.Id].Config.alertCurve.Evaluate(templateDict[m_SoftZoneWidth.Id].CostTime / templateDict[m_SoftZoneWidth.Id].Config.duration) * (m_SoftZoneWidthDiff);
             }
             if(source.m_SoftZoneHeight.IsUse)
             {
                 m_SoftZoneHeight.Remove(new MixItem<System.Single>(id, priority, source.m_SoftZoneHeight.CalculatorExpression, source.m_SoftZoneHeight.Value, source.m_SoftZoneHeight.IsUse));
                var targetValue = (m_SoftZoneHeight.IsExpression ? m_SoftZoneHeight.Value : m_SoftZoneHeight.PrimitiveValue);
                m_SoftZoneHeightDiff = targetValue - target.m_SoftZoneHeight;
-               m_SoftZoneHeightAlertInit = target.m_SoftZoneHeight - templateDict[m_SoftZoneHeight.Id].Config.alertCurve.Evaluate(templateDict[m_SoftZoneHeight.Id].CostTime / templateDict[m_SoftZoneHeight.Id].Config.duration) * (m_SoftZoneHeightDiff);
+               if(templateDict[m_SoftZoneHeight.Id].Config.alertCurve != null) m_SoftZoneHeightAlertInit = target.m_SoftZoneHeight - templateDict[m_SoftZoneHeight.Id].Config.alertCurve.Evaluate(templateDict[m_SoftZoneHeight.Id].CostTime / templateDict[m_SoftZoneHeight.Id].Config.duration) * (m_SoftZoneHeightDiff);
             }
             if(source.m_BiasX.IsUse)
             {
                 m_BiasX.Remove(new MixItem<System.Single>(id, priority, source.m_BiasX.CalculatorExpression, source.m_BiasX.Value, source.m_BiasX.IsUse));
                var targetValue = (m_BiasX.IsExpression ? m_BiasX.Value : m_BiasX.PrimitiveValue);
                m_BiasXDiff = targetValue - target.m_BiasX;
-               m_BiasXAlertInit = target.m_BiasX - templateDict[m_BiasX.Id].Config.alertCurve.Evaluate(templateDict[m_BiasX.Id].CostTime / templateDict[m_BiasX.Id].Config.duration) * (m_BiasXDiff);
+               if(templateDict[m_BiasX.Id].Config.alertCurve != null) m_BiasXAlertInit = target.m_BiasX - templateDict[m_BiasX.Id].Config.alertCurve.Evaluate(templateDict[m_BiasX.Id].CostTime / templateDict[m_BiasX.Id].Config.duration) * (m_BiasXDiff);
             }
             if(source.m_BiasY.IsUse)
             {
                 m_BiasY.Remove(new MixItem<System.Single>(id, priority, source.m_BiasY.CalculatorExpression, source.m_BiasY.Value, source.m_BiasY.IsUse));
                var targetValue = (m_BiasY.IsExpression ? m_BiasY.Value : m_BiasY.PrimitiveValue);
                m_BiasYDiff = targetValue - target.m_BiasY;
-               m_BiasYAlertInit = target.m_BiasY - templateDict[m_BiasY.Id].Config.alertCurve.Evaluate(templateDict[m_BiasY.Id].CostTime / templateDict[m_BiasY.Id].Config.duration) * (m_BiasYDiff);
+               if(templateDict[m_BiasY.Id].Config.alertCurve != null) m_BiasYAlertInit = target.m_BiasY - templateDict[m_BiasY.Id].Config.alertCurve.Evaluate(templateDict[m_BiasY.Id].CostTime / templateDict[m_BiasY.Id].Config.duration) * (m_BiasYDiff);
             }
             if(source.m_CenterOnActivate.IsUse)
             {
@@ -464,63 +464,63 @@ namespace CameraMovement{
                 m_GroupFramingSize.Remove(new MixItem<System.Single>(id, priority, source.m_GroupFramingSize.CalculatorExpression, source.m_GroupFramingSize.Value, source.m_GroupFramingSize.IsUse));
                var targetValue = (m_GroupFramingSize.IsExpression ? m_GroupFramingSize.Value : m_GroupFramingSize.PrimitiveValue);
                m_GroupFramingSizeDiff = targetValue - target.m_GroupFramingSize;
-               m_GroupFramingSizeAlertInit = target.m_GroupFramingSize - templateDict[m_GroupFramingSize.Id].Config.alertCurve.Evaluate(templateDict[m_GroupFramingSize.Id].CostTime / templateDict[m_GroupFramingSize.Id].Config.duration) * (m_GroupFramingSizeDiff);
+               if(templateDict[m_GroupFramingSize.Id].Config.alertCurve != null) m_GroupFramingSizeAlertInit = target.m_GroupFramingSize - templateDict[m_GroupFramingSize.Id].Config.alertCurve.Evaluate(templateDict[m_GroupFramingSize.Id].CostTime / templateDict[m_GroupFramingSize.Id].Config.duration) * (m_GroupFramingSizeDiff);
             }
             if(source.m_MaxDollyIn.IsUse)
             {
                 m_MaxDollyIn.Remove(new MixItem<System.Single>(id, priority, source.m_MaxDollyIn.CalculatorExpression, source.m_MaxDollyIn.Value, source.m_MaxDollyIn.IsUse));
                var targetValue = (m_MaxDollyIn.IsExpression ? m_MaxDollyIn.Value : m_MaxDollyIn.PrimitiveValue);
                m_MaxDollyInDiff = targetValue - target.m_MaxDollyIn;
-               m_MaxDollyInAlertInit = target.m_MaxDollyIn - templateDict[m_MaxDollyIn.Id].Config.alertCurve.Evaluate(templateDict[m_MaxDollyIn.Id].CostTime / templateDict[m_MaxDollyIn.Id].Config.duration) * (m_MaxDollyInDiff);
+               if(templateDict[m_MaxDollyIn.Id].Config.alertCurve != null) m_MaxDollyInAlertInit = target.m_MaxDollyIn - templateDict[m_MaxDollyIn.Id].Config.alertCurve.Evaluate(templateDict[m_MaxDollyIn.Id].CostTime / templateDict[m_MaxDollyIn.Id].Config.duration) * (m_MaxDollyInDiff);
             }
             if(source.m_MaxDollyOut.IsUse)
             {
                 m_MaxDollyOut.Remove(new MixItem<System.Single>(id, priority, source.m_MaxDollyOut.CalculatorExpression, source.m_MaxDollyOut.Value, source.m_MaxDollyOut.IsUse));
                var targetValue = (m_MaxDollyOut.IsExpression ? m_MaxDollyOut.Value : m_MaxDollyOut.PrimitiveValue);
                m_MaxDollyOutDiff = targetValue - target.m_MaxDollyOut;
-               m_MaxDollyOutAlertInit = target.m_MaxDollyOut - templateDict[m_MaxDollyOut.Id].Config.alertCurve.Evaluate(templateDict[m_MaxDollyOut.Id].CostTime / templateDict[m_MaxDollyOut.Id].Config.duration) * (m_MaxDollyOutDiff);
+               if(templateDict[m_MaxDollyOut.Id].Config.alertCurve != null) m_MaxDollyOutAlertInit = target.m_MaxDollyOut - templateDict[m_MaxDollyOut.Id].Config.alertCurve.Evaluate(templateDict[m_MaxDollyOut.Id].CostTime / templateDict[m_MaxDollyOut.Id].Config.duration) * (m_MaxDollyOutDiff);
             }
             if(source.m_MinimumDistance.IsUse)
             {
                 m_MinimumDistance.Remove(new MixItem<System.Single>(id, priority, source.m_MinimumDistance.CalculatorExpression, source.m_MinimumDistance.Value, source.m_MinimumDistance.IsUse));
                var targetValue = (m_MinimumDistance.IsExpression ? m_MinimumDistance.Value : m_MinimumDistance.PrimitiveValue);
                m_MinimumDistanceDiff = targetValue - target.m_MinimumDistance;
-               m_MinimumDistanceAlertInit = target.m_MinimumDistance - templateDict[m_MinimumDistance.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumDistance.Id].CostTime / templateDict[m_MinimumDistance.Id].Config.duration) * (m_MinimumDistanceDiff);
+               if(templateDict[m_MinimumDistance.Id].Config.alertCurve != null) m_MinimumDistanceAlertInit = target.m_MinimumDistance - templateDict[m_MinimumDistance.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumDistance.Id].CostTime / templateDict[m_MinimumDistance.Id].Config.duration) * (m_MinimumDistanceDiff);
             }
             if(source.m_MaximumDistance.IsUse)
             {
                 m_MaximumDistance.Remove(new MixItem<System.Single>(id, priority, source.m_MaximumDistance.CalculatorExpression, source.m_MaximumDistance.Value, source.m_MaximumDistance.IsUse));
                var targetValue = (m_MaximumDistance.IsExpression ? m_MaximumDistance.Value : m_MaximumDistance.PrimitiveValue);
                m_MaximumDistanceDiff = targetValue - target.m_MaximumDistance;
-               m_MaximumDistanceAlertInit = target.m_MaximumDistance - templateDict[m_MaximumDistance.Id].Config.alertCurve.Evaluate(templateDict[m_MaximumDistance.Id].CostTime / templateDict[m_MaximumDistance.Id].Config.duration) * (m_MaximumDistanceDiff);
+               if(templateDict[m_MaximumDistance.Id].Config.alertCurve != null) m_MaximumDistanceAlertInit = target.m_MaximumDistance - templateDict[m_MaximumDistance.Id].Config.alertCurve.Evaluate(templateDict[m_MaximumDistance.Id].CostTime / templateDict[m_MaximumDistance.Id].Config.duration) * (m_MaximumDistanceDiff);
             }
             if(source.m_MinimumFOV.IsUse)
             {
                 m_MinimumFOV.Remove(new MixItem<System.Single>(id, priority, source.m_MinimumFOV.CalculatorExpression, source.m_MinimumFOV.Value, source.m_MinimumFOV.IsUse));
                var targetValue = (m_MinimumFOV.IsExpression ? m_MinimumFOV.Value : m_MinimumFOV.PrimitiveValue);
                m_MinimumFOVDiff = targetValue - target.m_MinimumFOV;
-               m_MinimumFOVAlertInit = target.m_MinimumFOV - templateDict[m_MinimumFOV.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumFOV.Id].CostTime / templateDict[m_MinimumFOV.Id].Config.duration) * (m_MinimumFOVDiff);
+               if(templateDict[m_MinimumFOV.Id].Config.alertCurve != null) m_MinimumFOVAlertInit = target.m_MinimumFOV - templateDict[m_MinimumFOV.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumFOV.Id].CostTime / templateDict[m_MinimumFOV.Id].Config.duration) * (m_MinimumFOVDiff);
             }
             if(source.m_MaximumFOV.IsUse)
             {
                 m_MaximumFOV.Remove(new MixItem<System.Single>(id, priority, source.m_MaximumFOV.CalculatorExpression, source.m_MaximumFOV.Value, source.m_MaximumFOV.IsUse));
                var targetValue = (m_MaximumFOV.IsExpression ? m_MaximumFOV.Value : m_MaximumFOV.PrimitiveValue);
                m_MaximumFOVDiff = targetValue - target.m_MaximumFOV;
-               m_MaximumFOVAlertInit = target.m_MaximumFOV - templateDict[m_MaximumFOV.Id].Config.alertCurve.Evaluate(templateDict[m_MaximumFOV.Id].CostTime / templateDict[m_MaximumFOV.Id].Config.duration) * (m_MaximumFOVDiff);
+               if(templateDict[m_MaximumFOV.Id].Config.alertCurve != null) m_MaximumFOVAlertInit = target.m_MaximumFOV - templateDict[m_MaximumFOV.Id].Config.alertCurve.Evaluate(templateDict[m_MaximumFOV.Id].CostTime / templateDict[m_MaximumFOV.Id].Config.duration) * (m_MaximumFOVDiff);
             }
             if(source.m_MinimumOrthoSize.IsUse)
             {
                 m_MinimumOrthoSize.Remove(new MixItem<System.Single>(id, priority, source.m_MinimumOrthoSize.CalculatorExpression, source.m_MinimumOrthoSize.Value, source.m_MinimumOrthoSize.IsUse));
                var targetValue = (m_MinimumOrthoSize.IsExpression ? m_MinimumOrthoSize.Value : m_MinimumOrthoSize.PrimitiveValue);
                m_MinimumOrthoSizeDiff = targetValue - target.m_MinimumOrthoSize;
-               m_MinimumOrthoSizeAlertInit = target.m_MinimumOrthoSize - templateDict[m_MinimumOrthoSize.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumOrthoSize.Id].CostTime / templateDict[m_MinimumOrthoSize.Id].Config.duration) * (m_MinimumOrthoSizeDiff);
+               if(templateDict[m_MinimumOrthoSize.Id].Config.alertCurve != null) m_MinimumOrthoSizeAlertInit = target.m_MinimumOrthoSize - templateDict[m_MinimumOrthoSize.Id].Config.alertCurve.Evaluate(templateDict[m_MinimumOrthoSize.Id].CostTime / templateDict[m_MinimumOrthoSize.Id].Config.duration) * (m_MinimumOrthoSizeDiff);
             }
             if(source.m_MaximumOrthoSize.IsUse)
             {
                 m_MaximumOrthoSize.Remove(new MixItem<System.Single>(id, priority, source.m_MaximumOrthoSize.CalculatorExpression, source.m_MaximumOrthoSize.Value, source.m_MaximumOrthoSize.IsUse));
                var targetValue = (m_MaximumOrthoSize.IsExpression ? m_MaximumOrthoSize.Value : m_MaximumOrthoSize.PrimitiveValue);
                m_MaximumOrthoSizeDiff = targetValue - target.m_MaximumOrthoSize;
-               m_MaximumOrthoSizeAlertInit = target.m_MaximumOrthoSize - templateDict[m_MaximumOrthoSize.Id].Config.alertCurve.Evaluate(templateDict[m_MaximumOrthoSize.Id].CostTime / templateDict[m_MaximumOrthoSize.Id].Config.duration) * (m_MaximumOrthoSizeDiff);
+               if(templateDict[m_MaximumOrthoSize.Id].Config.alertCurve != null) m_MaximumOrthoSizeAlertInit = target.m_MaximumOrthoSize - templateDict[m_MaximumOrthoSize.Id].Config.alertCurve.Evaluate(templateDict[m_MaximumOrthoSize.Id].CostTime / templateDict[m_MaximumOrthoSize.Id].Config.duration) * (m_MaximumOrthoSizeDiff);
             }
         }
         public void RemoveAll()

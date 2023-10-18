@@ -33,7 +33,7 @@ namespace CameraMovement{
                 m_PositionOffset.Add(new MixItem<System.Single>(id, priority, source.m_PositionOffset.CalculatorExpression, source.m_PositionOffset.Value, source.m_PositionOffset.IsUse));
                var targetValue = (m_PositionOffset.IsExpression ? m_PositionOffset.Value : m_PositionOffset.PrimitiveValue);
                m_PositionOffsetDiff = targetValue - target.m_PositionOffset;
-               m_PositionOffsetAlertInit = target.m_PositionOffset - templateDict[m_PositionOffset.Id].Config.alertCurve.Evaluate(templateDict[m_PositionOffset.Id].CostTime / templateDict[m_PositionOffset.Id].Config.duration) * (m_PositionOffsetDiff);
+               if(templateDict[m_PositionOffset.Id].Config.alertCurve != null) m_PositionOffsetAlertInit = target.m_PositionOffset - templateDict[m_PositionOffset.Id].Config.alertCurve.Evaluate(templateDict[m_PositionOffset.Id].CostTime / templateDict[m_PositionOffset.Id].Config.duration) * (m_PositionOffsetDiff);
             }
             if(source.m_SearchRadius.IsUse)
             {
@@ -58,7 +58,7 @@ namespace CameraMovement{
                 m_PositionOffset.Remove(new MixItem<System.Single>(id, priority, source.m_PositionOffset.CalculatorExpression, source.m_PositionOffset.Value, source.m_PositionOffset.IsUse));
                var targetValue = (m_PositionOffset.IsExpression ? m_PositionOffset.Value : m_PositionOffset.PrimitiveValue);
                m_PositionOffsetDiff = targetValue - target.m_PositionOffset;
-               m_PositionOffsetAlertInit = target.m_PositionOffset - templateDict[m_PositionOffset.Id].Config.alertCurve.Evaluate(templateDict[m_PositionOffset.Id].CostTime / templateDict[m_PositionOffset.Id].Config.duration) * (m_PositionOffsetDiff);
+               if(templateDict[m_PositionOffset.Id].Config.alertCurve != null) m_PositionOffsetAlertInit = target.m_PositionOffset - templateDict[m_PositionOffset.Id].Config.alertCurve.Evaluate(templateDict[m_PositionOffset.Id].CostTime / templateDict[m_PositionOffset.Id].Config.duration) * (m_PositionOffsetDiff);
             }
             if(source.m_SearchRadius.IsUse)
             {

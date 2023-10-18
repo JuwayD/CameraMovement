@@ -338,7 +338,7 @@ namespace CameraMovement
                                 {
                                     codeBuilder.AppendLine($"                   var targetValue = ({targetField.Name}[i].IsExpression ? {targetField.Name}[i].Value : {targetField.Name}[i].PrimitiveValue);");
                                     codeBuilder.AppendLine($"                   {targetField.Name}{CURVE_FIELD_Diff_}[i] = targetValue - target.{targetField.Name}[i];");
-                                    codeBuilder.AppendLine($"                   {targetField.Name}{CURVE_FIELD_POST_FIX_}[i] = target.{targetField.Name}[i] - templateDict[{targetField.Name}.Id].Config.alertCurve.Evaluate(templateDict[{targetField.Name}.Id].CostTime / templateDict[{targetField.Name}.Id].Config.duration) * ({targetField.Name}{CURVE_FIELD_Diff_}[i]);");
+                                    codeBuilder.AppendLine($"                   if(templateDict[{targetField.Name}.Id].Config.alertCurve != null) {targetField.Name}{CURVE_FIELD_POST_FIX_}[i] = target.{targetField.Name}[i] - templateDict[{targetField.Name}.Id].Config.alertCurve.Evaluate(templateDict[{targetField.Name}.Id].CostTime / templateDict[{targetField.Name}.Id].Config.duration) * ({targetField.Name}{CURVE_FIELD_Diff_}[i]);");
                                 }
                                 codeBuilder.AppendLine($"                }}");
                             }
@@ -363,7 +363,7 @@ namespace CameraMovement
                                 {
                                     codeBuilder.AppendLine($"               var targetValue = ({targetField.Name}.IsExpression ? {targetField.Name}.Value : {targetField.Name}.PrimitiveValue);");
                                     codeBuilder.AppendLine($"               {targetField.Name}{CURVE_FIELD_Diff_} = targetValue - target.{targetField.Name};");
-                                    codeBuilder.AppendLine($"               {targetField.Name}{CURVE_FIELD_POST_FIX_} = target.{targetField.Name} - templateDict[{targetField.Name}.Id].Config.alertCurve.Evaluate(templateDict[{targetField.Name}.Id].CostTime / templateDict[{targetField.Name}.Id].Config.duration) * ({targetField.Name}{CURVE_FIELD_Diff_});");
+                                    codeBuilder.AppendLine($"               if(templateDict[{targetField.Name}.Id].Config.alertCurve != null) {targetField.Name}{CURVE_FIELD_POST_FIX_} = target.{targetField.Name} - templateDict[{targetField.Name}.Id].Config.alertCurve.Evaluate(templateDict[{targetField.Name}.Id].CostTime / templateDict[{targetField.Name}.Id].Config.duration) * ({targetField.Name}{CURVE_FIELD_Diff_});");
                                 }
                                 codeBuilder.AppendLine($"            }}");
                             }

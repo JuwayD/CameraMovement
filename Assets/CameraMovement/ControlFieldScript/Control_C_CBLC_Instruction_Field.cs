@@ -25,7 +25,7 @@ namespace CameraMovement{
                 m_Hold.Add(new MixItem<System.Single>(id, priority, source.m_Hold.CalculatorExpression, source.m_Hold.Value, source.m_Hold.IsUse));
                var targetValue = (m_Hold.IsExpression ? m_Hold.Value : m_Hold.PrimitiveValue);
                m_HoldDiff = targetValue - target.m_Hold;
-               m_HoldAlertInit = target.m_Hold - templateDict[m_Hold.Id].Config.alertCurve.Evaluate(templateDict[m_Hold.Id].CostTime / templateDict[m_Hold.Id].Config.duration) * (m_HoldDiff);
+               if(templateDict[m_Hold.Id].Config.alertCurve != null) m_HoldAlertInit = target.m_Hold - templateDict[m_Hold.Id].Config.alertCurve.Evaluate(templateDict[m_Hold.Id].CostTime / templateDict[m_Hold.Id].Config.duration) * (m_HoldDiff);
             }
             if(source.m_Blend != null && m_Blend == null) m_Blend = new Control_C_CinemachineBlendDefinition_Field();
             m_Blend?.AddByConfig(source.m_Blend, id, priority, ref target.m_Blend, templateDict);
@@ -40,7 +40,7 @@ namespace CameraMovement{
                 m_Hold.Remove(new MixItem<System.Single>(id, priority, source.m_Hold.CalculatorExpression, source.m_Hold.Value, source.m_Hold.IsUse));
                var targetValue = (m_Hold.IsExpression ? m_Hold.Value : m_Hold.PrimitiveValue);
                m_HoldDiff = targetValue - target.m_Hold;
-               m_HoldAlertInit = target.m_Hold - templateDict[m_Hold.Id].Config.alertCurve.Evaluate(templateDict[m_Hold.Id].CostTime / templateDict[m_Hold.Id].Config.duration) * (m_HoldDiff);
+               if(templateDict[m_Hold.Id].Config.alertCurve != null) m_HoldAlertInit = target.m_Hold - templateDict[m_Hold.Id].Config.alertCurve.Evaluate(templateDict[m_Hold.Id].CostTime / templateDict[m_Hold.Id].Config.duration) * (m_HoldDiff);
             }
             m_Blend?.RemoveByConfig(source.m_Blend, id, priority, ref target.m_Blend, templateDict);
         }

@@ -29,7 +29,7 @@ namespace CameraMovement{
                 AimDistance.Add(new MixItem<System.Single>(id, priority, source.AimDistance.CalculatorExpression, source.AimDistance.Value, source.AimDistance.IsUse));
                var targetValue = (AimDistance.IsExpression ? AimDistance.Value : AimDistance.PrimitiveValue);
                AimDistanceDiff = targetValue - target.AimDistance;
-               AimDistanceAlertInit = target.AimDistance - templateDict[AimDistance.Id].Config.alertCurve.Evaluate(templateDict[AimDistance.Id].CostTime / templateDict[AimDistance.Id].Config.duration) * (AimDistanceDiff);
+               if(templateDict[AimDistance.Id].Config.alertCurve != null) AimDistanceAlertInit = target.AimDistance - templateDict[AimDistance.Id].Config.alertCurve.Evaluate(templateDict[AimDistance.Id].CostTime / templateDict[AimDistance.Id].Config.duration) * (AimDistanceDiff);
             }
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.Cinemachine3rdPersonAim target, Dictionary<int, RuntimeTemplate> templateDict)
@@ -46,7 +46,7 @@ namespace CameraMovement{
                 AimDistance.Remove(new MixItem<System.Single>(id, priority, source.AimDistance.CalculatorExpression, source.AimDistance.Value, source.AimDistance.IsUse));
                var targetValue = (AimDistance.IsExpression ? AimDistance.Value : AimDistance.PrimitiveValue);
                AimDistanceDiff = targetValue - target.AimDistance;
-               AimDistanceAlertInit = target.AimDistance - templateDict[AimDistance.Id].Config.alertCurve.Evaluate(templateDict[AimDistance.Id].CostTime / templateDict[AimDistance.Id].Config.duration) * (AimDistanceDiff);
+               if(templateDict[AimDistance.Id].Config.alertCurve != null) AimDistanceAlertInit = target.AimDistance - templateDict[AimDistance.Id].Config.alertCurve.Evaluate(templateDict[AimDistance.Id].CostTime / templateDict[AimDistance.Id].Config.duration) * (AimDistanceDiff);
             }
         }
         public void RemoveAll()

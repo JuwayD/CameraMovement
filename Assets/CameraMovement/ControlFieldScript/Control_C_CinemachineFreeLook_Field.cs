@@ -82,7 +82,7 @@ namespace CameraMovement{
                 m_SplineCurvature.Add(new MixItem<System.Single>(id, priority, source.m_SplineCurvature.CalculatorExpression, source.m_SplineCurvature.Value, source.m_SplineCurvature.IsUse));
                var targetValue = (m_SplineCurvature.IsExpression ? m_SplineCurvature.Value : m_SplineCurvature.PrimitiveValue);
                m_SplineCurvatureDiff = targetValue - target.m_SplineCurvature;
-               m_SplineCurvatureAlertInit = target.m_SplineCurvature - templateDict[m_SplineCurvature.Id].Config.alertCurve.Evaluate(templateDict[m_SplineCurvature.Id].CostTime / templateDict[m_SplineCurvature.Id].Config.duration) * (m_SplineCurvatureDiff);
+               if(templateDict[m_SplineCurvature.Id].Config.alertCurve != null) m_SplineCurvatureAlertInit = target.m_SplineCurvature - templateDict[m_SplineCurvature.Id].Config.alertCurve.Evaluate(templateDict[m_SplineCurvature.Id].CostTime / templateDict[m_SplineCurvature.Id].Config.duration) * (m_SplineCurvatureDiff);
             }
                 if(source.m_Orbits != null && m_Orbits == null) m_Orbits = new Control_C_CFL_Orbit_Field[source.m_Orbits.Length];
             for(int i = 0;i < (m_Orbits?.Length ?? 0);i++)
@@ -113,14 +113,14 @@ namespace CameraMovement{
                 FollowTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.CalculatorExpression, source.FollowTargetAttachment.Value, source.FollowTargetAttachment.IsUse));
                var targetValue = (FollowTargetAttachment.IsExpression ? FollowTargetAttachment.Value : FollowTargetAttachment.PrimitiveValue);
                FollowTargetAttachmentDiff = targetValue - target.FollowTargetAttachment;
-               FollowTargetAttachmentAlertInit = target.FollowTargetAttachment - templateDict[FollowTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[FollowTargetAttachment.Id].CostTime / templateDict[FollowTargetAttachment.Id].Config.duration) * (FollowTargetAttachmentDiff);
+               if(templateDict[FollowTargetAttachment.Id].Config.alertCurve != null) FollowTargetAttachmentAlertInit = target.FollowTargetAttachment - templateDict[FollowTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[FollowTargetAttachment.Id].CostTime / templateDict[FollowTargetAttachment.Id].Config.duration) * (FollowTargetAttachmentDiff);
             }
             if(source.LookAtTargetAttachment.IsUse)
             {
                 LookAtTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.CalculatorExpression, source.LookAtTargetAttachment.Value, source.LookAtTargetAttachment.IsUse));
                var targetValue = (LookAtTargetAttachment.IsExpression ? LookAtTargetAttachment.Value : LookAtTargetAttachment.PrimitiveValue);
                LookAtTargetAttachmentDiff = targetValue - target.LookAtTargetAttachment;
-               LookAtTargetAttachmentAlertInit = target.LookAtTargetAttachment - templateDict[LookAtTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[LookAtTargetAttachment.Id].CostTime / templateDict[LookAtTargetAttachment.Id].Config.duration) * (LookAtTargetAttachmentDiff);
+               if(templateDict[LookAtTargetAttachment.Id].Config.alertCurve != null) LookAtTargetAttachmentAlertInit = target.LookAtTargetAttachment - templateDict[LookAtTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[LookAtTargetAttachment.Id].CostTime / templateDict[LookAtTargetAttachment.Id].Config.duration) * (LookAtTargetAttachmentDiff);
             }
             if(source.m_StandbyUpdate.IsUse)
             {
@@ -152,7 +152,7 @@ namespace CameraMovement{
                 m_SplineCurvature.Remove(new MixItem<System.Single>(id, priority, source.m_SplineCurvature.CalculatorExpression, source.m_SplineCurvature.Value, source.m_SplineCurvature.IsUse));
                var targetValue = (m_SplineCurvature.IsExpression ? m_SplineCurvature.Value : m_SplineCurvature.PrimitiveValue);
                m_SplineCurvatureDiff = targetValue - target.m_SplineCurvature;
-               m_SplineCurvatureAlertInit = target.m_SplineCurvature - templateDict[m_SplineCurvature.Id].Config.alertCurve.Evaluate(templateDict[m_SplineCurvature.Id].CostTime / templateDict[m_SplineCurvature.Id].Config.duration) * (m_SplineCurvatureDiff);
+               if(templateDict[m_SplineCurvature.Id].Config.alertCurve != null) m_SplineCurvatureAlertInit = target.m_SplineCurvature - templateDict[m_SplineCurvature.Id].Config.alertCurve.Evaluate(templateDict[m_SplineCurvature.Id].CostTime / templateDict[m_SplineCurvature.Id].Config.duration) * (m_SplineCurvatureDiff);
             }
             for(int i = 0;i < (m_Orbits?.Length ?? 0);i++)
             {
@@ -181,14 +181,14 @@ namespace CameraMovement{
                 FollowTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.CalculatorExpression, source.FollowTargetAttachment.Value, source.FollowTargetAttachment.IsUse));
                var targetValue = (FollowTargetAttachment.IsExpression ? FollowTargetAttachment.Value : FollowTargetAttachment.PrimitiveValue);
                FollowTargetAttachmentDiff = targetValue - target.FollowTargetAttachment;
-               FollowTargetAttachmentAlertInit = target.FollowTargetAttachment - templateDict[FollowTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[FollowTargetAttachment.Id].CostTime / templateDict[FollowTargetAttachment.Id].Config.duration) * (FollowTargetAttachmentDiff);
+               if(templateDict[FollowTargetAttachment.Id].Config.alertCurve != null) FollowTargetAttachmentAlertInit = target.FollowTargetAttachment - templateDict[FollowTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[FollowTargetAttachment.Id].CostTime / templateDict[FollowTargetAttachment.Id].Config.duration) * (FollowTargetAttachmentDiff);
             }
             if(source.LookAtTargetAttachment.IsUse)
             {
                 LookAtTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.CalculatorExpression, source.LookAtTargetAttachment.Value, source.LookAtTargetAttachment.IsUse));
                var targetValue = (LookAtTargetAttachment.IsExpression ? LookAtTargetAttachment.Value : LookAtTargetAttachment.PrimitiveValue);
                LookAtTargetAttachmentDiff = targetValue - target.LookAtTargetAttachment;
-               LookAtTargetAttachmentAlertInit = target.LookAtTargetAttachment - templateDict[LookAtTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[LookAtTargetAttachment.Id].CostTime / templateDict[LookAtTargetAttachment.Id].Config.duration) * (LookAtTargetAttachmentDiff);
+               if(templateDict[LookAtTargetAttachment.Id].Config.alertCurve != null) LookAtTargetAttachmentAlertInit = target.LookAtTargetAttachment - templateDict[LookAtTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[LookAtTargetAttachment.Id].CostTime / templateDict[LookAtTargetAttachment.Id].Config.duration) * (LookAtTargetAttachmentDiff);
             }
             if(source.m_StandbyUpdate.IsUse)
             {

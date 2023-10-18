@@ -55,14 +55,14 @@ namespace CameraMovement{
                 m_ActivateAfter.Add(new MixItem<System.Single>(id, priority, source.m_ActivateAfter.CalculatorExpression, source.m_ActivateAfter.Value, source.m_ActivateAfter.IsUse));
                var targetValue = (m_ActivateAfter.IsExpression ? m_ActivateAfter.Value : m_ActivateAfter.PrimitiveValue);
                m_ActivateAfterDiff = targetValue - target.m_ActivateAfter;
-               m_ActivateAfterAlertInit = target.m_ActivateAfter - templateDict[m_ActivateAfter.Id].Config.alertCurve.Evaluate(templateDict[m_ActivateAfter.Id].CostTime / templateDict[m_ActivateAfter.Id].Config.duration) * (m_ActivateAfterDiff);
+               if(templateDict[m_ActivateAfter.Id].Config.alertCurve != null) m_ActivateAfterAlertInit = target.m_ActivateAfter - templateDict[m_ActivateAfter.Id].Config.alertCurve.Evaluate(templateDict[m_ActivateAfter.Id].CostTime / templateDict[m_ActivateAfter.Id].Config.duration) * (m_ActivateAfterDiff);
             }
             if(source.m_MinDuration.IsUse)
             {
                 m_MinDuration.Add(new MixItem<System.Single>(id, priority, source.m_MinDuration.CalculatorExpression, source.m_MinDuration.Value, source.m_MinDuration.IsUse));
                var targetValue = (m_MinDuration.IsExpression ? m_MinDuration.Value : m_MinDuration.PrimitiveValue);
                m_MinDurationDiff = targetValue - target.m_MinDuration;
-               m_MinDurationAlertInit = target.m_MinDuration - templateDict[m_MinDuration.Id].Config.alertCurve.Evaluate(templateDict[m_MinDuration.Id].CostTime / templateDict[m_MinDuration.Id].Config.duration) * (m_MinDurationDiff);
+               if(templateDict[m_MinDuration.Id].Config.alertCurve != null) m_MinDurationAlertInit = target.m_MinDuration - templateDict[m_MinDuration.Id].Config.alertCurve.Evaluate(templateDict[m_MinDuration.Id].CostTime / templateDict[m_MinDuration.Id].Config.duration) * (m_MinDurationDiff);
             }
             if(source.m_RandomizeChoice.IsUse)
             {
@@ -95,14 +95,14 @@ namespace CameraMovement{
                 FollowTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.CalculatorExpression, source.FollowTargetAttachment.Value, source.FollowTargetAttachment.IsUse));
                var targetValue = (FollowTargetAttachment.IsExpression ? FollowTargetAttachment.Value : FollowTargetAttachment.PrimitiveValue);
                FollowTargetAttachmentDiff = targetValue - target.FollowTargetAttachment;
-               FollowTargetAttachmentAlertInit = target.FollowTargetAttachment - templateDict[FollowTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[FollowTargetAttachment.Id].CostTime / templateDict[FollowTargetAttachment.Id].Config.duration) * (FollowTargetAttachmentDiff);
+               if(templateDict[FollowTargetAttachment.Id].Config.alertCurve != null) FollowTargetAttachmentAlertInit = target.FollowTargetAttachment - templateDict[FollowTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[FollowTargetAttachment.Id].CostTime / templateDict[FollowTargetAttachment.Id].Config.duration) * (FollowTargetAttachmentDiff);
             }
             if(source.LookAtTargetAttachment.IsUse)
             {
                 LookAtTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.CalculatorExpression, source.LookAtTargetAttachment.Value, source.LookAtTargetAttachment.IsUse));
                var targetValue = (LookAtTargetAttachment.IsExpression ? LookAtTargetAttachment.Value : LookAtTargetAttachment.PrimitiveValue);
                LookAtTargetAttachmentDiff = targetValue - target.LookAtTargetAttachment;
-               LookAtTargetAttachmentAlertInit = target.LookAtTargetAttachment - templateDict[LookAtTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[LookAtTargetAttachment.Id].CostTime / templateDict[LookAtTargetAttachment.Id].Config.duration) * (LookAtTargetAttachmentDiff);
+               if(templateDict[LookAtTargetAttachment.Id].Config.alertCurve != null) LookAtTargetAttachmentAlertInit = target.LookAtTargetAttachment - templateDict[LookAtTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[LookAtTargetAttachment.Id].CostTime / templateDict[LookAtTargetAttachment.Id].Config.duration) * (LookAtTargetAttachmentDiff);
             }
             if(source.m_StandbyUpdate.IsUse)
             {
@@ -123,14 +123,14 @@ namespace CameraMovement{
                 m_ActivateAfter.Remove(new MixItem<System.Single>(id, priority, source.m_ActivateAfter.CalculatorExpression, source.m_ActivateAfter.Value, source.m_ActivateAfter.IsUse));
                var targetValue = (m_ActivateAfter.IsExpression ? m_ActivateAfter.Value : m_ActivateAfter.PrimitiveValue);
                m_ActivateAfterDiff = targetValue - target.m_ActivateAfter;
-               m_ActivateAfterAlertInit = target.m_ActivateAfter - templateDict[m_ActivateAfter.Id].Config.alertCurve.Evaluate(templateDict[m_ActivateAfter.Id].CostTime / templateDict[m_ActivateAfter.Id].Config.duration) * (m_ActivateAfterDiff);
+               if(templateDict[m_ActivateAfter.Id].Config.alertCurve != null) m_ActivateAfterAlertInit = target.m_ActivateAfter - templateDict[m_ActivateAfter.Id].Config.alertCurve.Evaluate(templateDict[m_ActivateAfter.Id].CostTime / templateDict[m_ActivateAfter.Id].Config.duration) * (m_ActivateAfterDiff);
             }
             if(source.m_MinDuration.IsUse)
             {
                 m_MinDuration.Remove(new MixItem<System.Single>(id, priority, source.m_MinDuration.CalculatorExpression, source.m_MinDuration.Value, source.m_MinDuration.IsUse));
                var targetValue = (m_MinDuration.IsExpression ? m_MinDuration.Value : m_MinDuration.PrimitiveValue);
                m_MinDurationDiff = targetValue - target.m_MinDuration;
-               m_MinDurationAlertInit = target.m_MinDuration - templateDict[m_MinDuration.Id].Config.alertCurve.Evaluate(templateDict[m_MinDuration.Id].CostTime / templateDict[m_MinDuration.Id].Config.duration) * (m_MinDurationDiff);
+               if(templateDict[m_MinDuration.Id].Config.alertCurve != null) m_MinDurationAlertInit = target.m_MinDuration - templateDict[m_MinDuration.Id].Config.alertCurve.Evaluate(templateDict[m_MinDuration.Id].CostTime / templateDict[m_MinDuration.Id].Config.duration) * (m_MinDurationDiff);
             }
             if(source.m_RandomizeChoice.IsUse)
             {
@@ -161,14 +161,14 @@ namespace CameraMovement{
                 FollowTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.CalculatorExpression, source.FollowTargetAttachment.Value, source.FollowTargetAttachment.IsUse));
                var targetValue = (FollowTargetAttachment.IsExpression ? FollowTargetAttachment.Value : FollowTargetAttachment.PrimitiveValue);
                FollowTargetAttachmentDiff = targetValue - target.FollowTargetAttachment;
-               FollowTargetAttachmentAlertInit = target.FollowTargetAttachment - templateDict[FollowTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[FollowTargetAttachment.Id].CostTime / templateDict[FollowTargetAttachment.Id].Config.duration) * (FollowTargetAttachmentDiff);
+               if(templateDict[FollowTargetAttachment.Id].Config.alertCurve != null) FollowTargetAttachmentAlertInit = target.FollowTargetAttachment - templateDict[FollowTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[FollowTargetAttachment.Id].CostTime / templateDict[FollowTargetAttachment.Id].Config.duration) * (FollowTargetAttachmentDiff);
             }
             if(source.LookAtTargetAttachment.IsUse)
             {
                 LookAtTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.CalculatorExpression, source.LookAtTargetAttachment.Value, source.LookAtTargetAttachment.IsUse));
                var targetValue = (LookAtTargetAttachment.IsExpression ? LookAtTargetAttachment.Value : LookAtTargetAttachment.PrimitiveValue);
                LookAtTargetAttachmentDiff = targetValue - target.LookAtTargetAttachment;
-               LookAtTargetAttachmentAlertInit = target.LookAtTargetAttachment - templateDict[LookAtTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[LookAtTargetAttachment.Id].CostTime / templateDict[LookAtTargetAttachment.Id].Config.duration) * (LookAtTargetAttachmentDiff);
+               if(templateDict[LookAtTargetAttachment.Id].Config.alertCurve != null) LookAtTargetAttachmentAlertInit = target.LookAtTargetAttachment - templateDict[LookAtTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[LookAtTargetAttachment.Id].CostTime / templateDict[LookAtTargetAttachment.Id].Config.duration) * (LookAtTargetAttachmentDiff);
             }
             if(source.m_StandbyUpdate.IsUse)
             {

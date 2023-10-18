@@ -30,7 +30,7 @@ namespace CameraMovement{
                 m_Time.Add(new MixItem<System.Single>(id, priority, source.m_Time.CalculatorExpression, source.m_Time.Value, source.m_Time.IsUse));
                var targetValue = (m_Time.IsExpression ? m_Time.Value : m_Time.PrimitiveValue);
                m_TimeDiff = targetValue - target.m_Time;
-               m_TimeAlertInit = target.m_Time - templateDict[m_Time.Id].Config.alertCurve.Evaluate(templateDict[m_Time.Id].CostTime / templateDict[m_Time.Id].Config.duration) * (m_TimeDiff);
+               if(templateDict[m_Time.Id].Config.alertCurve != null) m_TimeAlertInit = target.m_Time - templateDict[m_Time.Id].Config.alertCurve.Evaluate(templateDict[m_Time.Id].CostTime / templateDict[m_Time.Id].Config.duration) * (m_TimeDiff);
             }
             if(source.m_CustomCurve.IsUse)
             {
@@ -51,7 +51,7 @@ namespace CameraMovement{
                 m_Time.Remove(new MixItem<System.Single>(id, priority, source.m_Time.CalculatorExpression, source.m_Time.Value, source.m_Time.IsUse));
                var targetValue = (m_Time.IsExpression ? m_Time.Value : m_Time.PrimitiveValue);
                m_TimeDiff = targetValue - target.m_Time;
-               m_TimeAlertInit = target.m_Time - templateDict[m_Time.Id].Config.alertCurve.Evaluate(templateDict[m_Time.Id].CostTime / templateDict[m_Time.Id].Config.duration) * (m_TimeDiff);
+               if(templateDict[m_Time.Id].Config.alertCurve != null) m_TimeAlertInit = target.m_Time - templateDict[m_Time.Id].Config.alertCurve.Evaluate(templateDict[m_Time.Id].CostTime / templateDict[m_Time.Id].Config.duration) * (m_TimeDiff);
             }
             if(source.m_CustomCurve.IsUse)
             {

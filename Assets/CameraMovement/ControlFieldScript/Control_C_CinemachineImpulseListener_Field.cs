@@ -41,7 +41,7 @@ namespace CameraMovement{
                 m_Gain.Add(new MixItem<System.Single>(id, priority, source.m_Gain.CalculatorExpression, source.m_Gain.Value, source.m_Gain.IsUse));
                var targetValue = (m_Gain.IsExpression ? m_Gain.Value : m_Gain.PrimitiveValue);
                m_GainDiff = targetValue - target.m_Gain;
-               m_GainAlertInit = target.m_Gain - templateDict[m_Gain.Id].Config.alertCurve.Evaluate(templateDict[m_Gain.Id].CostTime / templateDict[m_Gain.Id].Config.duration) * (m_GainDiff);
+               if(templateDict[m_Gain.Id].Config.alertCurve != null) m_GainAlertInit = target.m_Gain - templateDict[m_Gain.Id].Config.alertCurve.Evaluate(templateDict[m_Gain.Id].CostTime / templateDict[m_Gain.Id].Config.duration) * (m_GainDiff);
             }
             if(source.m_Use2DDistance.IsUse)
             {
@@ -72,7 +72,7 @@ namespace CameraMovement{
                 m_Gain.Remove(new MixItem<System.Single>(id, priority, source.m_Gain.CalculatorExpression, source.m_Gain.Value, source.m_Gain.IsUse));
                var targetValue = (m_Gain.IsExpression ? m_Gain.Value : m_Gain.PrimitiveValue);
                m_GainDiff = targetValue - target.m_Gain;
-               m_GainAlertInit = target.m_Gain - templateDict[m_Gain.Id].Config.alertCurve.Evaluate(templateDict[m_Gain.Id].CostTime / templateDict[m_Gain.Id].Config.duration) * (m_GainDiff);
+               if(templateDict[m_Gain.Id].Config.alertCurve != null) m_GainAlertInit = target.m_Gain - templateDict[m_Gain.Id].Config.alertCurve.Evaluate(templateDict[m_Gain.Id].CostTime / templateDict[m_Gain.Id].Config.duration) * (m_GainDiff);
             }
             if(source.m_Use2DDistance.IsUse)
             {

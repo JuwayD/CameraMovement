@@ -53,7 +53,7 @@ namespace CameraMovement{
                 m_Alpha.Add(new MixItem<System.Single>(id, priority, source.m_Alpha.CalculatorExpression, source.m_Alpha.Value, source.m_Alpha.IsUse));
                var targetValue = (m_Alpha.IsExpression ? m_Alpha.Value : m_Alpha.PrimitiveValue);
                m_AlphaDiff = targetValue - target.m_Alpha;
-               m_AlphaAlertInit = target.m_Alpha - templateDict[m_Alpha.Id].Config.alertCurve.Evaluate(templateDict[m_Alpha.Id].CostTime / templateDict[m_Alpha.Id].Config.duration) * (m_AlphaDiff);
+               if(templateDict[m_Alpha.Id].Config.alertCurve != null) m_AlphaAlertInit = target.m_Alpha - templateDict[m_Alpha.Id].Config.alertCurve.Evaluate(templateDict[m_Alpha.Id].CostTime / templateDict[m_Alpha.Id].Config.duration) * (m_AlphaDiff);
             }
             if(source.m_Rotation.IsUse)
             {
@@ -72,7 +72,7 @@ namespace CameraMovement{
                 m_SplitView.Add(new MixItem<System.Single>(id, priority, source.m_SplitView.CalculatorExpression, source.m_SplitView.Value, source.m_SplitView.IsUse));
                var targetValue = (m_SplitView.IsExpression ? m_SplitView.Value : m_SplitView.PrimitiveValue);
                m_SplitViewDiff = targetValue - target.m_SplitView;
-               m_SplitViewAlertInit = target.m_SplitView - templateDict[m_SplitView.Id].Config.alertCurve.Evaluate(templateDict[m_SplitView.Id].CostTime / templateDict[m_SplitView.Id].Config.duration) * (m_SplitViewDiff);
+               if(templateDict[m_SplitView.Id].Config.alertCurve != null) m_SplitViewAlertInit = target.m_SplitView - templateDict[m_SplitView.Id].Config.alertCurve.Evaluate(templateDict[m_SplitView.Id].CostTime / templateDict[m_SplitView.Id].Config.duration) * (m_SplitViewDiff);
             }
             if(source.m_RenderMode.IsUse)
             {
@@ -87,7 +87,7 @@ namespace CameraMovement{
                 m_PlaneDistance.Add(new MixItem<System.Single>(id, priority, source.m_PlaneDistance.CalculatorExpression, source.m_PlaneDistance.Value, source.m_PlaneDistance.IsUse));
                var targetValue = (m_PlaneDistance.IsExpression ? m_PlaneDistance.Value : m_PlaneDistance.PrimitiveValue);
                m_PlaneDistanceDiff = targetValue - target.m_PlaneDistance;
-               m_PlaneDistanceAlertInit = target.m_PlaneDistance - templateDict[m_PlaneDistance.Id].Config.alertCurve.Evaluate(templateDict[m_PlaneDistance.Id].CostTime / templateDict[m_PlaneDistance.Id].Config.duration) * (m_PlaneDistanceDiff);
+               if(templateDict[m_PlaneDistance.Id].Config.alertCurve != null) m_PlaneDistanceAlertInit = target.m_PlaneDistance - templateDict[m_PlaneDistance.Id].Config.alertCurve.Evaluate(templateDict[m_PlaneDistance.Id].CostTime / templateDict[m_PlaneDistance.Id].Config.duration) * (m_PlaneDistanceDiff);
             }
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineStoryboard target, Dictionary<int, RuntimeTemplate> templateDict)
@@ -108,7 +108,7 @@ namespace CameraMovement{
                 m_Alpha.Remove(new MixItem<System.Single>(id, priority, source.m_Alpha.CalculatorExpression, source.m_Alpha.Value, source.m_Alpha.IsUse));
                var targetValue = (m_Alpha.IsExpression ? m_Alpha.Value : m_Alpha.PrimitiveValue);
                m_AlphaDiff = targetValue - target.m_Alpha;
-               m_AlphaAlertInit = target.m_Alpha - templateDict[m_Alpha.Id].Config.alertCurve.Evaluate(templateDict[m_Alpha.Id].CostTime / templateDict[m_Alpha.Id].Config.duration) * (m_AlphaDiff);
+               if(templateDict[m_Alpha.Id].Config.alertCurve != null) m_AlphaAlertInit = target.m_Alpha - templateDict[m_Alpha.Id].Config.alertCurve.Evaluate(templateDict[m_Alpha.Id].CostTime / templateDict[m_Alpha.Id].Config.duration) * (m_AlphaDiff);
             }
             if(source.m_Rotation.IsUse)
             {
@@ -127,7 +127,7 @@ namespace CameraMovement{
                 m_SplitView.Remove(new MixItem<System.Single>(id, priority, source.m_SplitView.CalculatorExpression, source.m_SplitView.Value, source.m_SplitView.IsUse));
                var targetValue = (m_SplitView.IsExpression ? m_SplitView.Value : m_SplitView.PrimitiveValue);
                m_SplitViewDiff = targetValue - target.m_SplitView;
-               m_SplitViewAlertInit = target.m_SplitView - templateDict[m_SplitView.Id].Config.alertCurve.Evaluate(templateDict[m_SplitView.Id].CostTime / templateDict[m_SplitView.Id].Config.duration) * (m_SplitViewDiff);
+               if(templateDict[m_SplitView.Id].Config.alertCurve != null) m_SplitViewAlertInit = target.m_SplitView - templateDict[m_SplitView.Id].Config.alertCurve.Evaluate(templateDict[m_SplitView.Id].CostTime / templateDict[m_SplitView.Id].Config.duration) * (m_SplitViewDiff);
             }
             if(source.m_RenderMode.IsUse)
             {
@@ -142,7 +142,7 @@ namespace CameraMovement{
                 m_PlaneDistance.Remove(new MixItem<System.Single>(id, priority, source.m_PlaneDistance.CalculatorExpression, source.m_PlaneDistance.Value, source.m_PlaneDistance.IsUse));
                var targetValue = (m_PlaneDistance.IsExpression ? m_PlaneDistance.Value : m_PlaneDistance.PrimitiveValue);
                m_PlaneDistanceDiff = targetValue - target.m_PlaneDistance;
-               m_PlaneDistanceAlertInit = target.m_PlaneDistance - templateDict[m_PlaneDistance.Id].Config.alertCurve.Evaluate(templateDict[m_PlaneDistance.Id].CostTime / templateDict[m_PlaneDistance.Id].Config.duration) * (m_PlaneDistanceDiff);
+               if(templateDict[m_PlaneDistance.Id].Config.alertCurve != null) m_PlaneDistanceAlertInit = target.m_PlaneDistance - templateDict[m_PlaneDistance.Id].Config.alertCurve.Evaluate(templateDict[m_PlaneDistance.Id].CostTime / templateDict[m_PlaneDistance.Id].Config.duration) * (m_PlaneDistanceDiff);
             }
         }
         public void RemoveAll()

@@ -57,7 +57,7 @@ namespace CameraMovement{
                 Value.Add(new MixItem<System.Single>(id, priority, source.Value.CalculatorExpression, source.Value.Value, source.Value.IsUse));
                var targetValue = (Value.IsExpression ? Value.Value : Value.PrimitiveValue);
                ValueDiff = targetValue - target.Value;
-               ValueAlertInit = target.Value - templateDict[Value.Id].Config.alertCurve.Evaluate(templateDict[Value.Id].CostTime / templateDict[Value.Id].Config.duration) * (ValueDiff);
+               if(templateDict[Value.Id].Config.alertCurve != null) ValueAlertInit = target.Value - templateDict[Value.Id].Config.alertCurve.Evaluate(templateDict[Value.Id].CostTime / templateDict[Value.Id].Config.duration) * (ValueDiff);
             }
             if(source.m_SpeedMode.IsUse)
             {
@@ -68,21 +68,21 @@ namespace CameraMovement{
                 m_MaxSpeed.Add(new MixItem<System.Single>(id, priority, source.m_MaxSpeed.CalculatorExpression, source.m_MaxSpeed.Value, source.m_MaxSpeed.IsUse));
                var targetValue = (m_MaxSpeed.IsExpression ? m_MaxSpeed.Value : m_MaxSpeed.PrimitiveValue);
                m_MaxSpeedDiff = targetValue - target.m_MaxSpeed;
-               m_MaxSpeedAlertInit = target.m_MaxSpeed - templateDict[m_MaxSpeed.Id].Config.alertCurve.Evaluate(templateDict[m_MaxSpeed.Id].CostTime / templateDict[m_MaxSpeed.Id].Config.duration) * (m_MaxSpeedDiff);
+               if(templateDict[m_MaxSpeed.Id].Config.alertCurve != null) m_MaxSpeedAlertInit = target.m_MaxSpeed - templateDict[m_MaxSpeed.Id].Config.alertCurve.Evaluate(templateDict[m_MaxSpeed.Id].CostTime / templateDict[m_MaxSpeed.Id].Config.duration) * (m_MaxSpeedDiff);
             }
             if(source.m_AccelTime.IsUse)
             {
                 m_AccelTime.Add(new MixItem<System.Single>(id, priority, source.m_AccelTime.CalculatorExpression, source.m_AccelTime.Value, source.m_AccelTime.IsUse));
                var targetValue = (m_AccelTime.IsExpression ? m_AccelTime.Value : m_AccelTime.PrimitiveValue);
                m_AccelTimeDiff = targetValue - target.m_AccelTime;
-               m_AccelTimeAlertInit = target.m_AccelTime - templateDict[m_AccelTime.Id].Config.alertCurve.Evaluate(templateDict[m_AccelTime.Id].CostTime / templateDict[m_AccelTime.Id].Config.duration) * (m_AccelTimeDiff);
+               if(templateDict[m_AccelTime.Id].Config.alertCurve != null) m_AccelTimeAlertInit = target.m_AccelTime - templateDict[m_AccelTime.Id].Config.alertCurve.Evaluate(templateDict[m_AccelTime.Id].CostTime / templateDict[m_AccelTime.Id].Config.duration) * (m_AccelTimeDiff);
             }
             if(source.m_DecelTime.IsUse)
             {
                 m_DecelTime.Add(new MixItem<System.Single>(id, priority, source.m_DecelTime.CalculatorExpression, source.m_DecelTime.Value, source.m_DecelTime.IsUse));
                var targetValue = (m_DecelTime.IsExpression ? m_DecelTime.Value : m_DecelTime.PrimitiveValue);
                m_DecelTimeDiff = targetValue - target.m_DecelTime;
-               m_DecelTimeAlertInit = target.m_DecelTime - templateDict[m_DecelTime.Id].Config.alertCurve.Evaluate(templateDict[m_DecelTime.Id].CostTime / templateDict[m_DecelTime.Id].Config.duration) * (m_DecelTimeDiff);
+               if(templateDict[m_DecelTime.Id].Config.alertCurve != null) m_DecelTimeAlertInit = target.m_DecelTime - templateDict[m_DecelTime.Id].Config.alertCurve.Evaluate(templateDict[m_DecelTime.Id].CostTime / templateDict[m_DecelTime.Id].Config.duration) * (m_DecelTimeDiff);
             }
             if(source.m_InputAxisName.IsUse)
             {
@@ -93,7 +93,7 @@ namespace CameraMovement{
                 m_InputAxisValue.Add(new MixItem<System.Single>(id, priority, source.m_InputAxisValue.CalculatorExpression, source.m_InputAxisValue.Value, source.m_InputAxisValue.IsUse));
                var targetValue = (m_InputAxisValue.IsExpression ? m_InputAxisValue.Value : m_InputAxisValue.PrimitiveValue);
                m_InputAxisValueDiff = targetValue - target.m_InputAxisValue;
-               m_InputAxisValueAlertInit = target.m_InputAxisValue - templateDict[m_InputAxisValue.Id].Config.alertCurve.Evaluate(templateDict[m_InputAxisValue.Id].CostTime / templateDict[m_InputAxisValue.Id].Config.duration) * (m_InputAxisValueDiff);
+               if(templateDict[m_InputAxisValue.Id].Config.alertCurve != null) m_InputAxisValueAlertInit = target.m_InputAxisValue - templateDict[m_InputAxisValue.Id].Config.alertCurve.Evaluate(templateDict[m_InputAxisValue.Id].CostTime / templateDict[m_InputAxisValue.Id].Config.duration) * (m_InputAxisValueDiff);
             }
             if(source.m_InvertInput.IsUse)
             {
@@ -104,14 +104,14 @@ namespace CameraMovement{
                 m_MinValue.Add(new MixItem<System.Single>(id, priority, source.m_MinValue.CalculatorExpression, source.m_MinValue.Value, source.m_MinValue.IsUse));
                var targetValue = (m_MinValue.IsExpression ? m_MinValue.Value : m_MinValue.PrimitiveValue);
                m_MinValueDiff = targetValue - target.m_MinValue;
-               m_MinValueAlertInit = target.m_MinValue - templateDict[m_MinValue.Id].Config.alertCurve.Evaluate(templateDict[m_MinValue.Id].CostTime / templateDict[m_MinValue.Id].Config.duration) * (m_MinValueDiff);
+               if(templateDict[m_MinValue.Id].Config.alertCurve != null) m_MinValueAlertInit = target.m_MinValue - templateDict[m_MinValue.Id].Config.alertCurve.Evaluate(templateDict[m_MinValue.Id].CostTime / templateDict[m_MinValue.Id].Config.duration) * (m_MinValueDiff);
             }
             if(source.m_MaxValue.IsUse)
             {
                 m_MaxValue.Add(new MixItem<System.Single>(id, priority, source.m_MaxValue.CalculatorExpression, source.m_MaxValue.Value, source.m_MaxValue.IsUse));
                var targetValue = (m_MaxValue.IsExpression ? m_MaxValue.Value : m_MaxValue.PrimitiveValue);
                m_MaxValueDiff = targetValue - target.m_MaxValue;
-               m_MaxValueAlertInit = target.m_MaxValue - templateDict[m_MaxValue.Id].Config.alertCurve.Evaluate(templateDict[m_MaxValue.Id].CostTime / templateDict[m_MaxValue.Id].Config.duration) * (m_MaxValueDiff);
+               if(templateDict[m_MaxValue.Id].Config.alertCurve != null) m_MaxValueAlertInit = target.m_MaxValue - templateDict[m_MaxValue.Id].Config.alertCurve.Evaluate(templateDict[m_MaxValue.Id].CostTime / templateDict[m_MaxValue.Id].Config.duration) * (m_MaxValueDiff);
             }
             if(source.m_Wrap.IsUse)
             {
@@ -130,7 +130,7 @@ namespace CameraMovement{
                 Value.Remove(new MixItem<System.Single>(id, priority, source.Value.CalculatorExpression, source.Value.Value, source.Value.IsUse));
                var targetValue = (Value.IsExpression ? Value.Value : Value.PrimitiveValue);
                ValueDiff = targetValue - target.Value;
-               ValueAlertInit = target.Value - templateDict[Value.Id].Config.alertCurve.Evaluate(templateDict[Value.Id].CostTime / templateDict[Value.Id].Config.duration) * (ValueDiff);
+               if(templateDict[Value.Id].Config.alertCurve != null) ValueAlertInit = target.Value - templateDict[Value.Id].Config.alertCurve.Evaluate(templateDict[Value.Id].CostTime / templateDict[Value.Id].Config.duration) * (ValueDiff);
             }
             if(source.m_SpeedMode.IsUse)
             {
@@ -141,21 +141,21 @@ namespace CameraMovement{
                 m_MaxSpeed.Remove(new MixItem<System.Single>(id, priority, source.m_MaxSpeed.CalculatorExpression, source.m_MaxSpeed.Value, source.m_MaxSpeed.IsUse));
                var targetValue = (m_MaxSpeed.IsExpression ? m_MaxSpeed.Value : m_MaxSpeed.PrimitiveValue);
                m_MaxSpeedDiff = targetValue - target.m_MaxSpeed;
-               m_MaxSpeedAlertInit = target.m_MaxSpeed - templateDict[m_MaxSpeed.Id].Config.alertCurve.Evaluate(templateDict[m_MaxSpeed.Id].CostTime / templateDict[m_MaxSpeed.Id].Config.duration) * (m_MaxSpeedDiff);
+               if(templateDict[m_MaxSpeed.Id].Config.alertCurve != null) m_MaxSpeedAlertInit = target.m_MaxSpeed - templateDict[m_MaxSpeed.Id].Config.alertCurve.Evaluate(templateDict[m_MaxSpeed.Id].CostTime / templateDict[m_MaxSpeed.Id].Config.duration) * (m_MaxSpeedDiff);
             }
             if(source.m_AccelTime.IsUse)
             {
                 m_AccelTime.Remove(new MixItem<System.Single>(id, priority, source.m_AccelTime.CalculatorExpression, source.m_AccelTime.Value, source.m_AccelTime.IsUse));
                var targetValue = (m_AccelTime.IsExpression ? m_AccelTime.Value : m_AccelTime.PrimitiveValue);
                m_AccelTimeDiff = targetValue - target.m_AccelTime;
-               m_AccelTimeAlertInit = target.m_AccelTime - templateDict[m_AccelTime.Id].Config.alertCurve.Evaluate(templateDict[m_AccelTime.Id].CostTime / templateDict[m_AccelTime.Id].Config.duration) * (m_AccelTimeDiff);
+               if(templateDict[m_AccelTime.Id].Config.alertCurve != null) m_AccelTimeAlertInit = target.m_AccelTime - templateDict[m_AccelTime.Id].Config.alertCurve.Evaluate(templateDict[m_AccelTime.Id].CostTime / templateDict[m_AccelTime.Id].Config.duration) * (m_AccelTimeDiff);
             }
             if(source.m_DecelTime.IsUse)
             {
                 m_DecelTime.Remove(new MixItem<System.Single>(id, priority, source.m_DecelTime.CalculatorExpression, source.m_DecelTime.Value, source.m_DecelTime.IsUse));
                var targetValue = (m_DecelTime.IsExpression ? m_DecelTime.Value : m_DecelTime.PrimitiveValue);
                m_DecelTimeDiff = targetValue - target.m_DecelTime;
-               m_DecelTimeAlertInit = target.m_DecelTime - templateDict[m_DecelTime.Id].Config.alertCurve.Evaluate(templateDict[m_DecelTime.Id].CostTime / templateDict[m_DecelTime.Id].Config.duration) * (m_DecelTimeDiff);
+               if(templateDict[m_DecelTime.Id].Config.alertCurve != null) m_DecelTimeAlertInit = target.m_DecelTime - templateDict[m_DecelTime.Id].Config.alertCurve.Evaluate(templateDict[m_DecelTime.Id].CostTime / templateDict[m_DecelTime.Id].Config.duration) * (m_DecelTimeDiff);
             }
             if(source.m_InputAxisName.IsUse)
             {
@@ -166,7 +166,7 @@ namespace CameraMovement{
                 m_InputAxisValue.Remove(new MixItem<System.Single>(id, priority, source.m_InputAxisValue.CalculatorExpression, source.m_InputAxisValue.Value, source.m_InputAxisValue.IsUse));
                var targetValue = (m_InputAxisValue.IsExpression ? m_InputAxisValue.Value : m_InputAxisValue.PrimitiveValue);
                m_InputAxisValueDiff = targetValue - target.m_InputAxisValue;
-               m_InputAxisValueAlertInit = target.m_InputAxisValue - templateDict[m_InputAxisValue.Id].Config.alertCurve.Evaluate(templateDict[m_InputAxisValue.Id].CostTime / templateDict[m_InputAxisValue.Id].Config.duration) * (m_InputAxisValueDiff);
+               if(templateDict[m_InputAxisValue.Id].Config.alertCurve != null) m_InputAxisValueAlertInit = target.m_InputAxisValue - templateDict[m_InputAxisValue.Id].Config.alertCurve.Evaluate(templateDict[m_InputAxisValue.Id].CostTime / templateDict[m_InputAxisValue.Id].Config.duration) * (m_InputAxisValueDiff);
             }
             if(source.m_InvertInput.IsUse)
             {
@@ -177,14 +177,14 @@ namespace CameraMovement{
                 m_MinValue.Remove(new MixItem<System.Single>(id, priority, source.m_MinValue.CalculatorExpression, source.m_MinValue.Value, source.m_MinValue.IsUse));
                var targetValue = (m_MinValue.IsExpression ? m_MinValue.Value : m_MinValue.PrimitiveValue);
                m_MinValueDiff = targetValue - target.m_MinValue;
-               m_MinValueAlertInit = target.m_MinValue - templateDict[m_MinValue.Id].Config.alertCurve.Evaluate(templateDict[m_MinValue.Id].CostTime / templateDict[m_MinValue.Id].Config.duration) * (m_MinValueDiff);
+               if(templateDict[m_MinValue.Id].Config.alertCurve != null) m_MinValueAlertInit = target.m_MinValue - templateDict[m_MinValue.Id].Config.alertCurve.Evaluate(templateDict[m_MinValue.Id].CostTime / templateDict[m_MinValue.Id].Config.duration) * (m_MinValueDiff);
             }
             if(source.m_MaxValue.IsUse)
             {
                 m_MaxValue.Remove(new MixItem<System.Single>(id, priority, source.m_MaxValue.CalculatorExpression, source.m_MaxValue.Value, source.m_MaxValue.IsUse));
                var targetValue = (m_MaxValue.IsExpression ? m_MaxValue.Value : m_MaxValue.PrimitiveValue);
                m_MaxValueDiff = targetValue - target.m_MaxValue;
-               m_MaxValueAlertInit = target.m_MaxValue - templateDict[m_MaxValue.Id].Config.alertCurve.Evaluate(templateDict[m_MaxValue.Id].CostTime / templateDict[m_MaxValue.Id].Config.duration) * (m_MaxValueDiff);
+               if(templateDict[m_MaxValue.Id].Config.alertCurve != null) m_MaxValueAlertInit = target.m_MaxValue - templateDict[m_MaxValue.Id].Config.alertCurve.Evaluate(templateDict[m_MaxValue.Id].CostTime / templateDict[m_MaxValue.Id].Config.duration) * (m_MaxValueDiff);
             }
             if(source.m_Wrap.IsUse)
             {

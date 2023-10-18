@@ -55,7 +55,7 @@ namespace CameraMovement{
                 m_PathPosition.Add(new MixItem<System.Single>(id, priority, source.m_PathPosition.CalculatorExpression, source.m_PathPosition.Value, source.m_PathPosition.IsUse));
                var targetValue = (m_PathPosition.IsExpression ? m_PathPosition.Value : m_PathPosition.PrimitiveValue);
                m_PathPositionDiff = targetValue - target.m_PathPosition;
-               m_PathPositionAlertInit = target.m_PathPosition - templateDict[m_PathPosition.Id].Config.alertCurve.Evaluate(templateDict[m_PathPosition.Id].CostTime / templateDict[m_PathPosition.Id].Config.duration) * (m_PathPositionDiff);
+               if(templateDict[m_PathPosition.Id].Config.alertCurve != null) m_PathPositionAlertInit = target.m_PathPosition - templateDict[m_PathPosition.Id].Config.alertCurve.Evaluate(templateDict[m_PathPosition.Id].CostTime / templateDict[m_PathPosition.Id].Config.duration) * (m_PathPositionDiff);
             }
             if(source.m_PositionUnits.IsUse)
             {
@@ -70,21 +70,21 @@ namespace CameraMovement{
                 m_XDamping.Add(new MixItem<System.Single>(id, priority, source.m_XDamping.CalculatorExpression, source.m_XDamping.Value, source.m_XDamping.IsUse));
                var targetValue = (m_XDamping.IsExpression ? m_XDamping.Value : m_XDamping.PrimitiveValue);
                m_XDampingDiff = targetValue - target.m_XDamping;
-               m_XDampingAlertInit = target.m_XDamping - templateDict[m_XDamping.Id].Config.alertCurve.Evaluate(templateDict[m_XDamping.Id].CostTime / templateDict[m_XDamping.Id].Config.duration) * (m_XDampingDiff);
+               if(templateDict[m_XDamping.Id].Config.alertCurve != null) m_XDampingAlertInit = target.m_XDamping - templateDict[m_XDamping.Id].Config.alertCurve.Evaluate(templateDict[m_XDamping.Id].CostTime / templateDict[m_XDamping.Id].Config.duration) * (m_XDampingDiff);
             }
             if(source.m_YDamping.IsUse)
             {
                 m_YDamping.Add(new MixItem<System.Single>(id, priority, source.m_YDamping.CalculatorExpression, source.m_YDamping.Value, source.m_YDamping.IsUse));
                var targetValue = (m_YDamping.IsExpression ? m_YDamping.Value : m_YDamping.PrimitiveValue);
                m_YDampingDiff = targetValue - target.m_YDamping;
-               m_YDampingAlertInit = target.m_YDamping - templateDict[m_YDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YDamping.Id].CostTime / templateDict[m_YDamping.Id].Config.duration) * (m_YDampingDiff);
+               if(templateDict[m_YDamping.Id].Config.alertCurve != null) m_YDampingAlertInit = target.m_YDamping - templateDict[m_YDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YDamping.Id].CostTime / templateDict[m_YDamping.Id].Config.duration) * (m_YDampingDiff);
             }
             if(source.m_ZDamping.IsUse)
             {
                 m_ZDamping.Add(new MixItem<System.Single>(id, priority, source.m_ZDamping.CalculatorExpression, source.m_ZDamping.Value, source.m_ZDamping.IsUse));
                var targetValue = (m_ZDamping.IsExpression ? m_ZDamping.Value : m_ZDamping.PrimitiveValue);
                m_ZDampingDiff = targetValue - target.m_ZDamping;
-               m_ZDampingAlertInit = target.m_ZDamping - templateDict[m_ZDamping.Id].Config.alertCurve.Evaluate(templateDict[m_ZDamping.Id].CostTime / templateDict[m_ZDamping.Id].Config.duration) * (m_ZDampingDiff);
+               if(templateDict[m_ZDamping.Id].Config.alertCurve != null) m_ZDampingAlertInit = target.m_ZDamping - templateDict[m_ZDamping.Id].Config.alertCurve.Evaluate(templateDict[m_ZDamping.Id].CostTime / templateDict[m_ZDamping.Id].Config.duration) * (m_ZDampingDiff);
             }
             if(source.m_CameraUp.IsUse)
             {
@@ -95,21 +95,21 @@ namespace CameraMovement{
                 m_PitchDamping.Add(new MixItem<System.Single>(id, priority, source.m_PitchDamping.CalculatorExpression, source.m_PitchDamping.Value, source.m_PitchDamping.IsUse));
                var targetValue = (m_PitchDamping.IsExpression ? m_PitchDamping.Value : m_PitchDamping.PrimitiveValue);
                m_PitchDampingDiff = targetValue - target.m_PitchDamping;
-               m_PitchDampingAlertInit = target.m_PitchDamping - templateDict[m_PitchDamping.Id].Config.alertCurve.Evaluate(templateDict[m_PitchDamping.Id].CostTime / templateDict[m_PitchDamping.Id].Config.duration) * (m_PitchDampingDiff);
+               if(templateDict[m_PitchDamping.Id].Config.alertCurve != null) m_PitchDampingAlertInit = target.m_PitchDamping - templateDict[m_PitchDamping.Id].Config.alertCurve.Evaluate(templateDict[m_PitchDamping.Id].CostTime / templateDict[m_PitchDamping.Id].Config.duration) * (m_PitchDampingDiff);
             }
             if(source.m_YawDamping.IsUse)
             {
                 m_YawDamping.Add(new MixItem<System.Single>(id, priority, source.m_YawDamping.CalculatorExpression, source.m_YawDamping.Value, source.m_YawDamping.IsUse));
                var targetValue = (m_YawDamping.IsExpression ? m_YawDamping.Value : m_YawDamping.PrimitiveValue);
                m_YawDampingDiff = targetValue - target.m_YawDamping;
-               m_YawDampingAlertInit = target.m_YawDamping - templateDict[m_YawDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YawDamping.Id].CostTime / templateDict[m_YawDamping.Id].Config.duration) * (m_YawDampingDiff);
+               if(templateDict[m_YawDamping.Id].Config.alertCurve != null) m_YawDampingAlertInit = target.m_YawDamping - templateDict[m_YawDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YawDamping.Id].CostTime / templateDict[m_YawDamping.Id].Config.duration) * (m_YawDampingDiff);
             }
             if(source.m_RollDamping.IsUse)
             {
                 m_RollDamping.Add(new MixItem<System.Single>(id, priority, source.m_RollDamping.CalculatorExpression, source.m_RollDamping.Value, source.m_RollDamping.IsUse));
                var targetValue = (m_RollDamping.IsExpression ? m_RollDamping.Value : m_RollDamping.PrimitiveValue);
                m_RollDampingDiff = targetValue - target.m_RollDamping;
-               m_RollDampingAlertInit = target.m_RollDamping - templateDict[m_RollDamping.Id].Config.alertCurve.Evaluate(templateDict[m_RollDamping.Id].CostTime / templateDict[m_RollDamping.Id].Config.duration) * (m_RollDampingDiff);
+               if(templateDict[m_RollDamping.Id].Config.alertCurve != null) m_RollDampingAlertInit = target.m_RollDamping - templateDict[m_RollDamping.Id].Config.alertCurve.Evaluate(templateDict[m_RollDamping.Id].CostTime / templateDict[m_RollDamping.Id].Config.duration) * (m_RollDampingDiff);
             }
             if(source.m_AutoDolly != null && m_AutoDolly == null) m_AutoDolly = new Control_C_CTD_AutoDolly_Field();
             m_AutoDolly?.AddByConfig(source.m_AutoDolly, id, priority, ref target.m_AutoDolly, templateDict);
@@ -124,7 +124,7 @@ namespace CameraMovement{
                 m_PathPosition.Remove(new MixItem<System.Single>(id, priority, source.m_PathPosition.CalculatorExpression, source.m_PathPosition.Value, source.m_PathPosition.IsUse));
                var targetValue = (m_PathPosition.IsExpression ? m_PathPosition.Value : m_PathPosition.PrimitiveValue);
                m_PathPositionDiff = targetValue - target.m_PathPosition;
-               m_PathPositionAlertInit = target.m_PathPosition - templateDict[m_PathPosition.Id].Config.alertCurve.Evaluate(templateDict[m_PathPosition.Id].CostTime / templateDict[m_PathPosition.Id].Config.duration) * (m_PathPositionDiff);
+               if(templateDict[m_PathPosition.Id].Config.alertCurve != null) m_PathPositionAlertInit = target.m_PathPosition - templateDict[m_PathPosition.Id].Config.alertCurve.Evaluate(templateDict[m_PathPosition.Id].CostTime / templateDict[m_PathPosition.Id].Config.duration) * (m_PathPositionDiff);
             }
             if(source.m_PositionUnits.IsUse)
             {
@@ -139,21 +139,21 @@ namespace CameraMovement{
                 m_XDamping.Remove(new MixItem<System.Single>(id, priority, source.m_XDamping.CalculatorExpression, source.m_XDamping.Value, source.m_XDamping.IsUse));
                var targetValue = (m_XDamping.IsExpression ? m_XDamping.Value : m_XDamping.PrimitiveValue);
                m_XDampingDiff = targetValue - target.m_XDamping;
-               m_XDampingAlertInit = target.m_XDamping - templateDict[m_XDamping.Id].Config.alertCurve.Evaluate(templateDict[m_XDamping.Id].CostTime / templateDict[m_XDamping.Id].Config.duration) * (m_XDampingDiff);
+               if(templateDict[m_XDamping.Id].Config.alertCurve != null) m_XDampingAlertInit = target.m_XDamping - templateDict[m_XDamping.Id].Config.alertCurve.Evaluate(templateDict[m_XDamping.Id].CostTime / templateDict[m_XDamping.Id].Config.duration) * (m_XDampingDiff);
             }
             if(source.m_YDamping.IsUse)
             {
                 m_YDamping.Remove(new MixItem<System.Single>(id, priority, source.m_YDamping.CalculatorExpression, source.m_YDamping.Value, source.m_YDamping.IsUse));
                var targetValue = (m_YDamping.IsExpression ? m_YDamping.Value : m_YDamping.PrimitiveValue);
                m_YDampingDiff = targetValue - target.m_YDamping;
-               m_YDampingAlertInit = target.m_YDamping - templateDict[m_YDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YDamping.Id].CostTime / templateDict[m_YDamping.Id].Config.duration) * (m_YDampingDiff);
+               if(templateDict[m_YDamping.Id].Config.alertCurve != null) m_YDampingAlertInit = target.m_YDamping - templateDict[m_YDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YDamping.Id].CostTime / templateDict[m_YDamping.Id].Config.duration) * (m_YDampingDiff);
             }
             if(source.m_ZDamping.IsUse)
             {
                 m_ZDamping.Remove(new MixItem<System.Single>(id, priority, source.m_ZDamping.CalculatorExpression, source.m_ZDamping.Value, source.m_ZDamping.IsUse));
                var targetValue = (m_ZDamping.IsExpression ? m_ZDamping.Value : m_ZDamping.PrimitiveValue);
                m_ZDampingDiff = targetValue - target.m_ZDamping;
-               m_ZDampingAlertInit = target.m_ZDamping - templateDict[m_ZDamping.Id].Config.alertCurve.Evaluate(templateDict[m_ZDamping.Id].CostTime / templateDict[m_ZDamping.Id].Config.duration) * (m_ZDampingDiff);
+               if(templateDict[m_ZDamping.Id].Config.alertCurve != null) m_ZDampingAlertInit = target.m_ZDamping - templateDict[m_ZDamping.Id].Config.alertCurve.Evaluate(templateDict[m_ZDamping.Id].CostTime / templateDict[m_ZDamping.Id].Config.duration) * (m_ZDampingDiff);
             }
             if(source.m_CameraUp.IsUse)
             {
@@ -164,21 +164,21 @@ namespace CameraMovement{
                 m_PitchDamping.Remove(new MixItem<System.Single>(id, priority, source.m_PitchDamping.CalculatorExpression, source.m_PitchDamping.Value, source.m_PitchDamping.IsUse));
                var targetValue = (m_PitchDamping.IsExpression ? m_PitchDamping.Value : m_PitchDamping.PrimitiveValue);
                m_PitchDampingDiff = targetValue - target.m_PitchDamping;
-               m_PitchDampingAlertInit = target.m_PitchDamping - templateDict[m_PitchDamping.Id].Config.alertCurve.Evaluate(templateDict[m_PitchDamping.Id].CostTime / templateDict[m_PitchDamping.Id].Config.duration) * (m_PitchDampingDiff);
+               if(templateDict[m_PitchDamping.Id].Config.alertCurve != null) m_PitchDampingAlertInit = target.m_PitchDamping - templateDict[m_PitchDamping.Id].Config.alertCurve.Evaluate(templateDict[m_PitchDamping.Id].CostTime / templateDict[m_PitchDamping.Id].Config.duration) * (m_PitchDampingDiff);
             }
             if(source.m_YawDamping.IsUse)
             {
                 m_YawDamping.Remove(new MixItem<System.Single>(id, priority, source.m_YawDamping.CalculatorExpression, source.m_YawDamping.Value, source.m_YawDamping.IsUse));
                var targetValue = (m_YawDamping.IsExpression ? m_YawDamping.Value : m_YawDamping.PrimitiveValue);
                m_YawDampingDiff = targetValue - target.m_YawDamping;
-               m_YawDampingAlertInit = target.m_YawDamping - templateDict[m_YawDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YawDamping.Id].CostTime / templateDict[m_YawDamping.Id].Config.duration) * (m_YawDampingDiff);
+               if(templateDict[m_YawDamping.Id].Config.alertCurve != null) m_YawDampingAlertInit = target.m_YawDamping - templateDict[m_YawDamping.Id].Config.alertCurve.Evaluate(templateDict[m_YawDamping.Id].CostTime / templateDict[m_YawDamping.Id].Config.duration) * (m_YawDampingDiff);
             }
             if(source.m_RollDamping.IsUse)
             {
                 m_RollDamping.Remove(new MixItem<System.Single>(id, priority, source.m_RollDamping.CalculatorExpression, source.m_RollDamping.Value, source.m_RollDamping.IsUse));
                var targetValue = (m_RollDamping.IsExpression ? m_RollDamping.Value : m_RollDamping.PrimitiveValue);
                m_RollDampingDiff = targetValue - target.m_RollDamping;
-               m_RollDampingAlertInit = target.m_RollDamping - templateDict[m_RollDamping.Id].Config.alertCurve.Evaluate(templateDict[m_RollDamping.Id].CostTime / templateDict[m_RollDamping.Id].Config.duration) * (m_RollDampingDiff);
+               if(templateDict[m_RollDamping.Id].Config.alertCurve != null) m_RollDampingAlertInit = target.m_RollDamping - templateDict[m_RollDamping.Id].Config.alertCurve.Evaluate(templateDict[m_RollDamping.Id].CostTime / templateDict[m_RollDamping.Id].Config.duration) * (m_RollDampingDiff);
             }
             m_AutoDolly?.RemoveByConfig(source.m_AutoDolly, id, priority, ref target.m_AutoDolly, templateDict);
         }

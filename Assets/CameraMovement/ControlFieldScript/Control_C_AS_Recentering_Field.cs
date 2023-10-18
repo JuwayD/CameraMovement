@@ -33,14 +33,14 @@ namespace CameraMovement{
                 m_WaitTime.Add(new MixItem<System.Single>(id, priority, source.m_WaitTime.CalculatorExpression, source.m_WaitTime.Value, source.m_WaitTime.IsUse));
                var targetValue = (m_WaitTime.IsExpression ? m_WaitTime.Value : m_WaitTime.PrimitiveValue);
                m_WaitTimeDiff = targetValue - target.m_WaitTime;
-               m_WaitTimeAlertInit = target.m_WaitTime - templateDict[m_WaitTime.Id].Config.alertCurve.Evaluate(templateDict[m_WaitTime.Id].CostTime / templateDict[m_WaitTime.Id].Config.duration) * (m_WaitTimeDiff);
+               if(templateDict[m_WaitTime.Id].Config.alertCurve != null) m_WaitTimeAlertInit = target.m_WaitTime - templateDict[m_WaitTime.Id].Config.alertCurve.Evaluate(templateDict[m_WaitTime.Id].CostTime / templateDict[m_WaitTime.Id].Config.duration) * (m_WaitTimeDiff);
             }
             if(source.m_RecenteringTime.IsUse)
             {
                 m_RecenteringTime.Add(new MixItem<System.Single>(id, priority, source.m_RecenteringTime.CalculatorExpression, source.m_RecenteringTime.Value, source.m_RecenteringTime.IsUse));
                var targetValue = (m_RecenteringTime.IsExpression ? m_RecenteringTime.Value : m_RecenteringTime.PrimitiveValue);
                m_RecenteringTimeDiff = targetValue - target.m_RecenteringTime;
-               m_RecenteringTimeAlertInit = target.m_RecenteringTime - templateDict[m_RecenteringTime.Id].Config.alertCurve.Evaluate(templateDict[m_RecenteringTime.Id].CostTime / templateDict[m_RecenteringTime.Id].Config.duration) * (m_RecenteringTimeDiff);
+               if(templateDict[m_RecenteringTime.Id].Config.alertCurve != null) m_RecenteringTimeAlertInit = target.m_RecenteringTime - templateDict[m_RecenteringTime.Id].Config.alertCurve.Evaluate(templateDict[m_RecenteringTime.Id].CostTime / templateDict[m_RecenteringTime.Id].Config.duration) * (m_RecenteringTimeDiff);
             }
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.AxisState.Recentering target, Dictionary<int, RuntimeTemplate> templateDict)
@@ -57,14 +57,14 @@ namespace CameraMovement{
                 m_WaitTime.Remove(new MixItem<System.Single>(id, priority, source.m_WaitTime.CalculatorExpression, source.m_WaitTime.Value, source.m_WaitTime.IsUse));
                var targetValue = (m_WaitTime.IsExpression ? m_WaitTime.Value : m_WaitTime.PrimitiveValue);
                m_WaitTimeDiff = targetValue - target.m_WaitTime;
-               m_WaitTimeAlertInit = target.m_WaitTime - templateDict[m_WaitTime.Id].Config.alertCurve.Evaluate(templateDict[m_WaitTime.Id].CostTime / templateDict[m_WaitTime.Id].Config.duration) * (m_WaitTimeDiff);
+               if(templateDict[m_WaitTime.Id].Config.alertCurve != null) m_WaitTimeAlertInit = target.m_WaitTime - templateDict[m_WaitTime.Id].Config.alertCurve.Evaluate(templateDict[m_WaitTime.Id].CostTime / templateDict[m_WaitTime.Id].Config.duration) * (m_WaitTimeDiff);
             }
             if(source.m_RecenteringTime.IsUse)
             {
                 m_RecenteringTime.Remove(new MixItem<System.Single>(id, priority, source.m_RecenteringTime.CalculatorExpression, source.m_RecenteringTime.Value, source.m_RecenteringTime.IsUse));
                var targetValue = (m_RecenteringTime.IsExpression ? m_RecenteringTime.Value : m_RecenteringTime.PrimitiveValue);
                m_RecenteringTimeDiff = targetValue - target.m_RecenteringTime;
-               m_RecenteringTimeAlertInit = target.m_RecenteringTime - templateDict[m_RecenteringTime.Id].Config.alertCurve.Evaluate(templateDict[m_RecenteringTime.Id].CostTime / templateDict[m_RecenteringTime.Id].Config.duration) * (m_RecenteringTimeDiff);
+               if(templateDict[m_RecenteringTime.Id].Config.alertCurve != null) m_RecenteringTimeAlertInit = target.m_RecenteringTime - templateDict[m_RecenteringTime.Id].Config.alertCurve.Evaluate(templateDict[m_RecenteringTime.Id].CostTime / templateDict[m_RecenteringTime.Id].Config.duration) * (m_RecenteringTimeDiff);
             }
         }
         public void RemoveAll()

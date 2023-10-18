@@ -35,7 +35,7 @@ namespace CameraMovement{
                 m_Bias.Add(new MixItem<System.Single>(id, priority, source.m_Bias.CalculatorExpression, source.m_Bias.Value, source.m_Bias.IsUse));
                var targetValue = (m_Bias.IsExpression ? m_Bias.Value : m_Bias.PrimitiveValue);
                m_BiasDiff = targetValue - target.m_Bias;
-               m_BiasAlertInit = target.m_Bias - templateDict[m_Bias.Id].Config.alertCurve.Evaluate(templateDict[m_Bias.Id].CostTime / templateDict[m_Bias.Id].Config.duration) * (m_BiasDiff);
+               if(templateDict[m_Bias.Id].Config.alertCurve != null) m_BiasAlertInit = target.m_Bias - templateDict[m_Bias.Id].Config.alertCurve.Evaluate(templateDict[m_Bias.Id].CostTime / templateDict[m_Bias.Id].Config.duration) * (m_BiasDiff);
             }
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.CinemachineOrbitalTransposer.Heading target, Dictionary<int, RuntimeTemplate> templateDict)
@@ -56,7 +56,7 @@ namespace CameraMovement{
                 m_Bias.Remove(new MixItem<System.Single>(id, priority, source.m_Bias.CalculatorExpression, source.m_Bias.Value, source.m_Bias.IsUse));
                var targetValue = (m_Bias.IsExpression ? m_Bias.Value : m_Bias.PrimitiveValue);
                m_BiasDiff = targetValue - target.m_Bias;
-               m_BiasAlertInit = target.m_Bias - templateDict[m_Bias.Id].Config.alertCurve.Evaluate(templateDict[m_Bias.Id].CostTime / templateDict[m_Bias.Id].Config.duration) * (m_BiasDiff);
+               if(templateDict[m_Bias.Id].Config.alertCurve != null) m_BiasAlertInit = target.m_Bias - templateDict[m_Bias.Id].Config.alertCurve.Evaluate(templateDict[m_Bias.Id].CostTime / templateDict[m_Bias.Id].Config.duration) * (m_BiasDiff);
             }
         }
         public void RemoveAll()

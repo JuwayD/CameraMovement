@@ -45,35 +45,35 @@ namespace CameraMovement{
                 FieldOfView.Add(new MixItem<System.Single>(id, priority, source.FieldOfView.CalculatorExpression, source.FieldOfView.Value, source.FieldOfView.IsUse));
                var targetValue = (FieldOfView.IsExpression ? FieldOfView.Value : FieldOfView.PrimitiveValue);
                FieldOfViewDiff = targetValue - target.FieldOfView;
-               FieldOfViewAlertInit = target.FieldOfView - templateDict[FieldOfView.Id].Config.alertCurve.Evaluate(templateDict[FieldOfView.Id].CostTime / templateDict[FieldOfView.Id].Config.duration) * (FieldOfViewDiff);
+               if(templateDict[FieldOfView.Id].Config.alertCurve != null) FieldOfViewAlertInit = target.FieldOfView - templateDict[FieldOfView.Id].Config.alertCurve.Evaluate(templateDict[FieldOfView.Id].CostTime / templateDict[FieldOfView.Id].Config.duration) * (FieldOfViewDiff);
             }
             if(source.OrthographicSize.IsUse)
             {
                 OrthographicSize.Add(new MixItem<System.Single>(id, priority, source.OrthographicSize.CalculatorExpression, source.OrthographicSize.Value, source.OrthographicSize.IsUse));
                var targetValue = (OrthographicSize.IsExpression ? OrthographicSize.Value : OrthographicSize.PrimitiveValue);
                OrthographicSizeDiff = targetValue - target.OrthographicSize;
-               OrthographicSizeAlertInit = target.OrthographicSize - templateDict[OrthographicSize.Id].Config.alertCurve.Evaluate(templateDict[OrthographicSize.Id].CostTime / templateDict[OrthographicSize.Id].Config.duration) * (OrthographicSizeDiff);
+               if(templateDict[OrthographicSize.Id].Config.alertCurve != null) OrthographicSizeAlertInit = target.OrthographicSize - templateDict[OrthographicSize.Id].Config.alertCurve.Evaluate(templateDict[OrthographicSize.Id].CostTime / templateDict[OrthographicSize.Id].Config.duration) * (OrthographicSizeDiff);
             }
             if(source.NearClipPlane.IsUse)
             {
                 NearClipPlane.Add(new MixItem<System.Single>(id, priority, source.NearClipPlane.CalculatorExpression, source.NearClipPlane.Value, source.NearClipPlane.IsUse));
                var targetValue = (NearClipPlane.IsExpression ? NearClipPlane.Value : NearClipPlane.PrimitiveValue);
                NearClipPlaneDiff = targetValue - target.NearClipPlane;
-               NearClipPlaneAlertInit = target.NearClipPlane - templateDict[NearClipPlane.Id].Config.alertCurve.Evaluate(templateDict[NearClipPlane.Id].CostTime / templateDict[NearClipPlane.Id].Config.duration) * (NearClipPlaneDiff);
+               if(templateDict[NearClipPlane.Id].Config.alertCurve != null) NearClipPlaneAlertInit = target.NearClipPlane - templateDict[NearClipPlane.Id].Config.alertCurve.Evaluate(templateDict[NearClipPlane.Id].CostTime / templateDict[NearClipPlane.Id].Config.duration) * (NearClipPlaneDiff);
             }
             if(source.FarClipPlane.IsUse)
             {
                 FarClipPlane.Add(new MixItem<System.Single>(id, priority, source.FarClipPlane.CalculatorExpression, source.FarClipPlane.Value, source.FarClipPlane.IsUse));
                var targetValue = (FarClipPlane.IsExpression ? FarClipPlane.Value : FarClipPlane.PrimitiveValue);
                FarClipPlaneDiff = targetValue - target.FarClipPlane;
-               FarClipPlaneAlertInit = target.FarClipPlane - templateDict[FarClipPlane.Id].Config.alertCurve.Evaluate(templateDict[FarClipPlane.Id].CostTime / templateDict[FarClipPlane.Id].Config.duration) * (FarClipPlaneDiff);
+               if(templateDict[FarClipPlane.Id].Config.alertCurve != null) FarClipPlaneAlertInit = target.FarClipPlane - templateDict[FarClipPlane.Id].Config.alertCurve.Evaluate(templateDict[FarClipPlane.Id].CostTime / templateDict[FarClipPlane.Id].Config.duration) * (FarClipPlaneDiff);
             }
             if(source.Dutch.IsUse)
             {
                 Dutch.Add(new MixItem<System.Single>(id, priority, source.Dutch.CalculatorExpression, source.Dutch.Value, source.Dutch.IsUse));
                var targetValue = (Dutch.IsExpression ? Dutch.Value : Dutch.PrimitiveValue);
                DutchDiff = targetValue - target.Dutch;
-               DutchAlertInit = target.Dutch - templateDict[Dutch.Id].Config.alertCurve.Evaluate(templateDict[Dutch.Id].CostTime / templateDict[Dutch.Id].Config.duration) * (DutchDiff);
+               if(templateDict[Dutch.Id].Config.alertCurve != null) DutchAlertInit = target.Dutch - templateDict[Dutch.Id].Config.alertCurve.Evaluate(templateDict[Dutch.Id].CostTime / templateDict[Dutch.Id].Config.duration) * (DutchDiff);
             }
             if(source.ModeOverride.IsUse)
             {
@@ -88,7 +88,7 @@ namespace CameraMovement{
                 FocusDistance.Add(new MixItem<System.Single>(id, priority, source.FocusDistance.CalculatorExpression, source.FocusDistance.Value, source.FocusDistance.IsUse));
                var targetValue = (FocusDistance.IsExpression ? FocusDistance.Value : FocusDistance.PrimitiveValue);
                FocusDistanceDiff = targetValue - target.FocusDistance;
-               FocusDistanceAlertInit = target.FocusDistance - templateDict[FocusDistance.Id].Config.alertCurve.Evaluate(templateDict[FocusDistance.Id].CostTime / templateDict[FocusDistance.Id].Config.duration) * (FocusDistanceDiff);
+               if(templateDict[FocusDistance.Id].Config.alertCurve != null) FocusDistanceAlertInit = target.FocusDistance - templateDict[FocusDistance.Id].Config.alertCurve.Evaluate(templateDict[FocusDistance.Id].CostTime / templateDict[FocusDistance.Id].Config.duration) * (FocusDistanceDiff);
             }
         }
         public void RemoveByConfig(CameraMovementControlConfigBase sourceConfig,int id,int priority, ref Cinemachine.LensSettings target, Dictionary<int, RuntimeTemplate> templateDict)
@@ -101,35 +101,35 @@ namespace CameraMovement{
                 FieldOfView.Remove(new MixItem<System.Single>(id, priority, source.FieldOfView.CalculatorExpression, source.FieldOfView.Value, source.FieldOfView.IsUse));
                var targetValue = (FieldOfView.IsExpression ? FieldOfView.Value : FieldOfView.PrimitiveValue);
                FieldOfViewDiff = targetValue - target.FieldOfView;
-               FieldOfViewAlertInit = target.FieldOfView - templateDict[FieldOfView.Id].Config.alertCurve.Evaluate(templateDict[FieldOfView.Id].CostTime / templateDict[FieldOfView.Id].Config.duration) * (FieldOfViewDiff);
+               if(templateDict[FieldOfView.Id].Config.alertCurve != null) FieldOfViewAlertInit = target.FieldOfView - templateDict[FieldOfView.Id].Config.alertCurve.Evaluate(templateDict[FieldOfView.Id].CostTime / templateDict[FieldOfView.Id].Config.duration) * (FieldOfViewDiff);
             }
             if(source.OrthographicSize.IsUse)
             {
                 OrthographicSize.Remove(new MixItem<System.Single>(id, priority, source.OrthographicSize.CalculatorExpression, source.OrthographicSize.Value, source.OrthographicSize.IsUse));
                var targetValue = (OrthographicSize.IsExpression ? OrthographicSize.Value : OrthographicSize.PrimitiveValue);
                OrthographicSizeDiff = targetValue - target.OrthographicSize;
-               OrthographicSizeAlertInit = target.OrthographicSize - templateDict[OrthographicSize.Id].Config.alertCurve.Evaluate(templateDict[OrthographicSize.Id].CostTime / templateDict[OrthographicSize.Id].Config.duration) * (OrthographicSizeDiff);
+               if(templateDict[OrthographicSize.Id].Config.alertCurve != null) OrthographicSizeAlertInit = target.OrthographicSize - templateDict[OrthographicSize.Id].Config.alertCurve.Evaluate(templateDict[OrthographicSize.Id].CostTime / templateDict[OrthographicSize.Id].Config.duration) * (OrthographicSizeDiff);
             }
             if(source.NearClipPlane.IsUse)
             {
                 NearClipPlane.Remove(new MixItem<System.Single>(id, priority, source.NearClipPlane.CalculatorExpression, source.NearClipPlane.Value, source.NearClipPlane.IsUse));
                var targetValue = (NearClipPlane.IsExpression ? NearClipPlane.Value : NearClipPlane.PrimitiveValue);
                NearClipPlaneDiff = targetValue - target.NearClipPlane;
-               NearClipPlaneAlertInit = target.NearClipPlane - templateDict[NearClipPlane.Id].Config.alertCurve.Evaluate(templateDict[NearClipPlane.Id].CostTime / templateDict[NearClipPlane.Id].Config.duration) * (NearClipPlaneDiff);
+               if(templateDict[NearClipPlane.Id].Config.alertCurve != null) NearClipPlaneAlertInit = target.NearClipPlane - templateDict[NearClipPlane.Id].Config.alertCurve.Evaluate(templateDict[NearClipPlane.Id].CostTime / templateDict[NearClipPlane.Id].Config.duration) * (NearClipPlaneDiff);
             }
             if(source.FarClipPlane.IsUse)
             {
                 FarClipPlane.Remove(new MixItem<System.Single>(id, priority, source.FarClipPlane.CalculatorExpression, source.FarClipPlane.Value, source.FarClipPlane.IsUse));
                var targetValue = (FarClipPlane.IsExpression ? FarClipPlane.Value : FarClipPlane.PrimitiveValue);
                FarClipPlaneDiff = targetValue - target.FarClipPlane;
-               FarClipPlaneAlertInit = target.FarClipPlane - templateDict[FarClipPlane.Id].Config.alertCurve.Evaluate(templateDict[FarClipPlane.Id].CostTime / templateDict[FarClipPlane.Id].Config.duration) * (FarClipPlaneDiff);
+               if(templateDict[FarClipPlane.Id].Config.alertCurve != null) FarClipPlaneAlertInit = target.FarClipPlane - templateDict[FarClipPlane.Id].Config.alertCurve.Evaluate(templateDict[FarClipPlane.Id].CostTime / templateDict[FarClipPlane.Id].Config.duration) * (FarClipPlaneDiff);
             }
             if(source.Dutch.IsUse)
             {
                 Dutch.Remove(new MixItem<System.Single>(id, priority, source.Dutch.CalculatorExpression, source.Dutch.Value, source.Dutch.IsUse));
                var targetValue = (Dutch.IsExpression ? Dutch.Value : Dutch.PrimitiveValue);
                DutchDiff = targetValue - target.Dutch;
-               DutchAlertInit = target.Dutch - templateDict[Dutch.Id].Config.alertCurve.Evaluate(templateDict[Dutch.Id].CostTime / templateDict[Dutch.Id].Config.duration) * (DutchDiff);
+               if(templateDict[Dutch.Id].Config.alertCurve != null) DutchAlertInit = target.Dutch - templateDict[Dutch.Id].Config.alertCurve.Evaluate(templateDict[Dutch.Id].CostTime / templateDict[Dutch.Id].Config.duration) * (DutchDiff);
             }
             if(source.ModeOverride.IsUse)
             {
@@ -144,7 +144,7 @@ namespace CameraMovement{
                 FocusDistance.Remove(new MixItem<System.Single>(id, priority, source.FocusDistance.CalculatorExpression, source.FocusDistance.Value, source.FocusDistance.IsUse));
                var targetValue = (FocusDistance.IsExpression ? FocusDistance.Value : FocusDistance.PrimitiveValue);
                FocusDistanceDiff = targetValue - target.FocusDistance;
-               FocusDistanceAlertInit = target.FocusDistance - templateDict[FocusDistance.Id].Config.alertCurve.Evaluate(templateDict[FocusDistance.Id].CostTime / templateDict[FocusDistance.Id].Config.duration) * (FocusDistanceDiff);
+               if(templateDict[FocusDistance.Id].Config.alertCurve != null) FocusDistanceAlertInit = target.FocusDistance - templateDict[FocusDistance.Id].Config.alertCurve.Evaluate(templateDict[FocusDistance.Id].CostTime / templateDict[FocusDistance.Id].Config.duration) * (FocusDistanceDiff);
             }
         }
         public void RemoveAll()

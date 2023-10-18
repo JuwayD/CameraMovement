@@ -67,56 +67,56 @@ namespace CameraMovement{
                 m_Weight0.Add(new MixItem<System.Single>(id, priority, source.m_Weight0.CalculatorExpression, source.m_Weight0.Value, source.m_Weight0.IsUse));
                var targetValue = (m_Weight0.IsExpression ? m_Weight0.Value : m_Weight0.PrimitiveValue);
                m_Weight0Diff = targetValue - target.m_Weight0;
-               m_Weight0AlertInit = target.m_Weight0 - templateDict[m_Weight0.Id].Config.alertCurve.Evaluate(templateDict[m_Weight0.Id].CostTime / templateDict[m_Weight0.Id].Config.duration) * (m_Weight0Diff);
+               if(templateDict[m_Weight0.Id].Config.alertCurve != null) m_Weight0AlertInit = target.m_Weight0 - templateDict[m_Weight0.Id].Config.alertCurve.Evaluate(templateDict[m_Weight0.Id].CostTime / templateDict[m_Weight0.Id].Config.duration) * (m_Weight0Diff);
             }
             if(source.m_Weight1.IsUse)
             {
                 m_Weight1.Add(new MixItem<System.Single>(id, priority, source.m_Weight1.CalculatorExpression, source.m_Weight1.Value, source.m_Weight1.IsUse));
                var targetValue = (m_Weight1.IsExpression ? m_Weight1.Value : m_Weight1.PrimitiveValue);
                m_Weight1Diff = targetValue - target.m_Weight1;
-               m_Weight1AlertInit = target.m_Weight1 - templateDict[m_Weight1.Id].Config.alertCurve.Evaluate(templateDict[m_Weight1.Id].CostTime / templateDict[m_Weight1.Id].Config.duration) * (m_Weight1Diff);
+               if(templateDict[m_Weight1.Id].Config.alertCurve != null) m_Weight1AlertInit = target.m_Weight1 - templateDict[m_Weight1.Id].Config.alertCurve.Evaluate(templateDict[m_Weight1.Id].CostTime / templateDict[m_Weight1.Id].Config.duration) * (m_Weight1Diff);
             }
             if(source.m_Weight2.IsUse)
             {
                 m_Weight2.Add(new MixItem<System.Single>(id, priority, source.m_Weight2.CalculatorExpression, source.m_Weight2.Value, source.m_Weight2.IsUse));
                var targetValue = (m_Weight2.IsExpression ? m_Weight2.Value : m_Weight2.PrimitiveValue);
                m_Weight2Diff = targetValue - target.m_Weight2;
-               m_Weight2AlertInit = target.m_Weight2 - templateDict[m_Weight2.Id].Config.alertCurve.Evaluate(templateDict[m_Weight2.Id].CostTime / templateDict[m_Weight2.Id].Config.duration) * (m_Weight2Diff);
+               if(templateDict[m_Weight2.Id].Config.alertCurve != null) m_Weight2AlertInit = target.m_Weight2 - templateDict[m_Weight2.Id].Config.alertCurve.Evaluate(templateDict[m_Weight2.Id].CostTime / templateDict[m_Weight2.Id].Config.duration) * (m_Weight2Diff);
             }
             if(source.m_Weight3.IsUse)
             {
                 m_Weight3.Add(new MixItem<System.Single>(id, priority, source.m_Weight3.CalculatorExpression, source.m_Weight3.Value, source.m_Weight3.IsUse));
                var targetValue = (m_Weight3.IsExpression ? m_Weight3.Value : m_Weight3.PrimitiveValue);
                m_Weight3Diff = targetValue - target.m_Weight3;
-               m_Weight3AlertInit = target.m_Weight3 - templateDict[m_Weight3.Id].Config.alertCurve.Evaluate(templateDict[m_Weight3.Id].CostTime / templateDict[m_Weight3.Id].Config.duration) * (m_Weight3Diff);
+               if(templateDict[m_Weight3.Id].Config.alertCurve != null) m_Weight3AlertInit = target.m_Weight3 - templateDict[m_Weight3.Id].Config.alertCurve.Evaluate(templateDict[m_Weight3.Id].CostTime / templateDict[m_Weight3.Id].Config.duration) * (m_Weight3Diff);
             }
             if(source.m_Weight4.IsUse)
             {
                 m_Weight4.Add(new MixItem<System.Single>(id, priority, source.m_Weight4.CalculatorExpression, source.m_Weight4.Value, source.m_Weight4.IsUse));
                var targetValue = (m_Weight4.IsExpression ? m_Weight4.Value : m_Weight4.PrimitiveValue);
                m_Weight4Diff = targetValue - target.m_Weight4;
-               m_Weight4AlertInit = target.m_Weight4 - templateDict[m_Weight4.Id].Config.alertCurve.Evaluate(templateDict[m_Weight4.Id].CostTime / templateDict[m_Weight4.Id].Config.duration) * (m_Weight4Diff);
+               if(templateDict[m_Weight4.Id].Config.alertCurve != null) m_Weight4AlertInit = target.m_Weight4 - templateDict[m_Weight4.Id].Config.alertCurve.Evaluate(templateDict[m_Weight4.Id].CostTime / templateDict[m_Weight4.Id].Config.duration) * (m_Weight4Diff);
             }
             if(source.m_Weight5.IsUse)
             {
                 m_Weight5.Add(new MixItem<System.Single>(id, priority, source.m_Weight5.CalculatorExpression, source.m_Weight5.Value, source.m_Weight5.IsUse));
                var targetValue = (m_Weight5.IsExpression ? m_Weight5.Value : m_Weight5.PrimitiveValue);
                m_Weight5Diff = targetValue - target.m_Weight5;
-               m_Weight5AlertInit = target.m_Weight5 - templateDict[m_Weight5.Id].Config.alertCurve.Evaluate(templateDict[m_Weight5.Id].CostTime / templateDict[m_Weight5.Id].Config.duration) * (m_Weight5Diff);
+               if(templateDict[m_Weight5.Id].Config.alertCurve != null) m_Weight5AlertInit = target.m_Weight5 - templateDict[m_Weight5.Id].Config.alertCurve.Evaluate(templateDict[m_Weight5.Id].CostTime / templateDict[m_Weight5.Id].Config.duration) * (m_Weight5Diff);
             }
             if(source.m_Weight6.IsUse)
             {
                 m_Weight6.Add(new MixItem<System.Single>(id, priority, source.m_Weight6.CalculatorExpression, source.m_Weight6.Value, source.m_Weight6.IsUse));
                var targetValue = (m_Weight6.IsExpression ? m_Weight6.Value : m_Weight6.PrimitiveValue);
                m_Weight6Diff = targetValue - target.m_Weight6;
-               m_Weight6AlertInit = target.m_Weight6 - templateDict[m_Weight6.Id].Config.alertCurve.Evaluate(templateDict[m_Weight6.Id].CostTime / templateDict[m_Weight6.Id].Config.duration) * (m_Weight6Diff);
+               if(templateDict[m_Weight6.Id].Config.alertCurve != null) m_Weight6AlertInit = target.m_Weight6 - templateDict[m_Weight6.Id].Config.alertCurve.Evaluate(templateDict[m_Weight6.Id].CostTime / templateDict[m_Weight6.Id].Config.duration) * (m_Weight6Diff);
             }
             if(source.m_Weight7.IsUse)
             {
                 m_Weight7.Add(new MixItem<System.Single>(id, priority, source.m_Weight7.CalculatorExpression, source.m_Weight7.Value, source.m_Weight7.IsUse));
                var targetValue = (m_Weight7.IsExpression ? m_Weight7.Value : m_Weight7.PrimitiveValue);
                m_Weight7Diff = targetValue - target.m_Weight7;
-               m_Weight7AlertInit = target.m_Weight7 - templateDict[m_Weight7.Id].Config.alertCurve.Evaluate(templateDict[m_Weight7.Id].CostTime / templateDict[m_Weight7.Id].Config.duration) * (m_Weight7Diff);
+               if(templateDict[m_Weight7.Id].Config.alertCurve != null) m_Weight7AlertInit = target.m_Weight7 - templateDict[m_Weight7.Id].Config.alertCurve.Evaluate(templateDict[m_Weight7.Id].CostTime / templateDict[m_Weight7.Id].Config.duration) * (m_Weight7Diff);
             }
             for(int i = 0;i < (m_ExcludedPropertiesInInspector?.Length ?? 0);i++)
             {
@@ -141,14 +141,14 @@ namespace CameraMovement{
                 FollowTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.CalculatorExpression, source.FollowTargetAttachment.Value, source.FollowTargetAttachment.IsUse));
                var targetValue = (FollowTargetAttachment.IsExpression ? FollowTargetAttachment.Value : FollowTargetAttachment.PrimitiveValue);
                FollowTargetAttachmentDiff = targetValue - target.FollowTargetAttachment;
-               FollowTargetAttachmentAlertInit = target.FollowTargetAttachment - templateDict[FollowTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[FollowTargetAttachment.Id].CostTime / templateDict[FollowTargetAttachment.Id].Config.duration) * (FollowTargetAttachmentDiff);
+               if(templateDict[FollowTargetAttachment.Id].Config.alertCurve != null) FollowTargetAttachmentAlertInit = target.FollowTargetAttachment - templateDict[FollowTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[FollowTargetAttachment.Id].CostTime / templateDict[FollowTargetAttachment.Id].Config.duration) * (FollowTargetAttachmentDiff);
             }
             if(source.LookAtTargetAttachment.IsUse)
             {
                 LookAtTargetAttachment.Add(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.CalculatorExpression, source.LookAtTargetAttachment.Value, source.LookAtTargetAttachment.IsUse));
                var targetValue = (LookAtTargetAttachment.IsExpression ? LookAtTargetAttachment.Value : LookAtTargetAttachment.PrimitiveValue);
                LookAtTargetAttachmentDiff = targetValue - target.LookAtTargetAttachment;
-               LookAtTargetAttachmentAlertInit = target.LookAtTargetAttachment - templateDict[LookAtTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[LookAtTargetAttachment.Id].CostTime / templateDict[LookAtTargetAttachment.Id].Config.duration) * (LookAtTargetAttachmentDiff);
+               if(templateDict[LookAtTargetAttachment.Id].Config.alertCurve != null) LookAtTargetAttachmentAlertInit = target.LookAtTargetAttachment - templateDict[LookAtTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[LookAtTargetAttachment.Id].CostTime / templateDict[LookAtTargetAttachment.Id].Config.duration) * (LookAtTargetAttachmentDiff);
             }
             if(source.m_StandbyUpdate.IsUse)
             {
@@ -165,56 +165,56 @@ namespace CameraMovement{
                 m_Weight0.Remove(new MixItem<System.Single>(id, priority, source.m_Weight0.CalculatorExpression, source.m_Weight0.Value, source.m_Weight0.IsUse));
                var targetValue = (m_Weight0.IsExpression ? m_Weight0.Value : m_Weight0.PrimitiveValue);
                m_Weight0Diff = targetValue - target.m_Weight0;
-               m_Weight0AlertInit = target.m_Weight0 - templateDict[m_Weight0.Id].Config.alertCurve.Evaluate(templateDict[m_Weight0.Id].CostTime / templateDict[m_Weight0.Id].Config.duration) * (m_Weight0Diff);
+               if(templateDict[m_Weight0.Id].Config.alertCurve != null) m_Weight0AlertInit = target.m_Weight0 - templateDict[m_Weight0.Id].Config.alertCurve.Evaluate(templateDict[m_Weight0.Id].CostTime / templateDict[m_Weight0.Id].Config.duration) * (m_Weight0Diff);
             }
             if(source.m_Weight1.IsUse)
             {
                 m_Weight1.Remove(new MixItem<System.Single>(id, priority, source.m_Weight1.CalculatorExpression, source.m_Weight1.Value, source.m_Weight1.IsUse));
                var targetValue = (m_Weight1.IsExpression ? m_Weight1.Value : m_Weight1.PrimitiveValue);
                m_Weight1Diff = targetValue - target.m_Weight1;
-               m_Weight1AlertInit = target.m_Weight1 - templateDict[m_Weight1.Id].Config.alertCurve.Evaluate(templateDict[m_Weight1.Id].CostTime / templateDict[m_Weight1.Id].Config.duration) * (m_Weight1Diff);
+               if(templateDict[m_Weight1.Id].Config.alertCurve != null) m_Weight1AlertInit = target.m_Weight1 - templateDict[m_Weight1.Id].Config.alertCurve.Evaluate(templateDict[m_Weight1.Id].CostTime / templateDict[m_Weight1.Id].Config.duration) * (m_Weight1Diff);
             }
             if(source.m_Weight2.IsUse)
             {
                 m_Weight2.Remove(new MixItem<System.Single>(id, priority, source.m_Weight2.CalculatorExpression, source.m_Weight2.Value, source.m_Weight2.IsUse));
                var targetValue = (m_Weight2.IsExpression ? m_Weight2.Value : m_Weight2.PrimitiveValue);
                m_Weight2Diff = targetValue - target.m_Weight2;
-               m_Weight2AlertInit = target.m_Weight2 - templateDict[m_Weight2.Id].Config.alertCurve.Evaluate(templateDict[m_Weight2.Id].CostTime / templateDict[m_Weight2.Id].Config.duration) * (m_Weight2Diff);
+               if(templateDict[m_Weight2.Id].Config.alertCurve != null) m_Weight2AlertInit = target.m_Weight2 - templateDict[m_Weight2.Id].Config.alertCurve.Evaluate(templateDict[m_Weight2.Id].CostTime / templateDict[m_Weight2.Id].Config.duration) * (m_Weight2Diff);
             }
             if(source.m_Weight3.IsUse)
             {
                 m_Weight3.Remove(new MixItem<System.Single>(id, priority, source.m_Weight3.CalculatorExpression, source.m_Weight3.Value, source.m_Weight3.IsUse));
                var targetValue = (m_Weight3.IsExpression ? m_Weight3.Value : m_Weight3.PrimitiveValue);
                m_Weight3Diff = targetValue - target.m_Weight3;
-               m_Weight3AlertInit = target.m_Weight3 - templateDict[m_Weight3.Id].Config.alertCurve.Evaluate(templateDict[m_Weight3.Id].CostTime / templateDict[m_Weight3.Id].Config.duration) * (m_Weight3Diff);
+               if(templateDict[m_Weight3.Id].Config.alertCurve != null) m_Weight3AlertInit = target.m_Weight3 - templateDict[m_Weight3.Id].Config.alertCurve.Evaluate(templateDict[m_Weight3.Id].CostTime / templateDict[m_Weight3.Id].Config.duration) * (m_Weight3Diff);
             }
             if(source.m_Weight4.IsUse)
             {
                 m_Weight4.Remove(new MixItem<System.Single>(id, priority, source.m_Weight4.CalculatorExpression, source.m_Weight4.Value, source.m_Weight4.IsUse));
                var targetValue = (m_Weight4.IsExpression ? m_Weight4.Value : m_Weight4.PrimitiveValue);
                m_Weight4Diff = targetValue - target.m_Weight4;
-               m_Weight4AlertInit = target.m_Weight4 - templateDict[m_Weight4.Id].Config.alertCurve.Evaluate(templateDict[m_Weight4.Id].CostTime / templateDict[m_Weight4.Id].Config.duration) * (m_Weight4Diff);
+               if(templateDict[m_Weight4.Id].Config.alertCurve != null) m_Weight4AlertInit = target.m_Weight4 - templateDict[m_Weight4.Id].Config.alertCurve.Evaluate(templateDict[m_Weight4.Id].CostTime / templateDict[m_Weight4.Id].Config.duration) * (m_Weight4Diff);
             }
             if(source.m_Weight5.IsUse)
             {
                 m_Weight5.Remove(new MixItem<System.Single>(id, priority, source.m_Weight5.CalculatorExpression, source.m_Weight5.Value, source.m_Weight5.IsUse));
                var targetValue = (m_Weight5.IsExpression ? m_Weight5.Value : m_Weight5.PrimitiveValue);
                m_Weight5Diff = targetValue - target.m_Weight5;
-               m_Weight5AlertInit = target.m_Weight5 - templateDict[m_Weight5.Id].Config.alertCurve.Evaluate(templateDict[m_Weight5.Id].CostTime / templateDict[m_Weight5.Id].Config.duration) * (m_Weight5Diff);
+               if(templateDict[m_Weight5.Id].Config.alertCurve != null) m_Weight5AlertInit = target.m_Weight5 - templateDict[m_Weight5.Id].Config.alertCurve.Evaluate(templateDict[m_Weight5.Id].CostTime / templateDict[m_Weight5.Id].Config.duration) * (m_Weight5Diff);
             }
             if(source.m_Weight6.IsUse)
             {
                 m_Weight6.Remove(new MixItem<System.Single>(id, priority, source.m_Weight6.CalculatorExpression, source.m_Weight6.Value, source.m_Weight6.IsUse));
                var targetValue = (m_Weight6.IsExpression ? m_Weight6.Value : m_Weight6.PrimitiveValue);
                m_Weight6Diff = targetValue - target.m_Weight6;
-               m_Weight6AlertInit = target.m_Weight6 - templateDict[m_Weight6.Id].Config.alertCurve.Evaluate(templateDict[m_Weight6.Id].CostTime / templateDict[m_Weight6.Id].Config.duration) * (m_Weight6Diff);
+               if(templateDict[m_Weight6.Id].Config.alertCurve != null) m_Weight6AlertInit = target.m_Weight6 - templateDict[m_Weight6.Id].Config.alertCurve.Evaluate(templateDict[m_Weight6.Id].CostTime / templateDict[m_Weight6.Id].Config.duration) * (m_Weight6Diff);
             }
             if(source.m_Weight7.IsUse)
             {
                 m_Weight7.Remove(new MixItem<System.Single>(id, priority, source.m_Weight7.CalculatorExpression, source.m_Weight7.Value, source.m_Weight7.IsUse));
                var targetValue = (m_Weight7.IsExpression ? m_Weight7.Value : m_Weight7.PrimitiveValue);
                m_Weight7Diff = targetValue - target.m_Weight7;
-               m_Weight7AlertInit = target.m_Weight7 - templateDict[m_Weight7.Id].Config.alertCurve.Evaluate(templateDict[m_Weight7.Id].CostTime / templateDict[m_Weight7.Id].Config.duration) * (m_Weight7Diff);
+               if(templateDict[m_Weight7.Id].Config.alertCurve != null) m_Weight7AlertInit = target.m_Weight7 - templateDict[m_Weight7.Id].Config.alertCurve.Evaluate(templateDict[m_Weight7.Id].CostTime / templateDict[m_Weight7.Id].Config.duration) * (m_Weight7Diff);
             }
             for(int i = 0;i < (m_ExcludedPropertiesInInspector?.Length ?? 0);i++)
             {
@@ -239,14 +239,14 @@ namespace CameraMovement{
                 FollowTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.FollowTargetAttachment.CalculatorExpression, source.FollowTargetAttachment.Value, source.FollowTargetAttachment.IsUse));
                var targetValue = (FollowTargetAttachment.IsExpression ? FollowTargetAttachment.Value : FollowTargetAttachment.PrimitiveValue);
                FollowTargetAttachmentDiff = targetValue - target.FollowTargetAttachment;
-               FollowTargetAttachmentAlertInit = target.FollowTargetAttachment - templateDict[FollowTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[FollowTargetAttachment.Id].CostTime / templateDict[FollowTargetAttachment.Id].Config.duration) * (FollowTargetAttachmentDiff);
+               if(templateDict[FollowTargetAttachment.Id].Config.alertCurve != null) FollowTargetAttachmentAlertInit = target.FollowTargetAttachment - templateDict[FollowTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[FollowTargetAttachment.Id].CostTime / templateDict[FollowTargetAttachment.Id].Config.duration) * (FollowTargetAttachmentDiff);
             }
             if(source.LookAtTargetAttachment.IsUse)
             {
                 LookAtTargetAttachment.Remove(new MixItem<System.Single>(id, priority, source.LookAtTargetAttachment.CalculatorExpression, source.LookAtTargetAttachment.Value, source.LookAtTargetAttachment.IsUse));
                var targetValue = (LookAtTargetAttachment.IsExpression ? LookAtTargetAttachment.Value : LookAtTargetAttachment.PrimitiveValue);
                LookAtTargetAttachmentDiff = targetValue - target.LookAtTargetAttachment;
-               LookAtTargetAttachmentAlertInit = target.LookAtTargetAttachment - templateDict[LookAtTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[LookAtTargetAttachment.Id].CostTime / templateDict[LookAtTargetAttachment.Id].Config.duration) * (LookAtTargetAttachmentDiff);
+               if(templateDict[LookAtTargetAttachment.Id].Config.alertCurve != null) LookAtTargetAttachmentAlertInit = target.LookAtTargetAttachment - templateDict[LookAtTargetAttachment.Id].Config.alertCurve.Evaluate(templateDict[LookAtTargetAttachment.Id].CostTime / templateDict[LookAtTargetAttachment.Id].Config.duration) * (LookAtTargetAttachmentDiff);
             }
             if(source.m_StandbyUpdate.IsUse)
             {
