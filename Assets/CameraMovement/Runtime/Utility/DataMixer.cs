@@ -62,11 +62,27 @@ namespace CameraMovement
     {
         private List<MixItem<T>> dataList_;
         private MixItem<T> value_;
+        private readonly EContextMember storeContextMember_;
+        public float Cache;
+
+        public DataMixer(EContextMember storeContextMember)
+        {
+            storeContextMember_ = storeContextMember;
+            dataList_ = null;
+            value_ = default;
+            Cache = default;
+        }
+
 
         /// <summary>
         /// 当前容器的表示的值
         /// </summary>
-        public float Value => Calculator.CalculatePoland(value_.Value);
+        public float Value {
+            get
+            {
+                Cache = Calculator.CalculatePoland(value_.Value, (int)storeContextMember_);
+                return Cache;
+            }}
 
         /// <summary>
         /// 是否是个表达式

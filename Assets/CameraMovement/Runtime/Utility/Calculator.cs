@@ -173,7 +173,7 @@ namespace CameraMovement
         {
             //创建栈
             polandStack.Clear();
-
+            
             //循环遍历
             for (int i = 0; i < suffixExpression.Count; i++)
             {

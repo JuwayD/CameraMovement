@@ -126,11 +126,11 @@ namespace CameraMovement
     public class CameraMovementDataField : ICameraMovementDataField
     {
         [ContextDescription(EContextMember.ZoomMax, false, "牛逼")]
-        public DataMixer<float> ZoomMax;
+        public DataMixer<float> ZoomMax = new DataMixer<float>(EContextMember.ZoomMax);
         [ContextDescription(EContextMember.ZoomMin, true, "牛逼")]
-        public DataMixer<float> ZoomMin;
+        public DataMixer<float> ZoomMin = new DataMixer<float>(EContextMember.ZoomMin);
         [ContextDescription(EContextMember.ZoomMin, false, "牛逼")]
-        public DataMixer<float> curZoom;
+        public DataMixer<float> curZoom = new DataMixer<float>(EContextMember.ZoomMin);
 
         public void AddByConfig(CameraMovementDataConfigBase source, int id, int priority)
         {
