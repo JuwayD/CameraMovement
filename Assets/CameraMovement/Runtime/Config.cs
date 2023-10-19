@@ -11,9 +11,13 @@ namespace CameraMovement
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [Serializable]
+    [SuffixLabel("@$value.ChineseName")]
     public struct ConfigItem<T>
     {
+        public string ChineseName;
+        [HorizontalGroup(Width = 80)]
         public bool IsUse;
+        [HorizontalGroup]
         public T Value;
         public CalculatorItem[] CalculatorExpression;
     }
@@ -34,6 +38,12 @@ namespace CameraMovement
     /// </summary>
     public class CameraMovementConfig
     {
+        /// <summary>
+        /// 对该配置的中文描述
+        /// </summary>
+        public string Title;
+        [TextArea(4, 10)]
+        public string Detail;
         public EContextEvent contextEvent;
         [FormerlySerializedAs("Duration")] public float duration;
         public int priority;
@@ -44,10 +54,4 @@ namespace CameraMovement
         public CameraMovementControlConfigBase controlConfigBaseTemplate;
     }
 
-    [CreateAssetMenu(menuName = "创建相机配置状态")]
-    public class CameraMovementConfigState : SerializedScriptableObject
-    {
-        public string TypeName;
-        public List<CameraMovementConfig> ConfigList;
-    }
 }

@@ -10,14 +10,22 @@ namespace CameraMovement
     public class SerializeTest:SerializedScriptableObject
     {
         public A A;
+        [ListDrawerSettings(ListElementLabelName = "asd")]
+        public List<A> ListA;
     }
-
+    
+   
+    
     public class A
     {
         public float a;
         public float a1;
         public float a2;
         public B B;
+        public string asd;
+        
+        [TableList()]
+        public List<int> la = new List<int>();
     }
 
     public class B
