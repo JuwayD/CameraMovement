@@ -19,7 +19,18 @@ namespace CameraMovement
         public bool IsUse;
         [HorizontalGroup]
         public T Value;
-        public CalculatorItem[] CalculatorExpression;
+        [OnValueChanged("ToPoland", InvokeOnInitialize = true, IncludeChildren = true)]
+        public CalculatorItem[] CalculatorExpressionEdit;
+        [HideInInspector]
+        public List<CalculatorItem> CalculatorExpression;
+        private void ToPoland()
+        {
+            if (CalculatorExpressionEdit == null)
+            {
+                return;
+            }
+            CalculatorExpression = Calculator.ParseSuffixExpression(CalculatorExpressionEdit);
+        }
     }
 
     /// <summary>

@@ -87,9 +87,10 @@ namespace CameraMovement
         /// 获取上下文成员
         /// </summary>
         /// <param name="member"></param>
-        public float GetContextMember(EContextMember member)
+        /// <param name="getCache"></param>
+        public float GetContextMember(EContextMember member, bool getCache = false)
         {
-            if (dataField_ is CameraMovementDataField dataField)
+            if (dataField_ is { } dataField)
             {
                 switch (member)
                 {

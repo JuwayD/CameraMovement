@@ -31,22 +31,23 @@ namespace CameraMovement
         /// 计算
         /// </summary>
         /// <param name="expression"></param>
+        /// <param name="contextEnum"></param>
         /// <returns></returns>
-        public static float Calculate(CalculatorItem[] expression)
+        public static float Calculate(CalculatorItem[] expression,int contextEnum = 0)
         {
             //将中缀表达式转换成后缀表达式
             List<CalculatorItem> suffixExpression = ParseSuffixExpression(expression);
 
-            return CalculatePoland(suffixExpression);
+            return CalculatePoland(suffixExpression, contextEnum);
         }
 
         /// <summary>
         /// 计算波兰表达式
         /// </summary>
         /// <param name="suffixExpression"></param>
+        /// <param name="contextEnum"></param>
         /// <returns></returns>
-        /// <exception cref="Exception"></exception>
-        public static float CalculatePoland(CalculatorItem[] suffixExpression)
+        public static float CalculatePoland(CalculatorItem[] suffixExpression,int contextEnum = 0)
         {
             //创建栈
             Stack<CalculatorItem> stack = new Stack<CalculatorItem>();
@@ -58,7 +59,7 @@ namespace CameraMovement
                 //如果是上下文则获取上下文
                 if (item.Operator == ECalculatorOperator.None && item.ContextMember != EContextMember.None) //"\\d+"
                 {
-                    item.Value = CameraMovementStateMachine.Instance.Context.GetContextMember(item.ContextMember);
+                    item.Value = CameraMovementStateMachine.Instance.Context.GetContextMember(item.ContextMember, item.ContextMember == (EContextMember)contextEnum);
                     stack.Push(item);
                 }
                 else if (item.Operator == ECalculatorOperator.None && item.ContextMember == EContextMember.None)
@@ -160,17 +161,18 @@ namespace CameraMovement
             //最后把stack中数据返回
             return stack.Pop().Value;
         }
-        
+
+        private static Stack<CalculatorItem> polandStack = new Stack<CalculatorItem>();
         /// <summary>
         /// 计算波兰表达式
         /// </summary>
         /// <param name="suffixExpression"></param>
+        /// <param name="contextEnum"></param>
         /// <returns></returns>
-        /// <exception cref="Exception"></exception>
-        public static float CalculatePoland(List<CalculatorItem> suffixExpression)
+        public static float CalculatePoland(List<CalculatorItem> suffixExpression,int contextEnum = 0)
         {
             //创建栈
-            Stack<CalculatorItem> stack = new Stack<CalculatorItem>();
+            polandStack.Clear();
 
             //循环遍历
             for (int i = 0; i < suffixExpression.Count; i++)
@@ -179,13 +181,13 @@ namespace CameraMovement
                 //如果是上下文则获取上下文
                 if (item.Operator == ECalculatorOperator.None && item.ContextMember != EContextMember.None) //"\\d+"
                 {
-                    item.Value = CameraMovementStateMachine.Instance.Context.GetContextMember(item.ContextMember);
-                    stack.Push(item);
+                    item.Value = CameraMovementStateMachine.Instance.Context.GetContextMember(item.ContextMember, item.ContextMember == (EContextMember)contextEnum);
+                    polandStack.Push(item);
                 }
                 else if (item.Operator == ECalculatorOperator.None && item.ContextMember == EContextMember.None)
                 {
                     //如果是立即数直接入栈
-                    stack.Push(item);
+                    polandStack.Push(item);
                 }
                 //如果是操作符
                 else
@@ -193,16 +195,16 @@ namespace CameraMovement
                     CalculatorItem result = default(CalculatorItem);
 
                     //出栈两个数字，并运算，再入栈
-                    CalculatorItem num1 = stack.Pop();
+                    CalculatorItem num1 = polandStack.Pop();
 
                     if (item.Operator == ECalculatorOperator.Not)
                     {
                         result.Value = Mathf.Approximately(num1.Value, 0.0f) ? 1.0f : 0.0f;
-                        stack.Push(result);
+                        polandStack.Push(result);
                         continue;
                     }
 
-                    CalculatorItem num2 = stack.Pop();
+                    CalculatorItem num2 = polandStack.Pop();
 
 
                     if (item.Operator == ECalculatorOperator.Add)
@@ -274,12 +276,12 @@ namespace CameraMovement
                         throw new Exception("无法识别符号");
                     }
 
-                    stack.Push(result);
+                    polandStack.Push(result);
                 }
             }
 
             //最后把stack中数据返回
-            return stack.Pop().Value;
+            return polandStack.Pop().Value;
         }
         
         /// <summary>
@@ -342,6 +344,5 @@ namespace CameraMovement
         }
 
     }
-
 
 }

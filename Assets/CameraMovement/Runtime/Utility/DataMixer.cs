@@ -10,12 +10,12 @@ namespace CameraMovement
     /// 操作混合容器的基本单位
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public struct MixItem<T>: IComparable<MixItem<T>>,IEquatable<MixItem<T>>
+    public struct MixItem<T> : IComparable<MixItem<T>>, IEquatable<MixItem<T>>
     {
         public int Id;
         public int Priority;
         public T PrimitiveValue;
-        public CalculatorItem[] Value;
+        public List<CalculatorItem> Value;
         public bool IsUse;
 
         public MixItem(MixItem<T> other)
@@ -27,7 +27,7 @@ namespace CameraMovement
             IsUse = other.IsUse;
         }
 
-        public MixItem(int id, int priority, CalculatorItem[] value, T primitiveValue,bool isUse)
+        public MixItem(int id, int priority, List<CalculatorItem> value, T primitiveValue, bool isUse)
         {
             Id = id;
             Priority = priority;
@@ -35,7 +35,7 @@ namespace CameraMovement
             PrimitiveValue = primitiveValue;
             IsUse = isUse;
         }
-        
+
         // 实现IComparable<T>接口
         public int CompareTo(MixItem<T> other)
         {
@@ -53,7 +53,7 @@ namespace CameraMovement
             return Id;
         }
     }
-    
+
     /// <summary>
     /// 基于优先级的数据混合器
     /// </summary>
@@ -66,12 +66,12 @@ namespace CameraMovement
         /// <summary>
         /// 当前容器的表示的值
         /// </summary>
-        public float Value => Calculator.Calculate(value_.Value);
+        public float Value => Calculator.CalculatePoland(value_.Value);
 
         /// <summary>
         /// 是否是个表达式
         /// </summary>
-        public bool IsExpression => value_.Value != null && value_.Value.Length != 0;
+        public bool IsExpression => value_.Value != null && value_.Value.Count != 0;
 
         /// <summary>
         /// 是否需要使用
