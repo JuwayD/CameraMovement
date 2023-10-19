@@ -46,8 +46,10 @@ namespace CameraMovement
     /// <summary>
     /// 相机运镜控制区配置信息
     /// </summary>
+    [SuffixLabel("@$value?.Description")]
     public abstract class CameraMovementControlConfigBase
     {
+        public string Description;
         /// <summary>
         /// 作用于哪中控制区
         /// </summary>

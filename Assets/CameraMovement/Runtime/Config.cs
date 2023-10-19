@@ -11,10 +11,10 @@ namespace CameraMovement
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [Serializable]
-    [SuffixLabel("@$value.ChineseName")]
+    [SuffixLabel("@$value.Description")]
     public struct ConfigItem<T>
     {
-        public string ChineseName;
+        public string Description;
         [HorizontalGroup(Width = 80)]
         public bool IsUse;
         [HorizontalGroup]

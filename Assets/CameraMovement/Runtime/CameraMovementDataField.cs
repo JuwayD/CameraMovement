@@ -110,8 +110,10 @@ namespace CameraMovement
     /// 相机运镜数据区配置接口
     /// </summary>
     [Serializable]
+    [SuffixLabel("@$value?.Description")]
     public abstract class CameraMovementDataConfigBase
     {
+        public string Description;
         /// <summary>
         /// 作用于哪种上下文
         /// </summary>
